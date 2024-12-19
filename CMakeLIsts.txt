@@ -1,0 +1,12 @@
+cmake_minimum_required(VERSION 3.12)
+
+project(BlackMamba)
+
+set(CMAKE_CXX_STANDARD 17)
+set(BUILD_SHARED_LIBS OFF)
+
+file(GLOB ASSETS "./assets")
+file(COPY ${ASSETS} DESTINATION ${CMAKE_BINARY_DIR})
+
+add_subdirectory(thirdParty)
+add_subdirectory(src)

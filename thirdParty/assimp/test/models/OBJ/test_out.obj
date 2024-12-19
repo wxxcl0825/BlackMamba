@@ -1,0 +1,31 @@
+# File produced by Open Asset Import Library (http://www.assimp.sf.net)
+# (assimp v5.4.1009511924)
+
+mtllib test_out.mtl
+
+# 9 vertex positions and colors
+v 0 0 0 0 0 0
+v 0 0 1 0 0 1
+v 0 1 0 0 0 0
+v 0 0 0 0 0 0
+v 1 0 0 1 0.600000024 0.300000012
+v 0 1 0 0 0 0
+v 0 0 1 0 0 1
+v 1 1 0 0 0 0
+v 1 0 0 1 0.600000024 0.300000012
+
+# 0 UV coordinates
+
+# 4 vertex normals
+vn -0.707106769 0 0.707106769
+vn -0.923879564 0 -0.382683426
+vn -0.923879564 0 0.382683456
+vn -0.707106829 0 -0.707106829
+
+# Mesh 'cube' with 3 faces
+g cube
+usemtl DefaultMaterial
+f  1//1 2//2 3//1
+f  4//1 5//3 6//1
+f  7//2 8//4 9//3
+
