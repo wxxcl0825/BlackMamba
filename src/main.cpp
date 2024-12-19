@@ -1,10 +1,14 @@
 #include "common/macro.h"
 #include "runtime/engine.h"
+#include "runtime/framework/object/gameObject.h"
+#include "runtime/framework/component/mesh/mesh.h"
 
 EngineInfo info = {.windowInfo{
     WindowInfo{.width = 1280, .height = 720, .title = "Project: Black Mamba"}}};
 
 Engine *engine = nullptr;
+
+GameObject *scene = new GameObject();
 
 void onResize(int width, int height) { glViewport(0, 0, width, height); }
 
@@ -34,7 +38,15 @@ int main() {
   engine->getWindowSystem()->setMouseCallback(onMouse);
   engine->getWindowSystem()->setCursorCallback(onCursor);
 
+  scene->addChild(new GameObject());
+  scene->addChild(new GameObject());
+  scene->addComponent(new Mesh());
+
+  Mesh* mesh = scene->getComponent<Mesh>();
+  Log("mesh == nullptr?: %d", mesh == nullptr);
+
   engine->start();
+  delete scene;
   Engine::destroyEngine();
   return 0;
 }
