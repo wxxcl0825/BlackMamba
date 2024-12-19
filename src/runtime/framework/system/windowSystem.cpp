@@ -26,6 +26,12 @@ bool WindowSystem::init(WindowInfo info) {
     return false;
   }
 
+  glfwSetFramebufferSizeCallback(_window, frameBufferSizeCallback);
+  glfwSetKeyCallback(_window, keyCallback);
+  glfwSetMouseButtonCallback(_window, mouseCallback);
+  glfwSetCursorPosCallback(_window, cursorCallback);
+  glfwSetWindowUserPointer(_window, this);
+
   return true;
 }
 
