@@ -1,5 +1,6 @@
 #include "common/macro.h"
 #include "runtime/engine.h"
+#include "runtime/framework/component/camera/camera.h"
 #include "runtime/framework/object/gameObject.h"
 #include "runtime/framework/component/mesh/mesh.h"
 
@@ -8,7 +9,10 @@ EngineInfo info = {.windowInfo{
 
 Engine *engine = nullptr;
 
+Camera *cameraComp = nullptr;
+
 GameObject *scene = new GameObject();
+GameObject *camera = new GameObject();
 
 void onResize(int width, int height) { glViewport(0, 0, width, height); }
 
@@ -38,6 +42,10 @@ int main() {
   engine->getWindowSystem()->setMouseCallback(onMouse);
   engine->getWindowSystem()->setCursorCallback(onCursor);
 
+  cameraComp = new Camera(45.0f, engine->getWindowSystem()->getAspect(), 0.1f, 1000.0f);
+  camera->addComponent(cameraComp);
+
+  scene->addChild(camera);
   scene->addChild(new GameObject());
   scene->addChild(new GameObject());
   scene->addComponent(new Mesh());
