@@ -1,8 +1,13 @@
+#include <string>
+#include <vector>
+
 #include "common/macro.h"
+#include "include/runtime/resource/texture/texture.h"
 #include "runtime/engine.h"
 #include "runtime/framework/object/gameObject.h"
 #include "runtime/framework/component/mesh/mesh.h"
-#include "runtime/resource/shader.h"
+#include "runtime/resource/resourceManager.h"
+#include "runtime/resource/shader/shader.h"
 
 EngineInfo info = {.windowInfo{
     WindowInfo{.width = 1280, .height = 720, .title = "Project: Black Mamba"}}};
@@ -11,7 +16,17 @@ Engine *engine = nullptr;
 
 GameObject *scene = new GameObject();
 
+ResourceManager *resourceManager = nullptr;
 Shader *shader = nullptr;
+Texture *texture = nullptr;
+Texture *skybox = nullptr;
+std::vector<std::string> skyboxPaths = {
+    "assets/textures/skybox/right.jpg",
+    "assets/textures/skybox/left.jpg",
+    "assets/textures/skybox/top.jpg",
+    "assets/textures/skybox/bottom.jpg",
+    "assets/textures/skybox/back.jpg",
+    "assets/textures/skybox/front.jpg"};
 
 void onResize(int width, int height) { glViewport(0, 0, width, height); }
 
@@ -41,7 +56,10 @@ int main() {
   engine->getWindowSystem()->setMouseCallback(onMouse);
   engine->getWindowSystem()->setCursorCallback(onCursor);
 
-  shader = new Shader("assets/shaders/default.vert", "assets/shaders/default.frag");
+  resourceManager = ResourceManager::getResourceManager();
+  shader = resourceManager->loadShader("assets/shaders/default.vert", "assets/shaders/default.frag");
+  texture = resourceManager->loadTexture("assets/textures/box.png");
+  skybox = resourceManager->loadTexture(skyboxPaths);
 
   scene->addChild(new GameObject());
   scene->addChild(new GameObject());

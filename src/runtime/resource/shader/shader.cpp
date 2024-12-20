@@ -1,4 +1,4 @@
-#include "runtime/resource/shader.h"
+#include "runtime/resource/shader/shader.h"
 
 #include "common/macro.h"
 #include <fstream>
