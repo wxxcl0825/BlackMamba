@@ -8,7 +8,6 @@
 #include "runtime/framework/object/gameObject.h"
 #include "runtime/resource/geometry/geometry.h"
 #include "runtime/resource/material/material.h"
-#include "runtime/resource/shader/shader.h"
 
 void RenderSystem::dispatch(GameObject *object) {
   if (object->getComponent<Mesh>())
@@ -77,19 +76,19 @@ void RenderSystem::tick() {
       break;
     }
   }
+
   for (auto mesh : _meshes) {
     Mesh *meshComp = mesh->getComponent<Mesh>();
     Geometry *geometry = meshComp->getGeometry();
     Material *material = meshComp->getMaterial();
     ModelInfo modelInfo{.model = mesh->getComponent<Transform>()->getModel()};
-    RenderInfo renderInfo{.modelInfo = modelInfo,
-                          .cameraInfo = cameraInfo,
-                          .lightInfo = lightInfo};
-    // TODO: call material
+    material->apply(RenderInfo{.modelInfo = modelInfo,
+                               .cameraInfo = cameraInfo,
+                               .lightInfo = lightInfo});
     GL_CALL(glBindVertexArray(geometry->getVao()));
     GL_CALL(glDrawElements(GL_TRIANGLES, geometry->getNumIndices(),
                            GL_UNSIGNED_INT, 0));
-    // TODO: close shader
+    material->finish();
   }
   clear();
 }

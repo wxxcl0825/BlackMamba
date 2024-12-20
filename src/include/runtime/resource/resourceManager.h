@@ -6,7 +6,8 @@
 #include "runtime/resource/texture/texture.h"
 #include "runtime/resource/shader/shader.h"
 #include "runtime/resource/geometry/geometry.h"
-#include "runtime/resource/model.h"
+#include "runtime/resource/material/material.h"
+#include "runtime/resource/material/whiteMaterial.h"
 
 #include <unordered_map>
 
@@ -25,7 +26,7 @@ public:
     // Geometry *createSphereGeometry(float radius) const;
     Geometry *loadGeometry(const std::vector<glm::vec3>& vertices, const std::vector<glm::vec2>& uvs, const std::vector<glm::vec3>& normals, const std::vector<unsigned int>& indices) const;
 
-    Model *loadModel(const std::string& filePath) const;
+    Material *createWhiteMaterial(glm::vec3 color) const;
 
 private:
     static ResourceManager *_instance;
@@ -35,8 +36,5 @@ private:
 
     static std::vector<Geometry *> _geometryList;
 
-    static std::unordered_map<std::string, Model *> _modelMap;
-
     ResourceManager();
-
 };

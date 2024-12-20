@@ -1,7 +1,9 @@
 #include <string>
 #include <vector>
 
+#include "common/common.h"
 #include "common/macro.h"
+#include "include/runtime/resource/material/whiteMaterial.h"
 #include "include/runtime/resource/texture/texture.h"
 #include "runtime/engine.h"
 #include "runtime/framework/component/camera/camera.h"
@@ -76,7 +78,9 @@ int main() {
   scene->addChild(camera);
   scene->addChild(new GameObject());
   scene->addChild(new GameObject());
-  scene->addComponent(new Mesh(resourceManager->createBoxGeometry(1.0f), new Material()));
+  WhiteMaterial* material = new WhiteMaterial();
+  material->setColor(glm::vec3(0.0f, 1.0f, 0.0f));
+  scene->addComponent(new Mesh(resourceManager->createBoxGeometry(1.0f), material));
 
   Mesh* mesh = scene->getComponent<Mesh>();
   Log("mesh == nullptr?: %d", mesh == nullptr);
