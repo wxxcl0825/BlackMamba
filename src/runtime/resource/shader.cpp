@@ -77,9 +77,14 @@ Shader::Shader(const std::string &vertexPath, const std::string &fragmentPath) {
   glDeleteShader(fragment);
 }
 
-Shader::~Shader() { GL_CALL(glDeleteProgram(_program)); }
+Shader::~Shader() {
+  if (_program)
+    GL_CALL(glDeleteProgram(_program));
+}
 
-void Shader::use() const { GL_CALL(glUseProgram(_program)); }
+void Shader::begin() const { GL_CALL(glUseProgram(_program)); }
+
+void Shader::end() const { GL_CALL(glUseProgram(0)); }
 
 void Shader::setUniform(const std::string &name, int value) const {
   GLint location = GL_CALL(glGetUniformLocation(_program, name.c_str()));

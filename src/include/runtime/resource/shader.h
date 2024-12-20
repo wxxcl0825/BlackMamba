@@ -9,7 +9,8 @@ public:
   Shader(const std::string &vertexPath, const std::string &fragmentPath);
   ~Shader();
 
-  void use() const;
+  void begin() const;
+  void end() const;
 
   GLuint getProgram() const { return _program; }
 
