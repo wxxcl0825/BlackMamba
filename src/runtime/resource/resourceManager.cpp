@@ -8,9 +8,9 @@ std::unordered_map<std::string, Texture *> ResourceManager::_textureMap = std::u
 std::unordered_map<std::string, Shader *> ResourceManager::_shaderMap = std::unordered_map<std::string, Shader *>();
 
 std::vector<Geometry *> ResourceManager::_geometryList;
-std::vector<Material *> ResourceManager::_materialList;
+// std::vector<Material *> ResourceManager::_materialList;
 
-std::unordered_map<std::string, Model *> ResourceManager::_modelMap = std::unordered_map<std::string, Model *>();
+// std::unordered_map<std::string, Model *> ResourceManager::_modelMap = std::unordered_map<std::string, Model *>();
 
 ResourceManager::ResourceManager(){
 
@@ -32,15 +32,15 @@ ResourceManager::~ResourceManager(){
     }
     _geometryList.clear();
 
-    for(auto it = _materialList.begin(); it != _materialList.end(); it++){
-        delete *it;
-    }
-    _materialList.clear();
+    // for(auto it = _materialList.begin(); it != _materialList.end(); it++){
+    //     delete *it;
+    // }
+    // _materialList.clear();
 
-    for(auto it = _modelMap.begin(); it != _modelMap.end(); it++){
-        delete it->second;
-    }
-    _modelMap.clear();
+    // for(auto it = _modelMap.begin(); it != _modelMap.end(); it++){
+    //     delete it->second;
+    // }
+    // _modelMap.clear();
 
     if(_instance != nullptr){
         delete _instance;
@@ -236,8 +236,8 @@ Geometry *ResourceManager::createPlaneGeometry(float width, float height) const{
     return _geometry;
 }
 
-Material *ResourceManager::createWhiteMaterial(glm::vec3 color) const{
-    Material *_material = new WhiteMaterial(color);
-    _materialList.push_back(_material);
-    return _material;
-}
+// Material *ResourceManager::createWhiteMaterial(glm::vec3 color) const{
+//     Material *_material = new WhiteMaterial(color);
+//     _materialList.push_back(_material);
+//     return _material;
+// }
