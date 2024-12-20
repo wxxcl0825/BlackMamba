@@ -6,6 +6,9 @@
 #include "runtime/framework/component/mesh/mesh.h"
 #include "runtime/framework/component/transform/transform.h"
 #include "runtime/framework/object/gameObject.h"
+#include "runtime/resource/geometry/geometry.h"
+#include "runtime/resource/material/material.h"
+#include "runtime/resource/shader/shader.h"
 
 void RenderSystem::dispatch(GameObject *object) {
   if (object->getComponent<Mesh>())
@@ -17,6 +20,10 @@ void RenderSystem::dispatch(GameObject *object) {
 }
 
 void RenderSystem::tick() {
+  glEnable(GL_DEPTH_TEST);
+  glDepthFunc(GL_LESS);
+  glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+
   GameObject *mainCamera = nullptr;
   for (auto camera : _cameras) {
     if (camera->getComponent<Camera>()->isMain()) {
@@ -27,6 +34,16 @@ void RenderSystem::tick() {
   if (!mainCamera)
     Err("No main camera found!");
   Camera *mainCameraComp = mainCamera->getComponent<Camera>();
+  // TODO: gather information
+  for (auto mesh : _meshes) {
+    Mesh *meshComp = mesh->getComponent<Mesh>();
+    Geometry *geometry = meshComp->getGeometry();
+    Material *material = meshComp->getMaterial();
+    // TODO: call material
+    GL_CALL(glBindVertexArray(geometry->getVao()));
+    GL_CALL(glDrawElements(GL_TRIANGLES, geometry->getNumIndices(), GL_UNSIGNED_INT, 0));
+    // TODO: close shader
+  }
   clear();
 }
 
