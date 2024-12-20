@@ -22,18 +22,21 @@ public:
 
     Geometry *createBoxGeometry(float size) const;
     Geometry *createPlaneGeometry(float width, float height) const;
-    Geometry *createSphereGeometry(float radius) const;
+    // Geometry *createSphereGeometry(float radius) const;
     Geometry *loadGeometry(const std::vector<glm::vec3>& vertices, const std::vector<glm::vec2>& uvs, const std::vector<glm::vec3>& normals, const std::vector<unsigned int>& indices) const;
 
     Model *loadModel(const std::string& filePath) const;
 
 private:
     static ResourceManager *_instance;
+
     static std::unordered_map<std::string, Texture *> _textureMap;
     static std::unordered_map<std::string, Shader *> _shaderMap;
-    static std::unordered_map<std::string, Model *> _modelMap;
 
     static std::vector<Geometry *> _geometryList;
+
+    static std::unordered_map<std::string, Model *> _modelMap;
+
     ResourceManager();
 
 };

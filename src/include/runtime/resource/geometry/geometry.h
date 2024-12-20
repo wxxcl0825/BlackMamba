@@ -8,6 +8,12 @@ class Geometry {
     friend class ResourceManager;
 
 public:
+    GLuint getVao() const { return _vao; }
+    GLuint getPosVbo() const { return _posVbo; }
+    GLuint getUvVbo() const { return _uvVbo; }
+    GLuint getNormalVbo() const { return _normalVbo; }
+    GLuint getEbo() const { return _ebo; }
+    uint32_t getNumIndices() const { return _numIndices; }
 
 private:
     GLuint _vao{0};
