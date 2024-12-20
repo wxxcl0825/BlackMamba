@@ -19,6 +19,7 @@ public:
   }
 
   void addChild(GameObject *object);
+  void removeChild(GameObject *object);
   void addComponent(Component *component);
 
   GameObject *getParent() const { return _parent; }
