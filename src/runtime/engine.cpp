@@ -48,6 +48,7 @@ void Engine::start() {
     if (_state == State::RUNNING) {
       dispatch(_scene);
       tick();
+      _windowSystem->swapBuffers();
     }
     if (_state == State::STOP) {
       break;

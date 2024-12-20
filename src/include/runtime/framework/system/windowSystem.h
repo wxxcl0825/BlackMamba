@@ -20,6 +20,11 @@ public:
   bool init(WindowInfo info);
   bool shouldClose();
   void pollEvents();
+  void swapBuffers();
+
+  int getWidth() const { return _width; }
+  int getHeight() const { return _height; }
+  float getAspect() const { return (float)_width / _height; }
 
   void setResizeCallback(ResizeCallback callback) { _resizeCallback = callback; };
   void setKeyBoardCallback(KeyBoardCallback callback) { _keyBoardCallback = callback; }

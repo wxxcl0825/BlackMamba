@@ -27,7 +27,7 @@ public:
   const std::vector<GameObject *> &getChildren() const { return _children; }
 
 private:
-  std::vector<Component *> _components;
+  std::vector<Component *> _components{};
 
   GameObject *_parent;
   std::vector<GameObject *> _children;

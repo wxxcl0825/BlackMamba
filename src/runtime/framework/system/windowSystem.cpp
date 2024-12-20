@@ -38,3 +38,5 @@ bool WindowSystem::init(WindowInfo info) {
 bool WindowSystem::shouldClose() { return glfwWindowShouldClose(_window); }
 
 void WindowSystem::pollEvents() { glfwPollEvents(); }
+
+void WindowSystem::swapBuffers() { glfwSwapBuffers(_window); }
