@@ -20,6 +20,7 @@ public:
   bool init(WindowInfo info);
   bool shouldClose();
   void pollEvents();
+  void swapBuffers();
 
   int getWidth() const { return _width; }
   int getHeight() const { return _height; }
