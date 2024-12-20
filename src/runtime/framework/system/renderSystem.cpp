@@ -34,14 +34,61 @@ void RenderSystem::tick() {
   if (!mainCamera)
     Err("No main camera found!");
   Camera *mainCameraComp = mainCamera->getComponent<Camera>();
-  // TODO: gather information
+  Transform *mainCameraTransfrom = mainCamera->getComponent<Transform>();
+  CameraInfo cameraInfo{
+      .position = mainCameraTransfrom->getPosition(),
+      .view = mainCameraComp->getView(mainCameraTransfrom->getPosition()),
+      .project = mainCameraComp->getProjection()};
+
+  LightInfo lightInfo;
+  for (auto light : _lights) {
+    Light *lightComp = light->getComponent<Light>();
+    switch (lightComp->getType()) {
+    case Light::Type::Directional:
+      lightInfo.directionalLights.emplace_back(DirectionalLight{
+          .color = lightComp->getColor(),
+          .direction = lightComp->getDirection(),
+          .specularIntensity = lightComp->getSpecularIntensity()});
+      break;
+    case Light::Type::Point:
+      lightInfo.pointLights.emplace_back(PointLight{
+          .position = light->getComponent<Transform>()->getPosition(),
+          .color = lightComp->getColor(),
+          .specularIntensity = lightComp->getSpecularIntensity(),
+          .k2 = lightComp->getK2(),
+          .k1 = lightComp->getK1(),
+          .kc = lightComp->getKc()});
+      break;
+    case Light::Type::Spot:
+      lightInfo.spotLights.emplace_back(
+          SpotLight{.position = light->getComponent<Transform>()->getPosition(),
+                    .color = lightComp->getColor(),
+                    .direction = lightComp->getDirection(),
+                    .specularIntensity = lightComp->getSpecularIntensity(),
+                    .inner = lightComp->getInner(),
+                    .outer = lightComp->getOuter()});
+      break;
+    case Light::Type::Ambient:
+      lightInfo.ambientLights.emplace_back(
+          AmbientLight{.color = lightComp->getColor()});
+      break;
+    default:
+      Log("Unknow light type. Abort.");
+      break;
+    }
+  }
   for (auto mesh : _meshes) {
     Mesh *meshComp = mesh->getComponent<Mesh>();
     Geometry *geometry = meshComp->getGeometry();
     Material *material = meshComp->getMaterial();
+    ModelInfo modelInfo{.model = mesh->getComponent<Transform>()->getModel()};
+    RenderInfo renderInfo{.modelInfo = modelInfo,
+                          .cameraInfo = cameraInfo,
+                          .lightInfo = lightInfo};
     // TODO: call material
     GL_CALL(glBindVertexArray(geometry->getVao()));
-    GL_CALL(glDrawElements(GL_TRIANGLES, geometry->getNumIndices(), GL_UNSIGNED_INT, 0));
+    GL_CALL(glDrawElements(GL_TRIANGLES, geometry->getNumIndices(),
+                           GL_UNSIGNED_INT, 0));
     // TODO: close shader
   }
   clear();
