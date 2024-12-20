@@ -1,4 +1,5 @@
 #include "runtime/engine.h"
+#include "runtime/framework/component/transform/transform.h"
 
 Engine *Engine::_engine = nullptr;
 
@@ -63,7 +64,9 @@ void Engine::stop() { _state = State::STOP; }
 void Engine::dispatch(GameObject *root) {
   if (root) {
     _renderSystem->dispatch(root);
+    glm::mat4 rootModel = root->getComponent<Transform>()->getModel();
     for (auto child : root->getChildren()) {
+      child->getComponent<Transform>()->setParentModel(rootModel);
       _renderSystem->dispatch(child);
     }
   }
