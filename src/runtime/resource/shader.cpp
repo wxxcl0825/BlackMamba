@@ -3,6 +3,7 @@
 #include "common/macro.h"
 #include <fstream>
 #include <sstream>
+#include <vector>
 
 void Shader::checkShaderErrors(GLuint target, ErrorType type) {
   int success = 0;
