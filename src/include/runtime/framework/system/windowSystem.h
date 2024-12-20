@@ -21,6 +21,10 @@ public:
   bool shouldClose();
   void pollEvents();
 
+  int getWidth() const { return _width; }
+  int getHeight() const { return _height; }
+  float getAspect() const { return (float)_width / _height; }
+
   void setResizeCallback(ResizeCallback callback) { _resizeCallback = callback; };
   void setKeyBoardCallback(KeyBoardCallback callback) { _keyBoardCallback = callback; }
   void setMouseCallback(MouseCallback callback) { _mouseCallback = callback; }
