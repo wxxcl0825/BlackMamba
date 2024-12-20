@@ -45,6 +45,8 @@ int main() {
   Mesh* mesh = scene->getComponent<Mesh>();
   Log("mesh == nullptr?: %d", mesh == nullptr);
 
+  engine->setScene(scene);
+
   engine->start();
   delete scene;
   Engine::destroyEngine();

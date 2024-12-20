@@ -1,5 +1,8 @@
 #include "runtime/framework/object/gameObject.h"
 
+#include "common/macro.h"
+#include <algorithm>
+
 GameObject::~GameObject() {
   for (auto component : _components)
     if (component) {
@@ -14,10 +17,20 @@ GameObject::~GameObject() {
 }
 
 void GameObject::addChild(GameObject *object) {
+  if (std::find(_children.begin(), _children.end(), object) !=
+      _children.end()) {
+    Log("Duplicated child added!");
+    return;
+  }
   object->_parent = this;
   _children.push_back(object);
 }
 
 void GameObject::addComponent(Component *component) {
+  if (std::find(_components.begin(), _components.end(), component) !=
+      _components.end()) {
+    Log("Duplicated component added!");
+    return;
+  }
   _components.push_back(component);
 }

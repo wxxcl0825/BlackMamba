@@ -1,5 +1,6 @@
 #pragma once
 
+#include "runtime/framework/object/gameObject.h"
 #include "runtime/framework/system/windowSystem.h"
 
 struct EngineInfo {
@@ -22,12 +23,16 @@ public:
   State getState() const { return _state; }
   WindowSystem *getWindowSystem() const { return _windowSystem; }
 
+  void setScene(GameObject *scene) { _scene = scene; }
+
 private:
   static Engine *_engine;
 
   State _state{State::IDLE};
 
   WindowSystem *_windowSystem;
+
+  GameObject *_scene;
 
   Engine();
   ~Engine();
