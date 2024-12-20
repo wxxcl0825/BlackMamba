@@ -1,6 +1,7 @@
 #pragma once
 
 #include "runtime/framework/object/gameObject.h"
+#include "runtime/framework/system/renderSystem.h"
 #include "runtime/framework/system/windowSystem.h"
 
 struct EngineInfo {
@@ -31,9 +32,13 @@ private:
   State _state{State::IDLE};
 
   WindowSystem *_windowSystem;
+  RenderSystem *_renderSystem;
 
   GameObject *_scene;
 
   Engine();
   ~Engine();
+
+  void dispatch(GameObject* root);
+  void tick();
 };
