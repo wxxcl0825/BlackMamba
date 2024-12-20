@@ -7,6 +7,7 @@
 
 class GameObject {
 public:
+  GameObject();
   ~GameObject();
 
   template <typename ComponentType> ComponentType *getComponent() const {
