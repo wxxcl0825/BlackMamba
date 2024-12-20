@@ -3,9 +3,13 @@
 #include "runtime/resource/texture/texture.h"
 
 ResourceManager *ResourceManager::_instance = nullptr;
+
 std::unordered_map<std::string, Texture *> ResourceManager::_textureMap = std::unordered_map<std::string, Texture *>();
-std::unordered_map<std::string, Model *> ResourceManager::_modelMap = std::unordered_map<std::string, Model *>();
 std::unordered_map<std::string, Shader *> ResourceManager::_shaderMap = std::unordered_map<std::string, Shader *>();
+
+std::vector<Geometry *> ResourceManager::_geometryList;
+
+std::unordered_map<std::string, Model *> ResourceManager::_modelMap = std::unordered_map<std::string, Model *>();
 
 ResourceManager::ResourceManager(){
 
@@ -59,50 +63,152 @@ Shader *ResourceManager::loadShader(const std::string& vertexPath, const std::st
     return _shaderMap[vertexPath + fragmentPath];
 }
 
+// front back top bottom left right 
 Geometry *ResourceManager::createBoxGeometry(float size) const{
     std::vector<glm::vec3> vertices = {
-        glm::vec3(-size, -size, size),
-        glm::vec3(size, -size, size),
-        glm::vec3(size, size, size),
-        glm::vec3(-size, size, size),
-        glm::vec3(-size, -size, -size),
-        glm::vec3(size, -size, -size),
-        glm::vec3(size, size, -size),
-        glm::vec3(-size, size, -size)
+        glm::vec3(size/2, size/2, size/2),
+        glm::vec3(-size/2, size/2, size/2),
+        glm::vec3(-size/2, size/2, -size/2),
+        glm::vec3(size/2, size/2, -size/2),
+
+        glm::vec3(size/2, -size/2, size/2),
+        glm::vec3(-size/2, -size/2, size/2),
+        glm::vec3(-size/2, -size/2, -size/2),
+        glm::vec3(size/2, -size/2, -size/2),
+
+        glm::vec3(size/2, size/2, size/2),
+        glm::vec3(-size/2, size/2, size/2),
+        glm::vec3(-size/2, -size/2, size/2),
+        glm::vec3(size/2, -size/2, size/2),
+
+        glm::vec3(size/2, size/2, -size/2),
+        glm::vec3(-size/2, size/2, -size/2),
+        glm::vec3(-size/2, -size/2, -size/2),
+        glm::vec3(size/2, -size/2, -size/2),
+
+        glm::vec3(size/2, size/2, size/2),
+        glm::vec3(size/2, size/2, -size/2),
+        glm::vec3(size/2, -size/2, -size/2),
+        glm::vec3(size/2, -size/2, size/2),
+
+        glm::vec3(-size/2, size/2, size/2),
+        glm::vec3(-size/2, size/2, -size/2),
+        glm::vec3(-size/2, -size/2, -size/2),
+        glm::vec3(-size/2, -size/2, size/2)
     };
 
+    //six faces, each face has 4 vertices
     std::vector<glm::vec2> uvs = {
-        glm::vec2(0.0f, 0.0f),
-        glm::vec2(1.0f, 0.0f),
+        glm::vec2(0.0f, 1.0f),
         glm::vec2(1.0f, 1.0f),
         glm::vec2(0.0f, 1.0f),
         glm::vec2(0.0f, 0.0f),
-        glm::vec2(1.0f, 0.0f),
+
+        glm::vec2(0.0f, 1.0f),
         glm::vec2(1.0f, 1.0f),
-        glm::vec2(0.0f, 1.0f)
+        glm::vec2(0.0f, 1.0f),
+        glm::vec2(0.0f, 0.0f),
+
+        glm::vec2(0.0f, 1.0f),
+        glm::vec2(1.0f, 1.0f),
+        glm::vec2(0.0f, 1.0f),
+        glm::vec2(0.0f, 0.0f),
+
+        glm::vec2(0.0f, 1.0f),
+        glm::vec2(1.0f, 1.0f),
+        glm::vec2(0.0f, 1.0f),
+        glm::vec2(0.0f, 0.0f),
+
+        glm::vec2(0.0f, 1.0f),
+        glm::vec2(1.0f, 1.0f),
+        glm::vec2(0.0f, 1.0f),
+        glm::vec2(0.0f, 0.0f),
+
+        glm::vec2(0.0f, 1.0f),
+        glm::vec2(1.0f, 1.0f),
+        glm::vec2(0.0f, 1.0f),
+        glm::vec2(0.0f, 0.0f)
     };
 
     std::vector<glm::vec3> normals = {
+        glm::vec3(0.0f, 1.0f, 0.0f),
+        glm::vec3(0.0f, 1.0f, 0.0f),
+        glm::vec3(0.0f, 1.0f, 0.0f),
+        glm::vec3(0.0f, 1.0f, 0.0f),
+
+        glm::vec3(0.0f, -1.0f, 0.0f),
+        glm::vec3(0.0f, -1.0f, 0.0f),
+        glm::vec3(0.0f, -1.0f, 0.0f),
+        glm::vec3(0.0f, -1.0f, 0.0f),
+
         glm::vec3(0.0f, 0.0f, 1.0f),
         glm::vec3(0.0f, 0.0f, 1.0f),
         glm::vec3(0.0f, 0.0f, 1.0f),
         glm::vec3(0.0f, 0.0f, 1.0f),
+
         glm::vec3(0.0f, 0.0f, -1.0f),
         glm::vec3(0.0f, 0.0f, -1.0f),
         glm::vec3(0.0f, 0.0f, -1.0f),
-        glm::vec3(0.0f, 0.0f, -1.0f)
+        glm::vec3(0.0f, 0.0f, -1.0f),
+
+        glm::vec3(1.0f, 0.0f, 0.0f),
+        glm::vec3(1.0f, 0.0f, 0.0f),
+        glm::vec3(1.0f, 0.0f, 0.0f),
+        glm::vec3(1.0f, 0.0f, 0.0f),
+
+        glm::vec3(-1.0f, 0.0f, 0.0f),
+        glm::vec3(-1.0f, 0.0f, 0.0f),
+        glm::vec3(-1.0f, 0.0f, 0.0f),
+        glm::vec3(-1.0f, 0.0f, 0.0f)
     };
 
     std::vector<unsigned int> indices = {
-        0, 1, 2, 2, 3, 0,
-        1, 5, 6, 6, 2, 1,
-        7, 6, 5, 5, 4, 7,
-        4, 0, 3, 3, 7, 4,
-        3, 2, 6, 6, 7, 3,
-        4, 5, 1, 1, 0, 4
+        0, 1, 2, 0, 2, 3,
+        4, 6, 5, 4, 7, 6,
+        8, 9, 10, 8, 10, 11,
+        12, 14, 13, 12, 15, 14,
+        16, 18, 17, 16, 19, 18,
+        20, 21, 22, 20, 22, 23
     };
 
-    return new Geometry(vertices, uvs, normals, indices);
+    Geometry *_geometry = new Geometry(vertices, uvs, normals, indices);
+    
+    _geometryList.push_back(_geometry);
+
+    return _geometry;
+}
+
+Geometry *ResourceManager::createPlaneGeometry(float width, float height) const{
+    std::vector<glm::vec3> vertices = {
+        glm::vec3(width/2, 0.0f, height/2),
+        glm::vec3(-width/2, 0.0f, height/2),
+        glm::vec3(-width/2, 0.0f, -height/2),
+        glm::vec3(width/2, 0.0f, -height/2)
+    };
+
+    std::vector<glm::vec2> uvs = {
+        glm::vec2(0.0f, 1.0f),
+        glm::vec2(1.0f, 1.0f),
+        glm::vec2(1.0f, 0.0f),
+        glm::vec2(0.0f, 0.0f)
+    };
+
+    std::vector<glm::vec3> normals = {
+        glm::vec3(0.0f, 1.0f, 0.0f),
+        glm::vec3(0.0f, 1.0f, 0.0f),
+        glm::vec3(0.0f, 1.0f, 0.0f),
+        glm::vec3(0.0f, 1.0f, 0.0f)
+    };
+
+    std::vector<unsigned int> indices = {
+        0, 1, 2, 0, 2, 3
+    };
+
+    Geometry *_geometry = new Geometry(vertices, uvs, normals, indices);
+    
+    _geometryList.push_back(_geometry);
+
+    return _geometry;
 }
 
 Model *ResourceManager::loadModel(const std::string& filePath) const{
