@@ -9,18 +9,19 @@ void Shader::checkShaderErrors(GLuint target, ErrorType type) {
   int success = 0;
   int infoLogLength = 0;
 
-  glGetShaderiv(target, GL_INFO_LOG_LENGTH, &infoLogLength);
-  std::vector<char> infoLog(infoLogLength);
-
   if (type == ErrorType::COMPILE) {
     glGetShaderiv(target, GL_COMPILE_STATUS, &success);
     if (!success) {
+      glGetShaderiv(target, GL_INFO_LOG_LENGTH, &infoLogLength);
+      std::vector<char> infoLog(infoLogLength);
       glGetShaderInfoLog(target, infoLogLength, NULL, infoLog.data());
       Err("Shader compile error: %s", infoLog.data());
     }
   } else if (type == ErrorType::LINK) {
     glGetProgramiv(target, GL_LINK_STATUS, &success);
     if (!success) {
+      glGetProgramiv(target, GL_INFO_LOG_LENGTH, &infoLogLength);
+      std::vector<char> infoLog(infoLogLength);
       glGetProgramInfoLog(target, infoLogLength, NULL, infoLog.data());
       Err("Shader link error: %s", infoLog.data());
     }
