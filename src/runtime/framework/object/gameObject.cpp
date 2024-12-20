@@ -1,7 +1,10 @@
 #include "runtime/framework/object/gameObject.h"
 
 #include "common/macro.h"
+#include "runtime/framework/component/transform/transform.h"
 #include <algorithm>
+
+GameObject::GameObject() { addComponent(new Transform()); }
 
 GameObject::~GameObject() {
   for (auto component : _components)
