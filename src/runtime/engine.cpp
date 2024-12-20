@@ -67,7 +67,7 @@ void Engine::dispatch(GameObject *root) {
     glm::mat4 rootModel = root->getComponent<Transform>()->getModel();
     for (auto child : root->getChildren()) {
       child->getComponent<Transform>()->setParentModel(rootModel);
-      _renderSystem->dispatch(child);
+      dispatch(child);
     }
   }
 }
