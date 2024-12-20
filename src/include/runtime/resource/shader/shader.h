@@ -5,6 +5,8 @@
 #include <string>
 
 class Shader {
+  friend class ResourceManager;
+
 public:
   void begin() const;
   void end() const;
@@ -26,6 +28,4 @@ private:
   GLuint _program{0};
 
   static void checkShaderErrors(GLuint target, ErrorType type);
-
-  friend class ResourceManager;
 };
