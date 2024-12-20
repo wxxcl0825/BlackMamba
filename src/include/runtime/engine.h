@@ -1,6 +1,6 @@
 #pragma once
 
-#include "common/common.h"
+#include "runtime/framework/object/gameObject.h"
 #include "runtime/framework/system/windowSystem.h"
 
 struct EngineInfo {
@@ -9,22 +9,30 @@ struct EngineInfo {
 
 class Engine {
 public:
+  enum class State { IDLE, RUNNING, PAUSE, STOP };
+
   static Engine *getEngine();
   static void destroyEngine();
 
   bool init(EngineInfo info);
   void start();
-  void resume();
   void stop();
+  void pause();
+  void resume();
 
-  WindowSystem *getWindowSystem() const { return _windowSystem; };
+  State getState() const { return _state; }
+  WindowSystem *getWindowSystem() const { return _windowSystem; }
+
+  void setScene(GameObject *scene) { _scene = scene; }
 
 private:
   static Engine *_engine;
 
-  bool _pause{false};
+  State _state{State::IDLE};
 
   WindowSystem *_windowSystem;
+
+  GameObject *_scene;
 
   Engine();
   ~Engine();
