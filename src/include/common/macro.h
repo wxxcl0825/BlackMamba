@@ -11,3 +11,13 @@
         __FILE__, __LINE__, __func__, ## __VA_ARGS__);  \
     while(1);                                           \
 }
+
+void checkError(const char *file, int line, const char *func);
+
+#ifdef DEBUG
+#define GL_CALL(func)                                                          \
+  func;                                                                        \
+  checkError(__FILE__, __LINE__, __func__);
+#else
+#define GL_CALL(func) func;
+#endif
