@@ -76,7 +76,7 @@ int main() {
   scene->addChild(camera);
   scene->addChild(new GameObject());
   scene->addChild(new GameObject());
-  scene->addComponent(new Mesh());
+  scene->addComponent(new Mesh(resourceManager->createBoxGeometry(1.0f), new Material()));
 
   Mesh* mesh = scene->getComponent<Mesh>();
   Log("mesh == nullptr?: %d", mesh == nullptr);
