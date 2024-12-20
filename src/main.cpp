@@ -2,6 +2,7 @@
 #include "runtime/engine.h"
 #include "runtime/framework/object/gameObject.h"
 #include "runtime/framework/component/mesh/mesh.h"
+#include "runtime/resource/shader.h"
 
 EngineInfo info = {.windowInfo{
     WindowInfo{.width = 1280, .height = 720, .title = "Project: Black Mamba"}}};
@@ -9,6 +10,8 @@ EngineInfo info = {.windowInfo{
 Engine *engine = nullptr;
 
 GameObject *scene = new GameObject();
+
+Shader *shader = nullptr;
 
 void onResize(int width, int height) { glViewport(0, 0, width, height); }
 
@@ -37,6 +40,8 @@ int main() {
   engine->getWindowSystem()->setKeyBoardCallback(onKey);
   engine->getWindowSystem()->setMouseCallback(onMouse);
   engine->getWindowSystem()->setCursorCallback(onCursor);
+
+  shader = new Shader("assets/shaders/default.vert", "assets/shaders/default.frag");
 
   scene->addChild(new GameObject());
   scene->addChild(new GameObject());
