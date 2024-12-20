@@ -4,6 +4,7 @@
 #include "common/macro.h"
 #include "include/runtime/resource/texture/texture.h"
 #include "runtime/engine.h"
+#include "runtime/framework/component/camera/camera.h"
 #include "runtime/framework/object/gameObject.h"
 #include "runtime/framework/component/mesh/mesh.h"
 #include "runtime/resource/resourceManager.h"
@@ -14,7 +15,10 @@ EngineInfo info = {.windowInfo{
 
 Engine *engine = nullptr;
 
+Camera *cameraComp = nullptr;
+
 GameObject *scene = new GameObject();
+GameObject *camera = new GameObject();
 
 ResourceManager *resourceManager = nullptr;
 Shader *shader = nullptr;
@@ -61,6 +65,15 @@ int main() {
   texture = resourceManager->loadTexture("assets/textures/box.png");
   skybox = resourceManager->loadTexture(skyboxPaths);
 
+  resourceManager = ResourceManager::getResourceManager();
+  shader = resourceManager->loadShader("assets/shaders/default.vert", "assets/shaders/default.frag");
+  texture = resourceManager->loadTexture("assets/textures/box.png");
+  skybox = resourceManager->loadTexture(skyboxPaths);
+
+  cameraComp = new Camera(45.0f, engine->getWindowSystem()->getAspect(), 0.1f, 1000.0f);
+  camera->addComponent(cameraComp);
+
+  scene->addChild(camera);
   scene->addChild(new GameObject());
   scene->addChild(new GameObject());
   scene->addComponent(new Mesh());
