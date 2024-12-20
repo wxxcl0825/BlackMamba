@@ -19,8 +19,10 @@ void Engine::destroyEngine() {
 Engine::Engine() { _windowSystem = new WindowSystem(); }
 
 Engine::~Engine() {
-  if (_windowSystem)
+  if (_windowSystem) {
     delete _windowSystem;
+    _windowSystem = nullptr;
+  }
 }
 
 bool Engine::init(EngineInfo info) {
@@ -32,13 +34,19 @@ bool Engine::init(EngineInfo info) {
 }
 
 void Engine::start() {
+  _state = State::RUNNING;
   while (!_windowSystem->shouldClose()) {
     _windowSystem->pollEvents();
-    if (!_pause) {
+    if (_state == State::RUNNING) {
+    }
+    if (_state == State::STOP) {
+      break;
     }
   }
 }
 
-void Engine::resume() { _pause = false; }
+void Engine::pause() { _state = State::PAUSE; }
 
-void Engine::stop() { _pause = true; }
+void Engine::resume() { _state = State::RUNNING; }
+
+void Engine::stop() { _state = State::STOP; }
