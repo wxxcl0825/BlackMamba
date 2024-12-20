@@ -26,6 +26,17 @@ void GameObject::addChild(GameObject *object) {
   _children.push_back(object);
 }
 
+void GameObject::removeChild(GameObject *object) {
+  auto child = std::find(_children.begin(), _children.end(), object);
+  if (child == _children.end()) {
+    Log("Remove failed! Child not found!");
+    return;
+  }
+  _children.erase(child);
+  object->_parent = nullptr;
+  delete object;
+}
+
 void GameObject::addComponent(Component *component) {
   if (std::find(_components.begin(), _components.end(), component) !=
       _components.end()) {

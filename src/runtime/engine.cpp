@@ -1,4 +1,5 @@
 #include "runtime/engine.h"
+#include "runtime/framework/component/transform/transform.h"
 
 Engine *Engine::_engine = nullptr;
 
@@ -16,12 +17,19 @@ void Engine::destroyEngine() {
   }
 }
 
-Engine::Engine() { _windowSystem = new WindowSystem(); }
+Engine::Engine() {
+  _windowSystem = new WindowSystem();
+  _renderSystem = new RenderSystem();
+}
 
 Engine::~Engine() {
   if (_windowSystem) {
     delete _windowSystem;
     _windowSystem = nullptr;
+  }
+  if (_renderSystem) {
+    delete _renderSystem;
+    _renderSystem = nullptr;
   }
 }
 
@@ -38,6 +46,8 @@ void Engine::start() {
   while (!_windowSystem->shouldClose()) {
     _windowSystem->pollEvents();
     if (_state == State::RUNNING) {
+      dispatch(_scene);
+      tick();
     }
     if (_state == State::STOP) {
       break;
@@ -50,3 +60,16 @@ void Engine::pause() { _state = State::PAUSE; }
 void Engine::resume() { _state = State::RUNNING; }
 
 void Engine::stop() { _state = State::STOP; }
+
+void Engine::dispatch(GameObject *root) {
+  if (root) {
+    _renderSystem->dispatch(root);
+    glm::mat4 rootModel = root->getComponent<Transform>()->getModel();
+    for (auto child : root->getChildren()) {
+      child->getComponent<Transform>()->setParentModel(rootModel);
+      dispatch(child);
+    }
+  }
+}
+
+void Engine::tick() { _renderSystem->tick(); }

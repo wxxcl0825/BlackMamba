@@ -1,6 +1,8 @@
 #include "common/common.h"
 #include "common/macro.h"
 
+#include <string>
+
 void checkError(const char *file, int line, const char *func) {
   GLenum errorCode = glGetError();
   std::string error = "";
