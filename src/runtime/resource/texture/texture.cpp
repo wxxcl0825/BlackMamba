@@ -6,6 +6,11 @@
 
 #include "common/macro.h"
 
+void Texture::bind() const{
+    GL_CALL(glActiveTexture(GL_TEXTURE0 + _unit));
+    GL_CALL(glBindTexture(_textureTarget, _textureID));
+}
+
 Texture::Texture(const std::string& path, unsigned int unit) : _unit(unit){
 
     int _nrChannels;

@@ -8,6 +8,7 @@ std::unordered_map<std::string, Texture *> ResourceManager::_textureMap = std::u
 std::unordered_map<std::string, Shader *> ResourceManager::_shaderMap = std::unordered_map<std::string, Shader *>();
 
 std::vector<Geometry *> ResourceManager::_geometryList;
+std::vector<Material *> ResourceManager::_materialList;
 
 std::unordered_map<std::string, Model *> ResourceManager::_modelMap = std::unordered_map<std::string, Model *>();
 
@@ -19,11 +20,35 @@ ResourceManager::~ResourceManager(){
     for(auto it = _textureMap.begin(); it != _textureMap.end(); it++){
         delete it->second;
     }
+    _textureMap.clear();
+
+    for(auto it = _shaderMap.begin(); it != _shaderMap.end(); it++){
+        delete it->second;
+    }
+    _shaderMap.clear();
+
+    for(auto it = _geometryList.begin(); it != _geometryList.end(); it++){
+        delete *it;
+    }
+    _geometryList.clear();
+
+    for(auto it = _materialList.begin(); it != _materialList.end(); it++){
+        delete *it;
+    }
+    _materialList.clear();
+
     for(auto it = _modelMap.begin(); it != _modelMap.end(); it++){
         delete it->second;
     }
-    for(auto it = _shaderMap.begin(); it != _shaderMap.end(); it++){
-        delete it->second;
+    _modelMap.clear();
+
+    if(_instance != nullptr){
+        delete _instance;
+        _instance = nullptr;
+
+        Log("ResourceManager deleted");
+    }else{
+        Log("ResourceManager already deleted");
     }
 }
 
@@ -211,11 +236,8 @@ Geometry *ResourceManager::createPlaneGeometry(float width, float height) const{
     return _geometry;
 }
 
-Model *ResourceManager::loadModel(const std::string& filePath) const{
-    if(_modelMap.find(filePath) == _modelMap.end()){
-        Log("Loading model: %s,not complement yet", filePath.c_str());
-        // Model *_model = new Model(filePath);
-        // _modelMap[filePath] = _model;
-    }
-    return _modelMap[filePath];
+Material *ResourceManager::createWhiteMaterial(glm::vec3 color) const{
+    Material *_material = new WhiteMaterial(color);
+    _materialList.push_back(_material);
+    return _material;
 }

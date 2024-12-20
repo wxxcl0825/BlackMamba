@@ -5,11 +5,15 @@
 #include <vector>
 
 class Texture {
+    friend class ResourceManager;
+
 public:
     int getWidth() const { return _width; };
     int getHeight() const { return _height; };
     GLuint getTextureID() const { return _textureID; };
     unsigned int getUnit() const { return _unit; };
+
+    void bind() const;
 
 private:
     int _width{0};
@@ -22,5 +26,4 @@ private:
     Texture(const std::vector<std::string>& paths, unsigned int unit);
     ~Texture();
 
-    friend class ResourceManager;
 };

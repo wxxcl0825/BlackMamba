@@ -48,3 +48,18 @@ Geometry::Geometry(
 
     glBindVertexArray(0);
 }
+
+Geometry::~Geometry(){
+    Log("Deleting geometry with vao: %d, posVbo: %d, uvVbo: %d, normalVbo: %d, ebo: %d", _vao, _posVbo, _uvVbo, _normalVbo, _ebo);
+    
+    if(_vao != 0)
+        glDeleteVertexArrays(1, &_vao);
+    if(_posVbo != 0)
+        glDeleteBuffers(1, &_posVbo);
+    if(_uvVbo != 0)
+        glDeleteBuffers(1, &_uvVbo);
+    if(_normalVbo != 0)
+        glDeleteBuffers(1, &_normalVbo);
+    if(_ebo != 0)
+        glDeleteBuffers(1, &_ebo);
+}
