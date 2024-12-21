@@ -3,6 +3,7 @@
 #include "runtime/framework/object/gameObject.h"
 #include "runtime/framework/system/renderSystem.h"
 #include "runtime/framework/system/windowSystem.h"
+#include "runtime/resource/resourceManager.h"
 
 struct EngineInfo {
   WindowInfo windowInfo;
@@ -23,6 +24,7 @@ public:
 
   State getState() const { return _state; }
   WindowSystem *getWindowSystem() const { return _windowSystem; }
+  ResourceManager *getResourceManager() const { return _resourceManger; }
 
   void setScene(GameObject *scene) { _scene = scene; }
 
@@ -33,6 +35,7 @@ private:
 
   WindowSystem *_windowSystem;
   RenderSystem *_renderSystem;
+  ResourceManager *_resourceManger;
 
   GameObject *_scene;
 

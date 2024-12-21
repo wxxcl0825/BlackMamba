@@ -1,8 +1,10 @@
 #include "game/material/skyboxMaterial.h"
+#include "game/game.h"
 #include "runtime/resource/resourceManager.h"
 
 SkyboxMaterial::SkyboxMaterial() {
-  _shader = ResourceManager::getResourceManager()->loadShader(
+  ResourceManager* resourceManager = Game::getGame()->getEngine()->getResourceManager();
+  _shader = resourceManager->loadShader(
       "assets/shaders/skybox.vert", "assets/shaders/skybox.frag");
 }
 
@@ -14,5 +16,5 @@ void SkyboxMaterial::apply(const RenderInfo &info) {
   _shader->setUniform("projection",info.cameraInfo.project);
 
   _diffuse->bind();
-  _shader->setUniform("sampler",0);
+  _shader->setUniform("sampler", (int)_diffuse->getUnit());
 }

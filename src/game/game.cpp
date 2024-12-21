@@ -2,11 +2,12 @@
 #include "common/macro.h"
 #include "game/entity/camera.h"
 #include "game/entity/skybox.h"
-#include "runtime/framework/component/camera/camera.h"
-#include "runtime/framework/component/mesh/mesh.h"
-#include "runtime/resource/material/whiteMaterial.h"
-#include "runtime/resource/resourceManager.h"
+#include "game/material/phongMaterial.h"
 #include "game/utils/utils.h"
+#include "runtime/framework/component/camera/camera.h"
+#include "runtime/framework/component/light/light.h"
+#include "runtime/framework/object/gameObject.h"
+#include <memory>
 
 Game *Game::_game = nullptr;
 
@@ -62,9 +63,8 @@ void Game::setupScene() {
           45.0f, _engine->getWindowSystem()->getAspect(), 0.1f, 1000.0f),
       Camera::Type::Free);
 
-  _scene->addComponent(std::make_shared<MeshComponent>(
-      ResourceManager::getResourceManager()->createBoxGeometry(1.0f),
-      new WhiteMaterial()));
+  _scene->addComponent(
+      std::make_shared<LightComponent>(glm::vec3(1.0f, 1.0f, 1.0f)));
 
   Skybox *skybox = new Skybox(
       {"assets/textures/skybox/right.jpg", "assets/textures/skybox/left.jpg",
@@ -75,9 +75,8 @@ void Game::setupScene() {
 
   _scene->addChild(camera->getCamera());
 
-  WhiteMaterial *material = new WhiteMaterial();
-  material->setColor(glm::vec3(0.0f, 1.0f, 0.0f));
-  GameObject *model = loadModel("assets/obj/bag/backpack.obj", *material);
+  PhongMaterial *material = new PhongMaterial();
+  GameObject *model = loadModel("assets/models/bag/backpack.obj", *material);
   _scene->addChild(model);
   _scene->addChild(skybox->getSkybox());
 }

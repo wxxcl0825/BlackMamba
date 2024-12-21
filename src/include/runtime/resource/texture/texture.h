@@ -13,6 +13,7 @@ public:
     GLuint getTextureID() const { return _textureID; };
     unsigned int getUnit() const { return _unit; };
 
+    void setUnit(unsigned int unit) { _unit = unit; };
     void bind() const;
 
 private:
