@@ -1,6 +1,7 @@
 #pragma once
 
 #include "runtime/framework/component/component.h"
+#include <memory>
 #include <vector>
 
 class GameObject {
@@ -11,7 +12,8 @@ public:
   template <typename ComponentType>
   std::shared_ptr<ComponentType> getComponent() const {
     for (const auto &component : _components) {
-      auto targetComponent = std::dynamic_pointer_cast<ComponentType>(component);
+      auto targetComponent =
+          std::dynamic_pointer_cast<ComponentType>(component);
       if (targetComponent)
         return targetComponent;
     }
