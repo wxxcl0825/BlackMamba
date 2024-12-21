@@ -21,6 +21,9 @@ public:
 
   Shader *loadShader(const std::string &vertexPath,
                      const std::string &fragmentPath);
+  Shader *loadShader(const std::string &vertexPath,
+                     const std::string &geometryPath,
+                     const std::string &fragmentPath);
 
   Geometry *createBoxGeometry(float size);
   Geometry *createPlaneGeometry(float width, float height);

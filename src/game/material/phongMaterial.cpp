@@ -6,7 +6,7 @@
 PhongMaterial::PhongMaterial() {
   ResourceManager *resourceManager = Game::getGame()->getEngine()->getResourceManager();
   _shader = resourceManager->loadShader(
-      "assets/shaders/phong.vert", "assets/shaders/phong.frag");
+      "assets/shaders/phong.vert", "assets/shaders/explode.geom","assets/shaders/phong.frag");
 }
 
 void PhongMaterial::apply(const RenderInfo &info) {
