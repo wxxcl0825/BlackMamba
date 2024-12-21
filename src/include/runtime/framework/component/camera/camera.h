@@ -3,15 +3,15 @@
 #include "glm/fwd.hpp"
 #include "runtime/framework/component/component.h"
 
-class Camera : public Component {
+class CameraComponent : public Component {
 public:
   enum class Type { Ortho, Perspective, Invalid };
 
-  Camera(float left, float right, float top, float bottom, float near,
+  CameraComponent(float left, float right, float top, float bottom, float near,
          float far);
-  Camera(float fovy, float aspect, float near, float far);
+  CameraComponent(float fovy, float aspect, float near, float far);
 
-  ~Camera() override{};
+  ~CameraComponent() override{};
 
   bool isMain() const { return _isMain; }
   void pick() { _isMain = true; }

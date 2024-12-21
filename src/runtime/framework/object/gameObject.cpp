@@ -4,7 +4,7 @@
 #include "runtime/framework/component/transform/transform.h"
 #include <algorithm>
 
-GameObject::GameObject() { addComponent(new Transform()); }
+GameObject::GameObject() { addComponent(new TransformComponent()); }
 
 GameObject::~GameObject() {
   for (auto component : _components)

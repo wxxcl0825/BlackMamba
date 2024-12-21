@@ -65,9 +65,9 @@ void Engine::stop() { _state = State::STOP; }
 void Engine::dispatch(GameObject *root) {
   if (root) {
     _renderSystem->dispatch(root);
-    glm::mat4 rootModel = root->getComponent<Transform>()->getModel();
+    glm::mat4 rootModel = root->getComponent<TransformComponent>()->getModel();
     for (auto child : root->getChildren()) {
-      child->getComponent<Transform>()->setParentModel(rootModel);
+      child->getComponent<TransformComponent>()->setParentModel(rootModel);
       dispatch(child);
     }
   }

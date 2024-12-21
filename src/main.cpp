@@ -17,7 +17,7 @@ EngineInfo info = {.windowInfo{
 
 Engine *engine = nullptr;
 
-Camera *cameraComp = nullptr;
+CameraComponent *cameraComp = nullptr;
 
 GameObject *scene = new GameObject();
 GameObject *camera = new GameObject();
@@ -72,7 +72,7 @@ int main() {
   texture = resourceManager->loadTexture("assets/textures/box.png");
   skybox = resourceManager->loadTexture(skyboxPaths);
 
-  cameraComp = new Camera(45.0f, engine->getWindowSystem()->getAspect(), 0.1f, 1000.0f);
+  cameraComp = new CameraComponent(45.0f, engine->getWindowSystem()->getAspect(), 0.1f, 1000.0f);
   camera->addComponent(cameraComp);
 
   scene->addChild(camera);
@@ -80,9 +80,9 @@ int main() {
   scene->addChild(new GameObject());
   WhiteMaterial* material = new WhiteMaterial();
   material->setColor(glm::vec3(0.0f, 1.0f, 0.0f));
-  scene->addComponent(new Mesh(resourceManager->createBoxGeometry(1.0f), material));
+  scene->addComponent(new MeshComponent(resourceManager->createBoxGeometry(1.0f), material));
 
-  Mesh* mesh = scene->getComponent<Mesh>();
+  MeshComponent* mesh = scene->getComponent<MeshComponent>();
   Log("mesh == nullptr?: %d", mesh == nullptr);
 
   engine->setScene(scene);
