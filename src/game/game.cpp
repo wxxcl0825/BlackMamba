@@ -1,6 +1,7 @@
 #include "game/game.h"
 #include "common/macro.h"
 #include "game/entity/camera.h"
+#include "game/entity/skybox.h"
 #include "runtime/framework/component/camera/camera.h"
 #include "runtime/framework/component/mesh/mesh.h"
 #include "runtime/resource/material/whiteMaterial.h"
@@ -57,13 +58,20 @@ void Game::setupScene() {
   _scene = new GameObject();
 
   Camera *camera = new Camera(
-      new CameraComponent(45.0f, _engine->getWindowSystem()->getAspect(), 0.1f,
-                          1000.0f),
+      std::make_shared<CameraComponent>(
+          45.0f, _engine->getWindowSystem()->getAspect(), 0.1f, 1000.0f),
       Camera::Type::Free);
 
-  _scene->addComponent(new MeshComponent(
+  _scene->addComponent(std::make_shared<MeshComponent>(
       ResourceManager::getResourceManager()->createBoxGeometry(1.0f),
       new WhiteMaterial()));
+
+  Skybox *skybox = new Skybox(
+      {"assets/textures/skybox/right.jpg", "assets/textures/skybox/left.jpg",
+       "assets/textures/skybox/top.jpg", "assets/textures/skybox/bottom.jpg",
+       "assets/textures/skybox/back.jpg", "assets/textures/skybox/front.jpg"});
+
+  skybox->bind(camera->getCamera());
 
   _scene->addChild(camera->getCamera());
 
@@ -71,4 +79,5 @@ void Game::setupScene() {
   material->setColor(glm::vec3(0.0f, 1.0f, 0.0f));
   GameObject *model = loadModel("assets/obj/bag/backpack.obj", *material);
   _scene->addChild(model);
+  _scene->addChild(skybox->getSkybox());
 }

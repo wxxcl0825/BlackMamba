@@ -20,7 +20,7 @@ void RenderSystem::dispatch(GameObject *object) {
 
 void RenderSystem::tick() {
   glEnable(GL_DEPTH_TEST);
-  glDepthFunc(GL_LESS);
+  glDepthFunc(GL_LEQUAL);
   glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
   GameObject *mainCamera = nullptr;
@@ -32,8 +32,8 @@ void RenderSystem::tick() {
   }
   if (!mainCamera)
     Err("No main camera found!");
-  CameraComponent *mainCameraComp = mainCamera->getComponent<CameraComponent>();
-  TransformComponent *mainCameraTransfrom = mainCamera->getComponent<TransformComponent>();
+  std::shared_ptr<CameraComponent> mainCameraComp = mainCamera->getComponent<CameraComponent>();
+  std::shared_ptr<TransformComponent> mainCameraTransfrom = mainCamera->getComponent<TransformComponent>();
   CameraInfo cameraInfo{
       .position = mainCameraTransfrom->getPosition(),
       .view = mainCameraComp->getView(mainCameraTransfrom->getPosition()),
@@ -41,7 +41,7 @@ void RenderSystem::tick() {
 
   LightInfo lightInfo;
   for (auto light : _lights) {
-    LightComponent *lightComp = light->getComponent<LightComponent>();
+    std::shared_ptr<LightComponent> lightComp = light->getComponent<LightComponent>();
     switch (lightComp->getType()) {
     case LightComponent::Type::Directional:
       lightInfo.directionalLights.emplace_back(DirectionalLight{
@@ -78,7 +78,7 @@ void RenderSystem::tick() {
   }
 
   for (auto mesh : _meshes) {
-    MeshComponent *meshComp = mesh->getComponent<MeshComponent>();
+    std::shared_ptr<MeshComponent> meshComp = mesh->getComponent<MeshComponent>();
     Geometry *geometry = meshComp->getGeometry();
     Material *material = meshComp->getMaterial();
     ModelInfo modelInfo{.model = mesh->getComponent<TransformComponent>()->getModel()};
