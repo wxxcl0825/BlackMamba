@@ -20,6 +20,9 @@ public:
   glm::mat4 getView(glm::vec3 position) const;
   glm::mat4 getProjection() const;
 
+  const glm::vec3 &getUpVec() const { return _upVec; }
+  const glm::vec3 &getRightVec() const { return _rightVec; }
+
   void setUpVec(const glm::vec3 &up) { _upVec = up; }
   void setRightVec(const glm::vec3 &right) { _rightVec = right; }
 

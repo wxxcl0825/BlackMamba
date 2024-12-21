@@ -1,6 +1,7 @@
 #pragma once
 
 #include "common/common.h"
+#include <functional>
 #include <vector>
 
 struct WindowInfo {
@@ -10,10 +11,10 @@ struct WindowInfo {
 
 class WindowSystem {
 public:
-  using ResizeCallback = void (*)(int width, int height);
-  using KeyBoardCallback = void (*)(int key, int action, int mods);
-  using MouseCallback = void (*)(int button, int action, int mods);
-  using CursorCallback = void (*)(double xpos, double ypos);
+  using ResizeCallback = std::function<void(int, int)>;
+  using KeyBoardCallback = std::function<void(int, int, int)>;
+  using MouseCallback = std::function<void(int, int, int)>;
+  using CursorCallback = std::function<void(double, double)>;
 
   WindowSystem() = default;
   ~WindowSystem();
@@ -31,6 +32,7 @@ public:
   int getWidth() const { return _width; }
   int getHeight() const { return _height; }
   float getAspect() const { return (float)_width / _height; }
+  void getCursorPosition(double &x, double &y) { glfwGetCursorPos(_window, &x, &y); }
 
 private:
   int _width, _height;

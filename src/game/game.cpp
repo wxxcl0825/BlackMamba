@@ -1,6 +1,10 @@
 #include "game/game.h"
 #include "common/macro.h"
+#include "game/entity/camera.h"
 #include "runtime/framework/component/camera/camera.h"
+#include "runtime/framework/component/mesh/mesh.h"
+#include "runtime/resource/material/whiteMaterial.h"
+#include "runtime/resource/resourceManager.h"
 
 Game *Game::_game = nullptr;
 
@@ -51,9 +55,14 @@ void Game::exit() {
 void Game::setupScene() {
   _scene = new GameObject();
 
-  GameObject *camera = new GameObject();
-  CameraComponent *cameraComp = new CameraComponent(
-      45.0f, _engine->getWindowSystem()->getAspect(), 0.1f, 1000.0f);
-  camera->addComponent(cameraComp);
-  _scene->addChild(camera);
+  Camera *camera = new Camera(
+      new CameraComponent(45.0f, _engine->getWindowSystem()->getAspect(), 0.1f,
+                          1000.0f),
+      Camera::Type::Free);
+
+  _scene->addComponent(new MeshComponent(
+      ResourceManager::getResourceManager()->createBoxGeometry(1.0f),
+      new WhiteMaterial()));
+
+  _scene->addChild(camera->getCamera());
 }
