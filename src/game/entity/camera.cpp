@@ -1,7 +1,7 @@
 #include "game/entity/camera.h"
 #include "game/game.h"
 
-Camera::Camera(CameraComponent *cameraComp, Type type) : _type(type) {
+Camera::Camera(std::shared_ptr<CameraComponent> cameraComp, Type type) : _type(type) {
   _camera = new GameObject();
   _transformComp = _camera->getComponent<TransformComponent>();
   _cameraComp = cameraComp;
