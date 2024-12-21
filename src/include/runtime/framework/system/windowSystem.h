@@ -1,6 +1,7 @@
 #pragma once
 
 #include "common/common.h"
+#include <vector>
 
 struct WindowInfo {
   int width, height;
@@ -22,45 +23,49 @@ public:
   void pollEvents();
   void swapBuffers();
 
+  void addResizeCallback(ResizeCallback callback) { _resizeCallbacks.push_back(callback); };
+  void addKeyBoardCallback(KeyBoardCallback callback) { _keyBoardCallbacks.push_back(callback); }
+  void addMouseCallback(MouseCallback callback) { _mouseCallbacks.push_back(callback); }
+  void addCursorCallback(CursorCallback callback) { _cursorCallbacks.push_back(callback); }
+
   int getWidth() const { return _width; }
   int getHeight() const { return _height; }
   float getAspect() const { return (float)_width / _height; }
-
-  void setResizeCallback(ResizeCallback callback) { _resizeCallback = callback; };
-  void setKeyBoardCallback(KeyBoardCallback callback) { _keyBoardCallback = callback; }
-  void setMouseCallback(MouseCallback callback) { _mouseCallback = callback; }
-  void setCursorCallback(CursorCallback callback) { _cursorCallback = callback; }
 
 private:
   int _width, _height;
   GLFWwindow *_window;
 
-  ResizeCallback _resizeCallback{nullptr};
-  KeyBoardCallback _keyBoardCallback{nullptr};
-  MouseCallback _mouseCallback{nullptr};
-  CursorCallback _cursorCallback{nullptr};
+  std::vector<ResizeCallback> _resizeCallbacks{};
+  std::vector<KeyBoardCallback> _keyBoardCallbacks{};
+  std::vector<MouseCallback> _mouseCallbacks{};
+  std::vector<CursorCallback> _cursorCallbacks{};
 
   static void frameBufferSizeCallback(GLFWwindow *window, int width, int height) {
     WindowSystem* app = (WindowSystem*)glfwGetWindowUserPointer(window);
-    if (app && app->_resizeCallback)
-      app->_resizeCallback(width, height);
+    if (app)
+      for (auto resizeCallback: app->_resizeCallbacks)
+        resizeCallback(width, height);
   }
 
   static void keyCallback(GLFWwindow *window, int key, int scancode, int action, int mods) {
     WindowSystem* app = (WindowSystem*)glfwGetWindowUserPointer(window);
-    if (app && app->_keyBoardCallback)
-      app->_keyBoardCallback(key, action, mods);
+    if (app)
+      for (auto keyBoardCallback: app->_keyBoardCallbacks)
+        keyBoardCallback(key, action, mods);
   }
 
   static void mouseCallback(GLFWwindow *window, int button, int action, int mods) {
     WindowSystem* app = (WindowSystem*)glfwGetWindowUserPointer(window);
-    if (app && app->_mouseCallback)
-      app->_mouseCallback(button, action, mods);
+    if (app)
+      for (auto mouseCallback: app->_mouseCallbacks)
+        mouseCallback(button, action, mods);
   }
 
   static void cursorCallback(GLFWwindow *window, double xpos, double ypos) {
     WindowSystem* app = (WindowSystem*)glfwGetWindowUserPointer(window);
-    if (app && app->_cursorCallback)
-      app->_cursorCallback(xpos, ypos);
+    if (app)
+      for (auto cursorCallback: app->_cursorCallbacks)
+        cursorCallback(xpos, ypos);
   }
 };
