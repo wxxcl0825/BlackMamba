@@ -3,10 +3,10 @@
 #include "common/common.h"
 #include "runtime/framework/component/component.h"
 
-class Transform : public Component {
+class TransformComponent : public Component {
 public:
-  Transform() = default;
-  ~Transform() override{};
+  TransformComponent() = default;
+  ~TransformComponent() override{};
 
   glm::mat4 getModel() const;
   glm::vec3 getPosition() const { return _position; }

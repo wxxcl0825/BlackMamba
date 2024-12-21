@@ -10,11 +10,11 @@
 #include "runtime/resource/material/material.h"
 
 void RenderSystem::dispatch(GameObject *object) {
-  if (object->getComponent<Mesh>())
+  if (object->getComponent<MeshComponent>())
     _meshes.push_back(object);
-  if (object->getComponent<Light>())
+  if (object->getComponent<LightComponent>())
     _lights.push_back(object);
-  if (object->getComponent<Camera>())
+  if (object->getComponent<CameraComponent>())
     _cameras.push_back(object);
 }
 
@@ -25,15 +25,15 @@ void RenderSystem::tick() {
 
   GameObject *mainCamera = nullptr;
   for (auto camera : _cameras) {
-    if (camera->getComponent<Camera>()->isMain()) {
+    if (camera->getComponent<CameraComponent>()->isMain()) {
       mainCamera = camera;
       break;
     }
   }
   if (!mainCamera)
     Err("No main camera found!");
-  Camera *mainCameraComp = mainCamera->getComponent<Camera>();
-  Transform *mainCameraTransfrom = mainCamera->getComponent<Transform>();
+  CameraComponent *mainCameraComp = mainCamera->getComponent<CameraComponent>();
+  TransformComponent *mainCameraTransfrom = mainCamera->getComponent<TransformComponent>();
   CameraInfo cameraInfo{
       .position = mainCameraTransfrom->getPosition(),
       .view = mainCameraComp->getView(mainCameraTransfrom->getPosition()),
@@ -41,33 +41,33 @@ void RenderSystem::tick() {
 
   LightInfo lightInfo;
   for (auto light : _lights) {
-    Light *lightComp = light->getComponent<Light>();
+    LightComponent *lightComp = light->getComponent<LightComponent>();
     switch (lightComp->getType()) {
-    case Light::Type::Directional:
+    case LightComponent::Type::Directional:
       lightInfo.directionalLights.emplace_back(DirectionalLight{
           .color = lightComp->getColor(),
           .direction = lightComp->getDirection(),
           .specularIntensity = lightComp->getSpecularIntensity()});
       break;
-    case Light::Type::Point:
+    case LightComponent::Type::Point:
       lightInfo.pointLights.emplace_back(PointLight{
-          .position = light->getComponent<Transform>()->getPosition(),
+          .position = light->getComponent<TransformComponent>()->getPosition(),
           .color = lightComp->getColor(),
           .specularIntensity = lightComp->getSpecularIntensity(),
           .k2 = lightComp->getK2(),
           .k1 = lightComp->getK1(),
           .kc = lightComp->getKc()});
       break;
-    case Light::Type::Spot:
+    case LightComponent::Type::Spot:
       lightInfo.spotLights.emplace_back(
-          SpotLight{.position = light->getComponent<Transform>()->getPosition(),
+          SpotLight{.position = light->getComponent<TransformComponent>()->getPosition(),
                     .color = lightComp->getColor(),
                     .direction = lightComp->getDirection(),
                     .specularIntensity = lightComp->getSpecularIntensity(),
                     .inner = lightComp->getInner(),
                     .outer = lightComp->getOuter()});
       break;
-    case Light::Type::Ambient:
+    case LightComponent::Type::Ambient:
       lightInfo.ambientLights.emplace_back(
           AmbientLight{.color = lightComp->getColor()});
       break;
@@ -78,10 +78,10 @@ void RenderSystem::tick() {
   }
 
   for (auto mesh : _meshes) {
-    Mesh *meshComp = mesh->getComponent<Mesh>();
+    MeshComponent *meshComp = mesh->getComponent<MeshComponent>();
     Geometry *geometry = meshComp->getGeometry();
     Material *material = meshComp->getMaterial();
-    ModelInfo modelInfo{.model = mesh->getComponent<Transform>()->getModel()};
+    ModelInfo modelInfo{.model = mesh->getComponent<TransformComponent>()->getModel()};
     material->apply(RenderInfo{.modelInfo = modelInfo,
                                .cameraInfo = cameraInfo,
                                .lightInfo = lightInfo});

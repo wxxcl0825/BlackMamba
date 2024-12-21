@@ -4,11 +4,11 @@
 #include "runtime/resource/geometry/geometry.h"
 #include "runtime/resource/material/material.h"
 
-class Mesh : public Component {
+class MeshComponent : public Component {
 public:
-  Mesh(Geometry *geometry, Material *material)
+  MeshComponent(Geometry *geometry, Material *material)
       : _geometry(geometry), _material(material){};
-  ~Mesh() override{};
+  ~MeshComponent() override{};
 
   Geometry *getGeometry() const { return _geometry; }
   Material *getMaterial() const { return _material; }

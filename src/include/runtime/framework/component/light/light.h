@@ -31,25 +31,25 @@ struct AmbientLight {
   glm::vec3 color;
 };
 
-class Light : public Component {
+class LightComponent : public Component {
 public:
   enum class Type { Directional, Point, Spot, Ambient, Invalid };
 
-  Light(const glm::vec3 &color) : _color(color), _type(Type::Ambient) {}
-  Light(const glm::vec3 &color, const glm::vec3 &direction,
+  LightComponent(const glm::vec3 &color) : _color(color), _type(Type::Ambient) {}
+  LightComponent(const glm::vec3 &color, const glm::vec3 &direction,
         float specularIntensity)
       : _color(color), _direction(direction),
         _specularIntensity(specularIntensity), _type(Type::Directional) {}
-  Light(const glm::vec3 &color, float specularIntensity, float k2, float k1,
+  LightComponent(const glm::vec3 &color, float specularIntensity, float k2, float k1,
         float kc)
       : _color(color), _specularIntensity(specularIntensity), _k2(k2), _k1(k1),
         _kc(kc), _type(Type::Point) {}
-  Light(const glm::vec3 &color, const glm::vec3 &direction,
+  LightComponent(const glm::vec3 &color, const glm::vec3 &direction,
         float specularIntensity, float inner, float outer)
       : _color(color), _direction(direction),
         _specularIntensity(specularIntensity), _inner(inner), _outer(outer),
         _type(Type::Spot) {}
-  ~Light() override{};
+  ~LightComponent() override{};
 
   Type getType() const { return _type; }
   glm::vec3 getColor() const { return _color; }
