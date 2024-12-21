@@ -14,5 +14,5 @@ void SkyboxMaterial::apply(const RenderInfo &info) {
   _shader->setUniform("projection",info.cameraInfo.project);
 
   _diffuse->bind();
-  _shader->setUniform("sampler",0);
+  _shader->setUniform("sampler", (int)_diffuse->getUnit());
 }
