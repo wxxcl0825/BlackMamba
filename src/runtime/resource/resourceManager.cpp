@@ -122,33 +122,33 @@ Geometry *ResourceManager::createBoxGeometry(float size) const{
     std::vector<glm::vec2> uvs = {
         glm::vec2(0.0f, 1.0f),
         glm::vec2(1.0f, 1.0f),
-        glm::vec2(0.0f, 1.0f),
+        glm::vec2(1.0f, 0.0f),
         glm::vec2(0.0f, 0.0f),
 
         glm::vec2(0.0f, 1.0f),
         glm::vec2(1.0f, 1.0f),
-        glm::vec2(0.0f, 1.0f),
+        glm::vec2(1.0f, 0.0f),
         glm::vec2(0.0f, 0.0f),
 
         glm::vec2(0.0f, 1.0f),
         glm::vec2(1.0f, 1.0f),
-        glm::vec2(0.0f, 1.0f),
+        glm::vec2(1.0f, 0.0f),
         glm::vec2(0.0f, 0.0f),
 
         glm::vec2(0.0f, 1.0f),
         glm::vec2(1.0f, 1.0f),
-        glm::vec2(0.0f, 1.0f),
+        glm::vec2(1.0f, 0.0f),
         glm::vec2(0.0f, 0.0f),
 
         glm::vec2(0.0f, 1.0f),
         glm::vec2(1.0f, 1.0f),
-        glm::vec2(0.0f, 1.0f),
+        glm::vec2(1.0f, 0.0f),
         glm::vec2(0.0f, 0.0f),
 
         glm::vec2(0.0f, 1.0f),
         glm::vec2(1.0f, 1.0f),
-        glm::vec2(0.0f, 1.0f),
-        glm::vec2(0.0f, 0.0f)
+        glm::vec2(1.0f, 0.0f),
+        glm::vec2(0.0f, 0.0f),
     };
 
     std::vector<glm::vec3> normals = {

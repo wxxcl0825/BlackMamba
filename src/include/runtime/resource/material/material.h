@@ -3,12 +3,14 @@
 #include "common/common.h"
 #include "runtime/framework/system/renderSystem.h"
 #include "runtime/resource/shader/shader.h"
+#include "runtime/resource/texture/texture.h"
 
 class Material {
 public:
   virtual ~Material() = 0;
 
   virtual void apply(const RenderInfo &info) = 0;
+  virtual void setDiffuse(Texture *diffuse){};
 
   void finish() {
     if (_shader)
