@@ -23,6 +23,7 @@ public:
 private:
   Shader(const std::string &vertexPath, const std::string &fragmentPath);
   Shader(const std::string &vertexPath, const std::string &geometryPath, const std::string &fragmentPath);
+  Shader(const std::string &vertexPath, const std::string &tessCtrlPath, const std::string &tessEvalPath, const std::string &fragmentPath);
   ~Shader();
 
   enum class ErrorType { COMPILE, LINK };
