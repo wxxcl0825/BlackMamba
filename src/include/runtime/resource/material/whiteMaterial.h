@@ -10,7 +10,6 @@ public:
     void setColor(const glm::vec3& color);
 
     void apply(const RenderInfo &info) override;
-    void finish() override;
 
 private:
     glm::vec3 _color = glm::vec3(1.0f, 1.0f, 1.0f);

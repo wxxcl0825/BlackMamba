@@ -9,7 +9,7 @@ class Camera {
 public:
   enum class Type { Free, Invalid };
 
-  Camera(CameraComponent *cameraComp, Type type);
+  Camera(std::shared_ptr<CameraComponent> cameraComp, Type type);
   ~Camera();
 
   GameObject *getCamera() const { return _camera; }
@@ -17,8 +17,8 @@ public:
 private:
   GameObject *_camera{nullptr};
 
-  TransformComponent *_transformComp{nullptr};
-  CameraComponent *_cameraComp{nullptr};
+  std::shared_ptr<TransformComponent> _transformComp;
+  std::shared_ptr<CameraComponent> _cameraComp;
 
   Type _type{Type::Invalid};
 

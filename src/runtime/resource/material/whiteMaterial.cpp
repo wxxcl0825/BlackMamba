@@ -19,7 +19,3 @@ void WhiteMaterial::apply(const RenderInfo &info){
 
     _shader->setUniform("color", _color);
 }
-
-void WhiteMaterial::finish(){
-    _shader->end();
-}

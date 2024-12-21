@@ -4,14 +4,12 @@
 #include "runtime/framework/component/transform/transform.h"
 #include <algorithm>
 
-GameObject::GameObject() { addComponent(new TransformComponent()); }
+GameObject::GameObject() {
+  addComponent(std::make_shared<TransformComponent>());
+}
 
 GameObject::~GameObject() {
-  for (auto component : _components)
-    if (component) {
-      delete component;
-      component = nullptr;
-    }
+  _components.clear();
   for (auto child : _children)
     if (child) {
       delete child;
@@ -40,11 +38,21 @@ void GameObject::removeChild(GameObject *object) {
   delete object;
 }
 
-void GameObject::addComponent(Component *component) {
+void GameObject::addComponent(std::shared_ptr<Component> component) {
   if (std::find(_components.begin(), _components.end(), component) !=
       _components.end()) {
     Log("Duplicated component added!");
     return;
   }
   _components.push_back(component);
+}
+
+void GameObject::setComponent(std::shared_ptr<Component> component) {
+  for (auto &existingComponent : _components) {
+    if (typeid(*&existingComponent) == typeid(*&component)) {
+      existingComponent = component;
+      return;
+    }
+  }
+  addComponent(component);
 }
