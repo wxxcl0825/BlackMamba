@@ -1,14 +1,13 @@
 #pragma once
 
 #include "common/common.h"
-#include "common/macro.h"
 #include "geometry/geometry.h"
 #include "runtime/resource/texture/texture.h"
 #include "runtime/resource/shader/shader.h"
 #include "runtime/resource/geometry/geometry.h"
 #include "runtime/resource/material/material.h"
-#include "runtime/resource/material/whiteMaterial.h"
 
+#include <string>
 #include <unordered_map>
 
 class ResourceManager{
@@ -18,6 +17,7 @@ public:
 
     Texture *loadTexture(const std::string& filePath) const;
     Texture *loadTexture(const std::vector<std::string>& filePaths) const;
+    Texture *loadTexture(const std::string& filePath, unsigned char* dataIn, uint32_t widthIn, uint32_t heightIn) const;
 
     Shader *loadShader(const std::string& vertexPath, const std::string& fragmentPath) const;
 

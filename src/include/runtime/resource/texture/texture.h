@@ -24,6 +24,7 @@ private:
 
     Texture(const std::string& path, unsigned int unit);
     Texture(const std::vector<std::string>& paths, unsigned int unit);
+    Texture(unsigned char* dataIn, uint32_t widthIn, uint32_t heightIn, unsigned int unit);
     ~Texture();
 
 };
