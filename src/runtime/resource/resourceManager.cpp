@@ -51,8 +51,7 @@ ResourceManager *ResourceManager::getResourceManager(){
 Texture *ResourceManager::loadTexture(const std::string& filePath) const{
     if(_textureMap.find(filePath) == _textureMap.end()){
         Log("Loading texture: %s", filePath.c_str());
-        Log("Binding texture to unit: %d", _textureMap.size());
-        Texture *_texture = new Texture(filePath, _textureMap.size());
+        Texture *_texture = new Texture(filePath, 0);
         _textureMap[filePath] = _texture;
     }
     return _textureMap[filePath];
@@ -61,8 +60,7 @@ Texture *ResourceManager::loadTexture(const std::string& filePath) const{
 Texture *ResourceManager::loadTexture(const std::vector<std::string>& filePaths) const{
     if(_textureMap.find(filePaths[0]) == _textureMap.end()){
         Log("Loading texture: %s", filePaths[0].c_str());
-        Log("Binding texture to unit: %d", _textureMap.size());
-        Texture *_texture = new Texture(filePaths, _textureMap.size());
+        Texture *_texture = new Texture(filePaths, 0);
         _textureMap[filePaths[0]] = _texture;
     }
     return _textureMap[filePaths[0]];
@@ -71,8 +69,7 @@ Texture *ResourceManager::loadTexture(const std::vector<std::string>& filePaths)
 Texture *ResourceManager::loadTexture(const std::string& filePath, unsigned char* dataIn, uint32_t widthIn, uint32_t heightIn) const{
     if(_textureMap.find(filePath) == _textureMap.end()){
         Log("Loading texture: %s", filePath.c_str());
-        Log("Binding texture to unit: %d", _textureMap.size());
-        Texture *_texture = new Texture(dataIn, widthIn, heightIn, _textureMap.size());
+        Texture *_texture = new Texture(dataIn, widthIn, heightIn, 0);
         _textureMap[filePath] = _texture;
     }
     return _textureMap[filePath];
