@@ -20,6 +20,7 @@ void Engine::destroyEngine() {
 Engine::Engine() {
   _windowSystem = new WindowSystem();
   _renderSystem = new RenderSystem();
+  _resourceManger = new ResourceManager();
 }
 
 Engine::~Engine() {
@@ -30,6 +31,10 @@ Engine::~Engine() {
   if (_renderSystem) {
     delete _renderSystem;
     _renderSystem = nullptr;
+  }
+  if (_resourceManger) {
+    delete _resourceManger;
+    _resourceManger = nullptr;
   }
 }
 
