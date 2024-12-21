@@ -24,6 +24,10 @@ public:
   Shader *loadShader(const std::string &vertexPath,
                      const std::string &geometryPath,
                      const std::string &fragmentPath);
+  Shader *loadShader(const std::string &vertexPath,
+                     const std::string &tessCtrlPath,
+                     const std::string &tessEvalPath,
+                     const std::string &fragmentPath);
 
   Geometry *createBoxGeometry(float size);
   Geometry *createPlaneGeometry(float width, float height);
@@ -32,6 +36,8 @@ public:
                          const std::vector<glm::vec2> &uvs,
                          const std::vector<glm::vec3> &normals,
                          const std::vector<unsigned int> &indices);
+  Geometry *loadGeometry(const std::vector<glm::vec3> &vertices,
+                         const std::vector<glm::vec2> &uvs);
 
 private:
   std::unordered_map<std::string, Texture *> _textureMap{};

@@ -2,7 +2,9 @@
 #include "common/macro.h"
 #include "game/entity/camera.h"
 #include "game/entity/skybox.h"
+#include "game/entity/terrain.h"
 #include "game/material/phongMaterial.h"
+#include "game/material/terrainMaterial.h"
 #include "game/utils/utils.h"
 #include "runtime/framework/component/camera/camera.h"
 #include "runtime/framework/component/light/light.h"
@@ -75,8 +77,17 @@ void Game::setupScene() {
 
   _scene->addChild(camera->getCamera());
 
-  PhongMaterial *material = new PhongMaterial();
-  GameObject *model = loadModel("assets/models/bag/backpack.obj", *material);
+  PhongMaterial *pongMat = new PhongMaterial();
+  GameObject *model = loadModel("assets/models/bag/backpack.obj", *pongMat);
+
+  TerrainMaterial *terrainMat = new TerrainMaterial();
+  terrainMat->setDiffuse(_engine->getResourceManager()->loadTexture(
+      "assets/textures/terrain/diffuse.jpg"));
+  terrainMat->setHeightMap(_engine->getResourceManager()->loadTexture(
+      "assets/textures/terrain/heightMap.png"));
+  Terrain *terrain = new Terrain(1000.0f, 1000.0f, 20, 10, terrainMat);
+
   _scene->addChild(model);
   _scene->addChild(skybox->getSkybox());
+  _scene->addChild(terrain->_getTerrain());
 }

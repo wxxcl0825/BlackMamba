@@ -46,6 +46,20 @@ Shader::Shader(const std::string &vertexPath, const std::string &geometryPath,
   glDeleteShader(fragment);
 }
 
+Shader::Shader(const std::string &vertexPath, const std::string &tessCtrlPath,
+               const std::string &tessEvalPath,
+               const std::string &fragmentPath) {
+  GLuint vertex = compileShader(vertexPath, GL_VERTEX_SHADER);
+  GLuint tessCtrl = compileShader(tessCtrlPath, GL_TESS_CONTROL_SHADER);
+  GLuint tessEval = compileShader(tessEvalPath, GL_TESS_EVALUATION_SHADER);
+  GLuint fragment = compileShader(fragmentPath, GL_FRAGMENT_SHADER);
+  linkProgram({vertex, tessCtrl, tessEval, fragment});
+  glDeleteShader(vertex);
+  glDeleteShader(tessCtrl);
+  glDeleteShader(tessEval);
+  glDeleteShader(fragment);
+}
+
 Shader::~Shader() {
   if (_program)
     GL_CALL(glDeleteProgram(_program));

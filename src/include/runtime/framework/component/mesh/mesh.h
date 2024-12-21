@@ -7,8 +7,8 @@
 class MeshComponent : public Component {
 public:
   MeshComponent(Geometry *geometry, Material *material)
-      : _geometry(geometry), _material(material){};
-  ~MeshComponent() override{};
+      : _geometry(geometry), _material(material) {}
+  ~MeshComponent() override {}
 
   Geometry *getGeometry() const { return _geometry; }
   Material *getMaterial() const { return _material; }

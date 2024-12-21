@@ -4,6 +4,7 @@
 #include "runtime/framework/component/camera/camera.h"
 #include "runtime/framework/component/light/light.h"
 #include "runtime/framework/component/mesh/mesh.h"
+#include "runtime/framework/component/terrain/terrain.h"
 #include "runtime/framework/component/transform/transform.h"
 #include "runtime/framework/object/gameObject.h"
 #include "runtime/resource/geometry/geometry.h"
@@ -16,6 +17,8 @@ void RenderSystem::dispatch(GameObject *object) {
     _lights.push_back(object);
   if (object->getComponent<CameraComponent>())
     _cameras.push_back(object);
+  if (object->getComponent<TerrainComponent>())
+    _meshes.push_back(object);
 }
 
 void RenderSystem::tick() {
@@ -86,8 +89,14 @@ void RenderSystem::tick() {
                                .cameraInfo = cameraInfo,
                                .lightInfo = lightInfo});
     GL_CALL(glBindVertexArray(geometry->getVao()));
-    GL_CALL(glDrawElements(GL_TRIANGLES, geometry->getNumIndices(),
+    if (mesh->getComponent<TerrainComponent>()) {
+      int rez = mesh->getComponent<TerrainComponent>()->getRez();
+      GL_CALL(glPatchParameteri(GL_PATCH_VERTICES, 4));
+      GL_CALL(glDrawArrays(GL_PATCHES, 0, 4 * rez * rez));
+    } else { 
+      GL_CALL(glDrawElements(GL_TRIANGLES, geometry->getNumIndices(),
                            GL_UNSIGNED_INT, 0));
+    }
     material->finish();
   }
   clear();

@@ -74,6 +74,22 @@ Shader *ResourceManager::loadShader(const std::string &vertexPath,
   return _shaderMap[vertexPath + geometryPath + fragmentPath];
 }
 
+Shader *ResourceManager::loadShader(const std::string &vertexPath,
+                                    const std::string &tessCtrlPath,
+                                    const std::string &tessEvalPath,
+                                    const std::string &fragmentPath) {
+  if (_shaderMap.find(vertexPath + tessCtrlPath + tessEvalPath +
+                      fragmentPath) == _shaderMap.end()) {
+    Log("Loading shader: %s, %s, %s and %s", vertexPath.c_str(),
+        tessCtrlPath.c_str(), tessEvalPath.c_str(), fragmentPath.c_str());
+    Shader *_shader =
+        new Shader(vertexPath, tessCtrlPath, tessEvalPath, fragmentPath);
+    _shaderMap[vertexPath + tessCtrlPath + tessEvalPath + fragmentPath] =
+        _shader;
+  }
+  return _shaderMap[vertexPath + tessCtrlPath + tessEvalPath + fragmentPath];
+}
+
 // front back top bottom left right
 Geometry *ResourceManager::createBoxGeometry(float size) {
   std::vector<glm::vec3> vertices = {glm::vec3(size / 2, size / 2, size / 2),
@@ -185,6 +201,15 @@ ResourceManager::loadGeometry(const std::vector<glm::vec3> &vertices,
                               const std::vector<glm::vec3> &normals,
                               const std::vector<unsigned int> &indices) {
   Geometry *_geometry = new Geometry(vertices, uvs, normals, indices);
+
+  _geometryList.push_back(_geometry);
+
+  return _geometry;
+}
+
+Geometry *ResourceManager::loadGeometry(const std::vector<glm::vec3> &vertices,
+                                        const std::vector<glm::vec2> &uvs) {
+  Geometry *_geometry = new Geometry(vertices, uvs);
 
   _geometryList.push_back(_geometry);
 
