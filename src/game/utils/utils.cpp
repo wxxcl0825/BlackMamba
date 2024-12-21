@@ -3,6 +3,7 @@
 #include "common/macro.h"
 #include "runtime/framework/component/transform/transform.h"
 #include "runtime/resource/resourceManager.h"
+#include <memory>
 
 GameObject *loadModel(const std::string& path, Material &material){
     GameObject *root = new GameObject();
@@ -48,7 +49,7 @@ void parse(aiNode *ainode, const aiScene *scene, GameObject *parent, const std::
     }
 }
 
-MeshComponent *parseMesh(aiMesh *aimesh, const aiScene *scene, const std::string& rootPath, Material &material){
+std::shared_ptr<MeshComponent> parseMesh(aiMesh *aimesh, const aiScene *scene, const std::string& rootPath, Material &material){
 
     std::vector<glm::vec3> vertices;
     std::vector<glm::vec2> uvs;
@@ -83,7 +84,7 @@ MeshComponent *parseMesh(aiMesh *aimesh, const aiScene *scene, const std::string
     //     material->setDiffuse(ResourceManager::getResourceManager()->loadTexture("/assets/textures/default.png"));
     // }
 
-    return new MeshComponent(geometry,&material);
+    return std::make_shared<MeshComponent>(geometry,&material);
 }
 
 Texture *parseTexture(aiMaterial *aimat, aiTextureType type, const aiScene *scene, const std::string& rootPath){

@@ -16,7 +16,7 @@ static void decompose(glm::mat4 matrix, glm::vec3& position, glm::vec3& eulerAng
 
 static Texture *parseTexture(aiMaterial *aiMat, aiTextureType type, const aiScene *scene, const std::string& rootPath);
 
-static MeshComponent *parseMesh(aiMesh *aimesh, const aiScene *scene, const std::string& rootPath, Material &material);
+static std::shared_ptr<MeshComponent> parseMesh(aiMesh *aimesh, const aiScene *scene, const std::string& rootPath, Material &material);
 
 static void parse(aiNode *node, const aiScene *scene, GameObject *parent, const std::string& rootPath, Material &material);
 
