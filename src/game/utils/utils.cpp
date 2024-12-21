@@ -1,6 +1,7 @@
 #include "game/utils/utils.h"
 
 #include "common/macro.h"
+#include "game/game.h"
 #include "runtime/framework/component/transform/transform.h"
 #include "runtime/resource/resourceManager.h"
 #include <memory>
@@ -55,6 +56,8 @@ void parse(aiNode *ainode, const aiScene *scene, GameObject *parent,
 std::shared_ptr<MeshComponent> parseMesh(aiMesh *aimesh, const aiScene *scene,
                                          const std::string &rootPath,
                                          Material &material) {
+  ResourceManager *resourceManager =
+      Game::getGame()->getEngine()->getResourceManager();
 
   std::vector<glm::vec3> vertices;
   std::vector<glm::vec2> uvs;
@@ -82,16 +85,16 @@ std::shared_ptr<MeshComponent> parseMesh(aiMesh *aimesh, const aiScene *scene,
     }
   }
 
-  auto geometry = ResourceManager::getResourceManager()->loadGeometry(
-      vertices, uvs, normals, indices);
+  auto geometry =
+      resourceManager->loadGeometry(vertices, uvs, normals, indices);
 
   if (aimesh->mMaterialIndex >= 0) {
     aiMaterial *aiMat = scene->mMaterials[aimesh->mMaterialIndex];
     material.setDiffuse(
         parseTexture(aiMat, aiTextureType_DIFFUSE, scene, rootPath));
   } else {
-    material.setDiffuse(ResourceManager::getResourceManager()->loadTexture(
-        "/assets/textures/default.jpg"));
+    material.setDiffuse(
+        resourceManager->loadTexture("/assets/textures/default.jpg"));
   }
 
   return std::make_shared<MeshComponent>(geometry, &material);
@@ -99,11 +102,12 @@ std::shared_ptr<MeshComponent> parseMesh(aiMesh *aimesh, const aiScene *scene,
 
 Texture *parseTexture(aiMaterial *aimat, aiTextureType type,
                       const aiScene *scene, const std::string &rootPath) {
+  ResourceManager *resourceManager =
+      Game::getGame()->getEngine()->getResourceManager();
   aiString aipath;
   aimat->Get(AI_MATKEY_TEXTURE(type, 0), aipath);
   if (aipath.length == 0) {
-    return ResourceManager::getResourceManager()->loadTexture(
-        "/assets/textures/default.jpg");
+    return resourceManager->loadTexture("/assets/textures/default.jpg");
   }
   const aiTexture *aitexture = scene->GetEmbeddedTexture(aipath.C_Str());
   if (aitexture) {
@@ -111,11 +115,11 @@ Texture *parseTexture(aiMaterial *aimat, aiTextureType type,
         reinterpret_cast<unsigned char *>(aitexture->pcData);
     uint32_t widthIn = aitexture->mWidth;
     uint32_t heightIn = aitexture->mHeight;
-    return ResourceManager::getResourceManager()->loadTexture(
-        aipath.C_Str(), dataIn, widthIn, heightIn);
+    return resourceManager->loadTexture(aipath.C_Str(), dataIn, widthIn,
+                                        heightIn);
   } else {
     std::string path = rootPath + aipath.C_Str();
-    return ResourceManager::getResourceManager()->loadTexture(path);
+    return resourceManager->loadTexture(path);
   }
 }
 

@@ -1,9 +1,11 @@
 #include "runtime/resource/material/whiteMaterial.h"
+#include "runtime/engine.h"
 #include "runtime/resource/resourceManager.h"
 
 
 WhiteMaterial::WhiteMaterial(){
-    _shader = ResourceManager::getResourceManager()->loadShader("assets/shaders/white.vert", "assets/shaders/white.frag");
+    ResourceManager *resourceManager = Engine::getEngine()->getResourceManager();
+    _shader = resourceManager->loadShader("assets/shaders/white.vert", "assets/shaders/white.frag");
 }
 
 void WhiteMaterial::setColor(const glm::vec3& color){

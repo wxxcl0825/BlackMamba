@@ -1,8 +1,11 @@
 #include "game/material/phongMaterial.h"
+
+#include "game/game.h"
 #include "runtime/resource/resourceManager.h"
 #include <string>
 PhongMaterial::PhongMaterial() {
-  _shader = ResourceManager::getResourceManager()->loadShader(
+  ResourceManager *resourceManager = Game::getGame()->getEngine()->getResourceManager();
+  _shader = resourceManager->loadShader(
       "assets/shaders/phong.vert", "assets/shaders/phong.frag");
 }
 

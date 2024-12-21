@@ -1,5 +1,6 @@
 #include "game/entity/skybox.h"
 
+#include "game/game.h"
 #include "game/material/skyboxMaterial.h"
 #include "runtime/framework/component/mesh/mesh.h"
 #include "runtime/framework/component/transform/transform.h"
@@ -7,7 +8,8 @@
 #include "runtime/resource/resourceManager.h"
 
 Skybox::Skybox(const std::vector<std::string> &paths) {
-  ResourceManager *resourceManager = ResourceManager::getResourceManager();
+  ResourceManager *resourceManager =
+      Game::getGame()->getEngine()->getResourceManager();
   _skybox = new GameObject();
   Geometry *box = resourceManager->createBoxGeometry(1.0f);
   SkyboxMaterial *material = new SkyboxMaterial();
