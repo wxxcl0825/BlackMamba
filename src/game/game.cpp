@@ -5,6 +5,7 @@
 #include "runtime/framework/component/mesh/mesh.h"
 #include "runtime/resource/material/whiteMaterial.h"
 #include "runtime/resource/resourceManager.h"
+#include "game/utils/utils.h"
 
 Game *Game::_game = nullptr;
 
@@ -65,4 +66,9 @@ void Game::setupScene() {
       new WhiteMaterial()));
 
   _scene->addChild(camera->getCamera());
+
+  WhiteMaterial *material = new WhiteMaterial();
+  material->setColor(glm::vec3(0.0f, 1.0f, 0.0f));
+  GameObject *model = loadModel("assets/obj/bag/backpack.obj", *material);
+  _scene->addChild(model);
 }

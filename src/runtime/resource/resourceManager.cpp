@@ -1,4 +1,6 @@
 #include "runtime/resource/resourceManager.h"
+
+#include "common/macro.h"
 #include "runtime/resource/geometry/geometry.h"
 #include "runtime/resource/texture/texture.h"
 
@@ -8,9 +10,6 @@ std::unordered_map<std::string, Texture *> ResourceManager::_textureMap = std::u
 std::unordered_map<std::string, Shader *> ResourceManager::_shaderMap = std::unordered_map<std::string, Shader *>();
 
 std::vector<Geometry *> ResourceManager::_geometryList;
-// std::vector<Material *> ResourceManager::_materialList;
-
-// std::unordered_map<std::string, Model *> ResourceManager::_modelMap = std::unordered_map<std::string, Model *>();
 
 ResourceManager::ResourceManager(){
 
@@ -31,16 +30,6 @@ ResourceManager::~ResourceManager(){
         delete *it;
     }
     _geometryList.clear();
-
-    // for(auto it = _materialList.begin(); it != _materialList.end(); it++){
-    //     delete *it;
-    // }
-    // _materialList.clear();
-
-    // for(auto it = _modelMap.begin(); it != _modelMap.end(); it++){
-    //     delete it->second;
-    // }
-    // _modelMap.clear();
 
     if(_instance != nullptr){
         delete _instance;
@@ -77,6 +66,16 @@ Texture *ResourceManager::loadTexture(const std::vector<std::string>& filePaths)
         _textureMap[filePaths[0]] = _texture;
     }
     return _textureMap[filePaths[0]];
+}
+
+Texture *ResourceManager::loadTexture(const std::string& filePath, unsigned char* dataIn, uint32_t widthIn, uint32_t heightIn) const{
+    if(_textureMap.find(filePath) == _textureMap.end()){
+        Log("Loading texture: %s", filePath.c_str());
+        Log("Binding texture to unit: %d", _textureMap.size());
+        Texture *_texture = new Texture(dataIn, widthIn, heightIn, _textureMap.size());
+        _textureMap[filePath] = _texture;
+    }
+    return _textureMap[filePath];
 }
 
 Shader *ResourceManager::loadShader(const std::string& vertexPath, const std::string& fragmentPath) const{
@@ -236,8 +235,10 @@ Geometry *ResourceManager::createPlaneGeometry(float width, float height) const{
     return _geometry;
 }
 
-// Material *ResourceManager::createWhiteMaterial(glm::vec3 color) const{
-//     Material *_material = new WhiteMaterial(color);
-//     _materialList.push_back(_material);
-//     return _material;
-// }
+Geometry *ResourceManager::loadGeometry(const std::vector<glm::vec3>& vertices, const std::vector<glm::vec2>& uvs, const std::vector<glm::vec3>& normals, const std::vector<unsigned int>& indices) const{
+    Geometry *_geometry = new Geometry(vertices, uvs, normals, indices);
+    
+    _geometryList.push_back(_geometry);
+
+    return _geometry;
+}
