@@ -61,6 +61,19 @@ Shader *ResourceManager::loadShader(const std::string &vertexPath,
   return _shaderMap[vertexPath + fragmentPath];
 }
 
+Shader *ResourceManager::loadShader(const std::string &vertexPath,
+                                    const std::string &geometryPath,
+                                    const std::string &fragmentPath) {
+  if (_shaderMap.find(vertexPath + geometryPath + fragmentPath) ==
+      _shaderMap.end()) {
+    Log("Loading shader: %s, %s and %s", vertexPath.c_str(),
+        geometryPath.c_str(), fragmentPath.c_str());
+    Shader *_shader = new Shader(vertexPath, geometryPath, fragmentPath);
+    _shaderMap[vertexPath + geometryPath + fragmentPath] = _shader;
+  }
+  return _shaderMap[vertexPath + geometryPath + fragmentPath];
+}
+
 // front back top bottom left right
 Geometry *ResourceManager::createBoxGeometry(float size) {
   std::vector<glm::vec3> vertices = {glm::vec3(size / 2, size / 2, size / 2),
