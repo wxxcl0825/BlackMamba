@@ -52,7 +52,7 @@ void Camera::onKey(int key, int action, int mods) {
 }
 
 void Camera::onCursor(double xpos, double ypos) {
-  if (_type == Type::Free) {
+  if (_type == Type::Free || _type == Type::FirstPersion) {
     float dx = (xpos - _currentX) * _sensitivity,
           dy = (ypos - _currentY) * _sensitivity;
     pitch(-dy);
@@ -111,7 +111,7 @@ void Camera::tick() {
 }
 
 void Camera::pitch(float angle) {
-  if (_type == Type::Free) {
+  if (_type == Type::Free || _type == Type::FirstPersion) {
     if (_pitch + angle > 89.0f || _pitch + angle < -89.0f)
       return;
     _pitch += angle;
@@ -123,7 +123,7 @@ void Camera::pitch(float angle) {
 }
 
 void Camera::yaw(float angle) {
-  if (_type == Type::Free) {
+  if (_type == Type::Free || _type == Type::FirstPersion) {
     glm::mat4 rotation =
         glm::rotate(glm::mat4(glm::one<float>()), glm::radians(angle),
                     glm::vec3(0.0f, 1.0f, 0.0f));
