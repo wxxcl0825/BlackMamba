@@ -17,6 +17,8 @@ public:
 
   GameObject *getCamera() const { return _camera; }
 
+  void setSpeed(float speed) { _speed = speed; }
+
 private:
   GameObject *_camera{nullptr};
 

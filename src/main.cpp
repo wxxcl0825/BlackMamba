@@ -12,8 +12,8 @@ GameInfo info = {.enginInfo{
                               .max_job_count = 1024,
                               .max_barrier_count = 8,
                               .max_concurrent_job_count = 4,
-                              .gravity = {0.f, 0.f, -9.8f},
-                              .update_frequency = 60.f}}
+                              .gravity = {0.f, -9.8f, 0.0f},
+                              .update_frequency = 120.f}}
     }};
 
 Game *game = nullptr;

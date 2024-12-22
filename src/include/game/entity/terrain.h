@@ -7,7 +7,7 @@ public:
   Terrain(float width, float height, int rez, int repeat, TerrainMaterial *material);
   ~Terrain();
 
-  GameObject *_getTerrain() const { return _terrain; }
+  GameObject *getTerrain() const { return _terrain; }
 
 private:
   GameObject *_terrain{nullptr};

@@ -24,9 +24,9 @@ public:
   RigidBodyComponent(JPH::EMotionType motion_type, JPH::ObjectLayer layer, uint32_t x, uint32_t y, uint32_t z)
       : _motion_type(motion_type), _layer(layer)
   { JPH::BoxShapeSettings body_shape_settings(JPH::Vec3(0.5 * x, 0.5 * y, 0.5 * z));
-    body_shape_settings.mConvexRadius = 0.01;
+    // body_shape_settings.mConvexRadius = 0.01;
     body_shape_settings.SetDensity(_density);
-    body_shape_settings.SetEmbedded();
+    // body_shape_settings.SetEmbedded();
     JPH::ShapeSettings::ShapeResult body_shape_result = body_shape_settings.Create();
     _shape = body_shape_result.Get();
     _id = Engine::getEngine()->getPhysicalSystem()->registerComponent(); };
