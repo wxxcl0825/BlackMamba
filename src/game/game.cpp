@@ -123,9 +123,11 @@ void Game::setupScene() {
   terrainMat->setHeightMap(_engine->getResourceManager()->loadTexture(
       "assets/textures/terrain/heightMap.png"));
   Terrain *terrain = new Terrain(1000.0f, 1000.0f, 20, 10, terrainMat);
-  terrain->getTerrain()->addComponent(std::make_shared<RigidBodyComponent>(JPH::EMotionType::Static, Layers::NON_MOVING, 1000.0f, 16.f, 1000.0f));
+  terrain->getTerrain()->addComponent(std::make_shared<RigidBodyComponent>(JPH::EMotionType::Static, Layers::STATIC, 1000.0f, 1.f, 1000.0f, 1.0f));
 
-  model->addComponent(std::make_shared<RigidBodyComponent>(JPH::EMotionType::Dynamic, Layers::MOVING, 1.0f, 1.0f, 1.0f));
+  model->addComponent(std::make_shared<RigidBodyComponent>(JPH::EMotionType::Dynamic, Layers::MOVING, 1, 1, 1, 1.0f));
+  model->getComponent<RigidBodyComponent>()->setForce(glm::vec3(0.0f, 9.6f, 0.0f));
+  model->getComponent<RigidBodyComponent>()->setTorque(glm::vec3(0.0f, 0.2f, 0.0f));
   _scene->addChild(model);
   _scene->addChild(terrain->getTerrain());
 }

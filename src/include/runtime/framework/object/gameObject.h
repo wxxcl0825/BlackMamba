@@ -44,6 +44,6 @@ private:
 
   MainLoop _tick{};
 
-  GameObject *_parent;
-  std::vector<GameObject *> _children;
+  GameObject *_parent{nullptr};
+  std::vector<GameObject *> _children{};
 };
