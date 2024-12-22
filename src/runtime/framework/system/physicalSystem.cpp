@@ -8,7 +8,6 @@
 #include <Jolt/Physics/Body/BodyCreationSettings.h>
 #include <cstdint>
 
-#include "glm/fwd.hpp"
 #include "runtime/framework/component/physics/rigidBody.h"
 #include "runtime/framework/component/transform/transform.h"
 
@@ -121,14 +120,14 @@ uint32_t PhysicalSystem::createRigidBody(GameObject *object) {
     JPH::Body *body = body_interface.CreateBody(settings);
 
     body_interface.AddBody(body->GetID(), JPH::EActivation::Activate);
-    object->getComponent<RigidBodyComponent>()->setRigidBodyId(body->GetID().GetIndex());
+    object->getComponent<RigidBodyComponent>()->setRigidBodyId(body->GetID().GetIndexAndSequenceNumber());
 
-    return body->GetID().GetIndex();
+    return body->GetID().GetIndexAndSequenceNumber();
 }
 
 void PhysicalSystem::destroyRigidBody(uint32_t ridigbodyId) {
     // destroy rigid body
     JPH::BodyInterface& bodyInterface = _jolt_physics._jolt_physics_system->GetBodyInterface();
     bodyInterface.RemoveBody(JPH::BodyID(ridigbodyId));
-    bodyInterface.DestroyBody(JPH::BodyID(ridigbodyId));
+    // bodyInterface.DestroyBody(JPH::BodyID(ridigbodyId));
 }

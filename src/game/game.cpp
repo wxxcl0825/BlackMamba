@@ -1,4 +1,5 @@
 #include "game/game.h"
+#include "Jolt/Physics/Body/MotionType.h"
 #include "common/macro.h"
 #include "game/entity/camera.h"
 #include "game/entity/skybox.h"
@@ -6,6 +7,7 @@
 #include "game/material/phongMaterial.h"
 #include "game/material/terrainMaterial.h"
 #include "game/utils/utils.h"
+#include "glm/fwd.hpp"
 #include "runtime/framework/component/camera/camera.h"
 #include "runtime/framework/component/light/light.h"
 #include "runtime/framework/component/transform/transform.h"
@@ -24,11 +26,11 @@ Game *Game::getGame() {
 }
 
 Game::~Game() {
-  Engine::destroyEngine();
   if (_scene) {
     delete _scene;
     _scene = nullptr;
   }
+  Engine::destroyEngine();
 }
 
 void Game::init(GameInfo info) {
@@ -67,6 +69,8 @@ void Game::setupScene() {
       std::make_shared<CameraComponent>(
           45.0f, _engine->getWindowSystem()->getAspect(), 0.1f, 1000.0f),
       Camera::Type::Free);
+  
+  camera->setSpeed(5.0f);
 
   _scene->addComponent(
       std::make_shared<LightComponent>(glm::vec3(1.0f, 1.0f, 1.0f)));
@@ -82,6 +86,8 @@ void Game::setupScene() {
 
   PhongMaterial *pongMat = new PhongMaterial();
   GameObject *model = Utils::loadModel("assets/models/bag/backpack.obj", *pongMat);
+
+  model->getComponent<TransformComponent>()->setPositionLocal(glm::vec3(0.0f, 100.0f, 0.0f));
 
   Camera *fCamera = new Camera(
       std::make_shared<CameraComponent>(
@@ -113,8 +119,9 @@ void Game::setupScene() {
   terrainMat->setHeightMap(_engine->getResourceManager()->loadTexture(
       "assets/textures/terrain/heightMap.png"));
   Terrain *terrain = new Terrain(1000.0f, 1000.0f, 20, 10, terrainMat);
+  terrain->getTerrain()->addComponent(std::make_shared<RigidBodyComponent>(JPH::EMotionType::Static, Layers::MOVING, 1000.0f, 1000.f, 16.0f));
 
   model->addComponent(std::make_shared<RigidBodyComponent>(JPH::EMotionType::Dynamic, Layers::MOVING, 1.0f, 1.0f, 1.0f));
   _scene->addChild(model);
-  _scene->addChild(terrain->_getTerrain());
+  _scene->addChild(terrain->getTerrain());
 }
