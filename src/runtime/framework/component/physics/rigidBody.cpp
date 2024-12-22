@@ -7,34 +7,34 @@
 #include "runtime/framework/component/physics/rigidBody.h"
 
 // for boxs
-RigidBodyComponent::RigidBodyComponent(JPH::EMotionType motion_type, JPH::ObjectLayer layer, uint32_t x, uint32_t y, uint32_t z, float density) 
-        : _motionType(motion_type), _layer(layer), _density(density)
+RigidBodyComponent::RigidBodyComponent(JPH::EMotionType motionType, JPH::ObjectLayer layer, uint32_t x, uint32_t y, uint32_t z, float density) 
+        : _motionType(motionType), _layer(layer), _density(density)
 { 
-    JPH::BoxShapeSettings body_shape_settings(JPH::Vec3(0.5 * x, 0.5 * y, 0.5 * z));
-    body_shape_settings.SetDensity(_density);
+    JPH::BoxShapeSettings bodyShapeSettings(JPH::Vec3(0.5 * x, 0.5 * y, 0.5 * z));
+    bodyShapeSettings.SetDensity(_density);
 
-    JPH::ShapeSettings::ShapeResult body_shape_result = body_shape_settings.Create();
-    _shape = body_shape_result.Get();
+    JPH::ShapeSettings::ShapeResult bodyShapeResult = bodyShapeSettings.Create();
+    _shape = bodyShapeResult.Get();
 }
 
 // for spheres
-RigidBodyComponent::RigidBodyComponent(JPH::EMotionType motion_type, JPH::ObjectLayer layer, float radius, float density)
-      : _motionType(motion_type), _layer(layer), _density(density)
+RigidBodyComponent::RigidBodyComponent(JPH::EMotionType motionType, JPH::ObjectLayer layer, float radius, float density)
+      : _motionType(motionType), _layer(layer), _density(density)
 { 
-    JPH::SphereShapeSettings body_shape_settings(radius);
-    body_shape_settings.SetDensity(_density);
+    JPH::SphereShapeSettings bodyShapeSettings(radius);
+    bodyShapeSettings.SetDensity(_density);
 
-    JPH::ShapeSettings::ShapeResult body_shape_result = body_shape_settings.Create();
-    _shape = body_shape_result.Get();
+    JPH::ShapeSettings::ShapeResult bodyShapeResult = bodyShapeSettings.Create();
+    _shape = bodyShapeResult.Get();
 }
 
 // for capsules
-RigidBodyComponent::RigidBodyComponent(JPH::EMotionType motion_type, JPH::ObjectLayer layer, float radius, float half_height, float density)
-      : _motionType(motion_type), _layer(layer), _density(density)
+RigidBodyComponent::RigidBodyComponent(JPH::EMotionType motionType, JPH::ObjectLayer layer, float radius, float halfHeight, float density)
+      : _motionType(motionType), _layer(layer), _density(density)
 {
-    JPH::CapsuleShapeSettings body_shape_settings(half_height,radius);
-    body_shape_settings.SetDensity(_density);
+    JPH::CapsuleShapeSettings bodyShapeSettings(halfHeight,radius);
+    bodyShapeSettings.SetDensity(_density);
 
-    JPH::ShapeSettings::ShapeResult body_shape_result = body_shape_settings.Create();
-    _shape = body_shape_result.Get();
+    JPH::ShapeSettings::ShapeResult bodyShapeResult = bodyShapeSettings.Create();
+    _shape = bodyShapeResult.Get();
 };
