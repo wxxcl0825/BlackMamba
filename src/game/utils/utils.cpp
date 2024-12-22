@@ -44,14 +44,16 @@ void parse(aiNode *ainode, const aiScene *scene, GameObject *parent,
 
   for (std::size_t i = 0; i < ainode->mNumMeshes; i++) {
     aiMesh *aimesh = scene->mMeshes[ainode->mMeshes[i]];
-    auto mesh = parseMesh(aimesh, scene, rootPath, material);
+    Material *childMat = material.clone();
+    auto mesh = parseMesh(aimesh, scene, rootPath, *childMat);
     auto _object = new GameObject();
     _object->addComponent(mesh);
     gameObject->addChild(_object);
   }
 
   for (std::size_t i = 0; i < ainode->mNumChildren; i++) {
-    parse(ainode->mChildren[i], scene, gameObject, rootPath, material);
+    Material *childMat = material.clone();
+    parse(ainode->mChildren[i], scene, gameObject, rootPath, *childMat);
   }
 }
 
@@ -126,9 +128,12 @@ Texture *parseTexture(aiMaterial *aimat, aiTextureType type,
 }
 
 glm::mat4 getMat4f(aiMatrix4x4 value) {
-  return glm::mat4(value.a1, value.a2, value.a3, value.a4, value.b1, value.b2,
-                   value.b3, value.b4, value.c1, value.c2, value.c3, value.c4,
-                   value.d1, value.d2, value.d3, value.d4);
+  return glm::mat4(
+      value.a1, value.b1, value.c1, value.d1,
+      value.a2, value.b2, value.c2, value.d2,
+      value.a3, value.b3, value.c3, value.d3,
+      value.a4, value.b4, value.c4, value.d4
+  );
 }
 
 void decompose(glm::mat4 matrix, glm::vec3 &position, glm::vec3 &eulerAngle,

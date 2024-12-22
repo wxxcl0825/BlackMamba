@@ -9,6 +9,16 @@ class Material {
 public:
   virtual ~Material() = 0;
 
+  Material() = default;
+  Material(const Material& other) {
+    _shader = other._shader;
+    _depthTest = other._depthTest;
+    _depthFunc = other._depthTest;
+    _depthWrite = other._depthWrite;
+    _zPass = other._zPass;
+  }
+
+  virtual Material *clone() const = 0;
   virtual void apply(const RenderInfo &info) = 0;
   virtual void setDiffuse(Texture *diffuse){};
 

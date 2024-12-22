@@ -6,7 +6,12 @@
 class TerrainMaterial : public Material {
 public:
   TerrainMaterial();
+  TerrainMaterial(const TerrainMaterial &other) : Material(other) {
+    _diffuse = other._diffuse;
+    _heightMap = other._heightMap;
+  }
 
+  TerrainMaterial* clone() const override { return new TerrainMaterial(*this); }
   void apply(const RenderInfo &info) override;
 
   void setDiffuse(Texture *diffuse) override { _diffuse = diffuse; }
