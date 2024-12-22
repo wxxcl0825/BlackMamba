@@ -5,16 +5,18 @@ GameInfo info = {.enginInfo{
     .windowInfo {WindowInfo {  .width = 1280, 
                               .height = 720, 
                               .title = "Project: Black Mamba"}},
-    .physicsInfo{PhysicsInfo{ .max_body_count = 10240,
-                              .body_mutex_count = 0,
-                              .max_body_pairs = 65536,
-                              .max_contact_constraints = 10240,
-                              .max_job_count = 1024,
-                              .max_barrier_count = 8,
-                              .max_concurrent_job_count = 4,
+    .physicsInfo{PhysicsInfo{ .maxBodyCount = 10240,
+                              .bodyMutexCount = 0,
+                              .maxBodyPairs = 65536,
+                              .maxContactConstraints = 10240,
+                              .maxJobCount = 1024,
+                              .maxBarrierCount = 8,
+                              .maxConcurrentJobCount = 4,
                               .gravity = {0.f, -9.8f, 0.0f},
-                              .update_frequency = 120.f}}
-    }};
+                              .updateFrequency = 60.f,
+                              .collisionSteps = 1}}
+    }
+};
 
 Game *game = nullptr;
 

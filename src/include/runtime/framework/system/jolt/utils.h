@@ -4,29 +4,20 @@
 
 #include "Jolt/Jolt.h"
 #include "Jolt/Physics/Collision/BroadPhase/BroadPhaseLayer.h"
+#include "glm/fwd.hpp"
 
 namespace Layers
 {
-    static constexpr uint8_t UNUSED1 = 0; // 4 unused values so that broadphase layers values don't match with
-                                              // object layer values (for testing purposes)
-    static constexpr uint8_t UNUSED2    = 1;
-    static constexpr uint8_t UNUSED3    = 2;
-    static constexpr uint8_t UNUSED4    = 3;
-    static constexpr uint8_t NON_MOVING = 4;
-    static constexpr uint8_t MOVING     = 5;
-    static constexpr uint8_t DEBRIS     = 6; // Example: Debris collides only with NON_MOVING
-    static constexpr uint8_t SENSOR     = 7; // Sensors only collide with MOVING objects
-    static constexpr uint8_t NUM_LAYERS = 8;
+    static constexpr uint8_t STATIC     = 0;
+    static constexpr uint8_t MOVING     = 1;
+    static constexpr uint8_t NUM_LAYERS = 2;
 };
 
 namespace BroadPhaseLayers
 {
     static constexpr JPH::BroadPhaseLayer NON_MOVING(0);
     static constexpr JPH::BroadPhaseLayer MOVING(1);
-    static constexpr JPH::BroadPhaseLayer DEBRIS(2);
-    static constexpr JPH::BroadPhaseLayer SENSOR(3);
-    static constexpr JPH::BroadPhaseLayer UNUSED(4);
-    static constexpr uint32_t             NUM_LAYERS(5);
+    static constexpr uint32_t             NUM_LAYERS(2);
 };
 
 class BPLayerInterfaceImpl final : public JPH::BroadPhaseLayerInterface
@@ -36,7 +27,7 @@ public:
 
     uint32_t GetNumBroadPhaseLayers() const override { return BroadPhaseLayers::NUM_LAYERS; }
 
-    const char* GetBroadPhaseLayerName(JPH::BroadPhaseLayer inLayer) const override {return "BPLayerInterfaceImpl";}
+    const char* GetBroadPhaseLayerName(JPH::BroadPhaseLayer inLayer) const override;
 
     JPH::BroadPhaseLayer GetBroadPhaseLayer(JPH::ObjectLayer inLayer) const override
     {
@@ -64,13 +55,23 @@ inline JPH::Quat toQuat(glm::vec4 q) { return {q.x, q.y, q.z, q.w}; }
 inline glm::vec4 toQuat(JPH::Quat q) { return {q.GetX(), q.GetY(), q.GetZ(), q.GetW()}; }
 
 inline glm::vec4 toRotation(glm::vec3 angle){
-    return {cos(angle.x / 2) * cos(angle.y / 2) * cos(angle.z / 2) + sin(angle.x / 2) * sin(angle.y / 2) * sin(angle.z / 2),
-            sin(angle.x / 2) * cos(angle.y / 2) * cos(angle.z / 2) - cos(angle.x / 2) * sin(angle.y / 2) * sin(angle.z / 2),
-            cos(angle.x / 2) * sin(angle.y / 2) * cos(angle.z / 2) + sin(angle.x / 2) * cos(angle.y / 2) * sin(angle.z / 2),
-            cos(angle.x / 2) * cos(angle.y / 2) * sin(angle.z / 2) - sin(angle.x / 2) * sin(angle.y / 2) * cos(angle.z / 2)};
+    glm::vec3 angle_rad = glm::radians(angle);
+    return {sin(angle_rad.x / 2) * cos(angle_rad.y / 2) * cos(angle_rad.z / 2) - cos(angle_rad.x / 2) * sin(angle_rad.y / 2) * sin(angle_rad.z / 2),
+            cos(angle_rad.x / 2) * sin(angle_rad.y / 2) * cos(angle_rad.z / 2) + sin(angle_rad.x / 2) * cos(angle_rad.y / 2) * sin(angle_rad.z / 2),
+            cos(angle_rad.x / 2) * cos(angle_rad.y / 2) * sin(angle_rad.z / 2) - sin(angle_rad.x / 2) * sin(angle_rad.y / 2) * cos(angle_rad.z / 2),
+            cos(angle_rad.x / 2) * cos(angle_rad.y / 2) * cos(angle_rad.z / 2) + sin(angle_rad.x / 2) * sin(angle_rad.y / 2) * sin(angle_rad.z / 2)};
 }
 inline glm::vec3 toEuler(glm::vec4 q){
-    return {atan2(2 * (q.w * q.x + q.y * q.z), 1 - 2 * (q.x * q.x + q.y * q.y)),
-            asin(2 * (q.w * q.y - q.z * q.x)),
-            atan2(2 * (q.w * q.z + q.x * q.y), 1 - 2 * (q.y * q.y + q.z * q.z))};
+    float pitch = asin(2 * (q.w * q.y - q.z * q.x));
+
+    float yaw, roll;
+    if (abs(pitch) < glm::pi<float>() / 2) {
+        yaw = atan2(2 * (q.w * q.z + q.x * q.y), 1 - 2 * (q.y * q.y + q.z * q.z));
+        roll = atan2(2 * (q.w * q.x + q.y * q.z), 1 - 2 * (q.x * q.x + q.y * q.y));
+    } else {
+        yaw = atan2(2 * (q.w * q.z - q.x * q.y), 1 - 2 * (q.x * q.x + q.z * q.z));
+        roll = 0;
+    }
+
+    return glm::degrees(glm::vec3(roll, pitch, yaw));
 }
