@@ -77,7 +77,7 @@ void PhysicalSystem::dispatch(GameObject *object) {
             JPH::Quat rotation;
 
             body_interface.GetPositionAndRotation(JPH::BodyID(object->getComponent<RigidBodyComponent>()->getRigidBodyId()), position, rotation);
-            object->getComponent<TransformComponent>()->setPosition(toVec3(position));
+            object->getComponent<TransformComponent>()->setPositionLocal(glm::inverse(object->getComponent<TransformComponent>()->getParentModel()) * glm::vec4(toVec3(position), 1.0));
             object->getComponent<TransformComponent>()->setAngle(toEuler(toQuat(rotation)));
 
             // apply force
@@ -106,11 +106,11 @@ void PhysicalSystem::clear() {
 }
 
 uint32_t PhysicalSystem::createRigidBody(GameObject *object) {
-    glm::vec3 position = object->getComponent<TransformComponent>()->getPosition();
+    glm::vec3 position = object->getComponent<TransformComponent>()->getPositionWorld();
     glm::vec3 scale = {1.0f, 1.0f, 1.0f};
     glm::vec3 angle = object->getComponent<TransformComponent>()->getAngle();
     glm::vec4 rotation = toRotation(angle);
-            
+
     JPH::BodyInterface& body_interface = _jolt_physics._jolt_physics_system->GetBodyInterface();
 
     JPH::ShapeRefC shape = object->getComponent<RigidBodyComponent>()->getShape();
