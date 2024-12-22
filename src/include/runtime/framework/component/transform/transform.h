@@ -9,9 +9,10 @@ public:
   ~TransformComponent() override{};
 
   glm::mat4 getModel() const;
-  glm::vec3 getPosition() const { return _position; }
+  glm::vec3 getPositionLocal() const { return _position; }
+  glm::vec3 getPositionWorld() const { return getModel() * glm::vec4(_position, 1.0f); }
 
-  void setPosition(const glm::vec3 &position) { _position = position; }
+  void setPositionLocal(const glm::vec3 &position) { _position = position; }
   void setAngle(const glm::vec3 &angle) { _angle = angle; }
   void setScale(const glm::vec3 &scale) { _scale = scale; }
   void setParentModel(const glm::mat4 &model) { _parentModel = model; }

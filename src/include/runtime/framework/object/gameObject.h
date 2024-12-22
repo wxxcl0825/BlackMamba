@@ -1,11 +1,14 @@
 #pragma once
 
 #include "runtime/framework/component/component.h"
+#include <functional>
 #include <memory>
 #include <vector>
 
 class GameObject {
 public:
+  using MainLoop = std::function<void()>;
+
   GameObject();
   ~GameObject();
 
@@ -22,6 +25,14 @@ public:
 
   void addChild(GameObject *object);
   void removeChild(GameObject *object);
+
+  void tick() {
+    if (_tick)
+      _tick();
+  }
+
+  void setTick(const MainLoop &tick) { _tick = tick; }
+
   void addComponent(std::shared_ptr<Component> component);
   void setComponent(std::shared_ptr<Component> component);
 
@@ -30,6 +41,8 @@ public:
 
 private:
   std::vector<std::shared_ptr<Component>> _components{};
+
+  MainLoop _tick{};
 
   GameObject *_parent;
   std::vector<GameObject *> _children;
