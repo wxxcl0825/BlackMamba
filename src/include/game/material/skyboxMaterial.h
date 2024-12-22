@@ -7,10 +7,14 @@
 class SkyboxMaterial : public Material {
 public:
   SkyboxMaterial();
+  SkyboxMaterial(const SkyboxMaterial &other) : Material(other) {
+    _diffuse = other._diffuse;
+  }
 
+  SkyboxMaterial* clone() const override { return new SkyboxMaterial(*this); }
   void apply(const RenderInfo &info) override;
 
-  void setDiffuse(Texture *diffuse) { _diffuse = diffuse; }
+  void setDiffuse(Texture *diffuse) override { _diffuse = diffuse; }
 
 private:
   Texture *_diffuse{nullptr};
