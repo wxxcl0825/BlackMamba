@@ -8,6 +8,7 @@
 #include "game/utils/utils.h"
 #include "runtime/framework/component/camera/camera.h"
 #include "runtime/framework/component/light/light.h"
+#include "runtime/framework/component/transform/transform.h"
 #include "runtime/framework/object/gameObject.h"
 #include <memory>
 
@@ -37,7 +38,7 @@ void Game::init(GameInfo info) {
   bind(KeyBoard{}, [](int key, int action, int mods) {
     if (key == GLFW_KEY_ESCAPE)
       Engine::getEngine()->stop();
-    if (key == GLFW_KEY_SPACE) {
+    if (key == GLFW_KEY_SPACE && action == GLFW_PRESS) {
       if (Engine::getEngine()->getState() == Engine::State::RUNNING)
         Engine::getEngine()->pause();
       else
@@ -80,6 +81,32 @@ void Game::setupScene() {
   PhongMaterial *pongMat = new PhongMaterial();
   GameObject *model = loadModel("assets/models/bag/backpack.obj", *pongMat);
 
+  Camera *fCamera = new Camera(
+      std::make_shared<CameraComponent>(
+          45.0f, _engine->getWindowSystem()->getAspect(), 0.1f, 1000.0f),
+      Camera::Type::Free);
+
+  fCamera->disable();
+  
+  model->addChild(fCamera->getCamera());
+
+  Game::getGame()->bind(KeyBoard{}, [model, camera, fCamera, skybox](int key, int action, int mods){
+    if (key == GLFW_KEY_2 && action == GLFW_PRESS) {
+      camera->disable();
+      fCamera->enable();
+      skybox->bind(fCamera->getCamera());
+    }
+    if (key == GLFW_KEY_1 && action == GLFW_PRESS)  {
+      fCamera->disable();
+      camera->enable();
+      skybox->bind(camera->getCamera());
+    }
+  });
+
+  _engine->setMainLoop([model]{
+    model->getComponent<TransformComponent>()->setPosition(glm::vec3(0.0f, 0.0f, glfwGetTime()));
+  });
+
   TerrainMaterial *terrainMat = new TerrainMaterial();
   terrainMat->setDiffuse(_engine->getResourceManager()->loadTexture(
       "assets/textures/terrain/diffuse.jpg"));
@@ -88,6 +115,5 @@ void Game::setupScene() {
   Terrain *terrain = new Terrain(1000.0f, 1000.0f, 20, 10, terrainMat);
 
   _scene->addChild(model);
-  _scene->addChild(skybox->getSkybox());
   _scene->addChild(terrain->_getTerrain());
 }
