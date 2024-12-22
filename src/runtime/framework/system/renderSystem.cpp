@@ -37,7 +37,7 @@ void RenderSystem::tick() {
     Err("No main camera found!");
   std::shared_ptr<CameraComponent> mainCameraComp = mainCamera->getComponent<CameraComponent>();
   std::shared_ptr<TransformComponent> mainCameraTransfrom = mainCamera->getComponent<TransformComponent>();
-  glm::vec3 mainCameraPosition =  mainCameraTransfrom->getModel() * glm::vec4(mainCameraTransfrom->getPosition(), 1.0f);
+  glm::vec3 mainCameraPosition =  mainCameraTransfrom->getPositionWorld();
   CameraInfo cameraInfo{
       .position = mainCameraPosition,
       .view = mainCameraComp->getView(mainCameraPosition),
@@ -55,7 +55,7 @@ void RenderSystem::tick() {
       break;
     case LightComponent::Type::Point:
       lightInfo.pointLights.emplace_back(PointLight{
-          .position = light->getComponent<TransformComponent>()->getPosition(),
+          .position = light->getComponent<TransformComponent>()->getPositionWorld(),
           .color = lightComp->getColor(),
           .specularIntensity = lightComp->getSpecularIntensity(),
           .k2 = lightComp->getK2(),
@@ -64,7 +64,7 @@ void RenderSystem::tick() {
       break;
     case LightComponent::Type::Spot:
       lightInfo.spotLights.emplace_back(
-          SpotLight{.position = light->getComponent<TransformComponent>()->getPosition(),
+          SpotLight{.position = light->getComponent<TransformComponent>()->getPositionWorld(),
                     .color = lightComp->getColor(),
                     .direction = lightComp->getDirection(),
                     .specularIntensity = lightComp->getSpecularIntensity(),
