@@ -1,7 +1,10 @@
 #include "game/entity/camera.h"
 #include "game/game.h"
+#include "game/utils/utils.h"
+#include "runtime/framework/component/transform/transform.h"
 
-Camera::Camera(std::shared_ptr<CameraComponent> cameraComp, Type type) : _type(type) {
+Camera::Camera(std::shared_ptr<CameraComponent> cameraComp, Type type)
+    : _type(type) {
   _camera = new GameObject();
   _transformComp = _camera->getComponent<TransformComponent>();
   _cameraComp = cameraComp;
@@ -21,6 +24,7 @@ Camera::Camera(std::shared_ptr<CameraComponent> cameraComp, Type type) : _type(t
     onCursor(xpos, ypos);
     _currentX = xpos, _currentY = ypos;
   });
+  _camera->setTick([this]() { tick(); });
 }
 
 Camera::~Camera() {
@@ -28,6 +32,16 @@ Camera::~Camera() {
     delete _camera;
     _camera = nullptr;
   }
+}
+
+void Camera::enable() {
+  if (_camera)
+    _camera->getComponent<CameraComponent>()->pick();
+}
+
+void Camera::disable() {
+  if (_camera)
+    _camera->getComponent<CameraComponent>()->put();
 }
 
 void Camera::onKey(int key, int action, int mods) {
@@ -79,8 +93,19 @@ void Camera::updatePosition() {
       direction += right;
     if (glm::length(direction)) {
       direction = glm::normalize(direction);
-      _transformComp->setPosition(_transformComp->getPosition() +
+      _transformComp->setPositionLocal(_transformComp->getPositionLocal() +
                                   direction * _speed);
+    }
+  }
+}
+
+void Camera::tick() {
+  if (_type == Type::FirstPersion) {
+    if (_camera && _camera->getParent()) {
+      glm::mat4 model = _camera->getParent()->getComponent<TransformComponent>()->getModel();
+      glm::vec3 pos, euler, scl;
+      Utils::decompose(model, pos, euler, scl);
+      _camera->getComponent<TransformComponent>()->setAngle(euler);
     }
   }
 }

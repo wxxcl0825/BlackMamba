@@ -35,7 +35,6 @@ void GameObject::removeChild(GameObject *object) {
   }
   _children.erase(child);
   object->_parent = nullptr;
-  delete object;
 }
 
 void GameObject::addComponent(std::shared_ptr<Component> component) {
