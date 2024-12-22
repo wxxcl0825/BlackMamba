@@ -87,7 +87,7 @@ void Game::setupScene() {
   PhongMaterial *pongMat = new PhongMaterial();
   GameObject *model = Utils::loadModel("assets/models/bag/backpack.obj", *pongMat);
 
-  model->getComponent<TransformComponent>()->setPositionLocal(glm::vec3(0.0f, 100.0f, 0.0f));
+  model->getComponent<TransformComponent>()->setPositionLocal(glm::vec3(0.0f, 40.0f, 0.0f));
 
   Camera *fCamera = new Camera(
       std::make_shared<CameraComponent>(
@@ -119,7 +119,7 @@ void Game::setupScene() {
   terrainMat->setHeightMap(_engine->getResourceManager()->loadTexture(
       "assets/textures/terrain/heightMap.png"));
   Terrain *terrain = new Terrain(1000.0f, 1000.0f, 20, 10, terrainMat);
-  terrain->getTerrain()->addComponent(std::make_shared<RigidBodyComponent>(JPH::EMotionType::Static, Layers::MOVING, 1000.0f, 1000.f, 16.0f));
+  terrain->getTerrain()->addComponent(std::make_shared<RigidBodyComponent>(JPH::EMotionType::Static, Layers::NON_MOVING, 1000.0f, 16.f, 1000.0f));
 
   model->addComponent(std::make_shared<RigidBodyComponent>(JPH::EMotionType::Dynamic, Layers::MOVING, 1.0f, 1.0f, 1.0f));
   _scene->addChild(model);
