@@ -22,8 +22,7 @@ void RenderSystem::dispatch(GameObject *object) {
 }
 
 void RenderSystem::tick() {
-  glEnable(GL_DEPTH_TEST);
-  glDepthFunc(GL_LEQUAL);
+  initState();
   glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
   GameObject *mainCamera = nullptr;
@@ -35,17 +34,19 @@ void RenderSystem::tick() {
   }
   if (!mainCamera)
     Err("No main camera found!");
-  std::shared_ptr<CameraComponent> mainCameraComp = mainCamera->getComponent<CameraComponent>();
-  std::shared_ptr<TransformComponent> mainCameraTransfrom = mainCamera->getComponent<TransformComponent>();
-  glm::vec3 mainCameraPosition =  mainCameraTransfrom->getPositionWorld();
-  CameraInfo cameraInfo{
-      .position = mainCameraPosition,
-      .view = mainCameraComp->getView(mainCameraPosition),
-      .project = mainCameraComp->getProjection()};
+  std::shared_ptr<CameraComponent> mainCameraComp =
+      mainCamera->getComponent<CameraComponent>();
+  std::shared_ptr<TransformComponent> mainCameraTransfrom =
+      mainCamera->getComponent<TransformComponent>();
+  glm::vec3 mainCameraPosition = mainCameraTransfrom->getPositionWorld();
+  CameraInfo cameraInfo{.position = mainCameraPosition,
+                        .view = mainCameraComp->getView(mainCameraPosition),
+                        .project = mainCameraComp->getProjection()};
 
   LightInfo lightInfo;
   for (auto light : _lights) {
-    std::shared_ptr<LightComponent> lightComp = light->getComponent<LightComponent>();
+    std::shared_ptr<LightComponent> lightComp =
+        light->getComponent<LightComponent>();
     switch (lightComp->getType()) {
     case LightComponent::Type::Directional:
       lightInfo.directionalLights.emplace_back(DirectionalLight{
@@ -55,7 +56,8 @@ void RenderSystem::tick() {
       break;
     case LightComponent::Type::Point:
       lightInfo.pointLights.emplace_back(PointLight{
-          .position = light->getComponent<TransformComponent>()->getPositionWorld(),
+          .position =
+              light->getComponent<TransformComponent>()->getPositionWorld(),
           .color = lightComp->getColor(),
           .specularIntensity = lightComp->getSpecularIntensity(),
           .k2 = lightComp->getK2(),
@@ -63,13 +65,14 @@ void RenderSystem::tick() {
           .kc = lightComp->getKc()});
       break;
     case LightComponent::Type::Spot:
-      lightInfo.spotLights.emplace_back(
-          SpotLight{.position = light->getComponent<TransformComponent>()->getPositionWorld(),
-                    .color = lightComp->getColor(),
-                    .direction = lightComp->getDirection(),
-                    .specularIntensity = lightComp->getSpecularIntensity(),
-                    .inner = lightComp->getInner(),
-                    .outer = lightComp->getOuter()});
+      lightInfo.spotLights.emplace_back(SpotLight{
+          .position =
+              light->getComponent<TransformComponent>()->getPositionWorld(),
+          .color = lightComp->getColor(),
+          .direction = lightComp->getDirection(),
+          .specularIntensity = lightComp->getSpecularIntensity(),
+          .inner = lightComp->getInner(),
+          .outer = lightComp->getOuter()});
       break;
     case LightComponent::Type::Ambient:
       lightInfo.ambientLights.emplace_back(
@@ -82,10 +85,16 @@ void RenderSystem::tick() {
   }
 
   for (auto mesh : _meshes) {
-    std::shared_ptr<MeshComponent> meshComp = mesh->getComponent<MeshComponent>();
+    std::shared_ptr<MeshComponent> meshComp =
+        mesh->getComponent<MeshComponent>();
     Geometry *geometry = meshComp->getGeometry();
     Material *material = meshComp->getMaterial();
-    ModelInfo modelInfo{.model = mesh->getComponent<TransformComponent>()->getModel()};
+    ModelInfo modelInfo{
+        .model = mesh->getComponent<TransformComponent>()->getModel()};
+
+    setDepthState(material);
+    setBlendState(material);
+
     material->apply(RenderInfo{.modelInfo = modelInfo,
                                .cameraInfo = cameraInfo,
                                .lightInfo = lightInfo});
@@ -94,9 +103,9 @@ void RenderSystem::tick() {
       int rez = mesh->getComponent<TerrainComponent>()->getRez();
       GL_CALL(glPatchParameteri(GL_PATCH_VERTICES, 4));
       GL_CALL(glDrawArrays(GL_PATCHES, 0, 4 * rez * rez));
-    } else { 
+    } else {
       GL_CALL(glDrawElements(GL_TRIANGLES, geometry->getNumIndices(),
-                           GL_UNSIGNED_INT, 0));
+                             GL_UNSIGNED_INT, 0));
     }
     material->finish();
   }
@@ -107,4 +116,32 @@ void RenderSystem::clear() {
   _meshes.clear();
   _lights.clear();
   _cameras.clear();
+}
+
+void RenderSystem::initState() {
+  glEnable(GL_DEPTH_TEST);
+  glDepthFunc(GL_LESS);
+  glDepthMask(GL_TRUE);
+  glDisable(GL_BLEND);
+}
+
+void RenderSystem::setDepthState(Material *material) {
+  if (material->getDepthTest()) {
+    glEnable(GL_DEPTH_TEST);
+    glDepthFunc(material->getDepthFunc());
+  } else
+    glDisable(GL_DEPTH_TEST);
+
+  if (material->getDepthWrite())
+    glDepthMask(GL_TRUE);
+  else
+    glDepthMask(GL_FALSE);
+}
+
+void RenderSystem::setBlendState(Material *material) {
+  if (material->getBlend()) {
+    glEnable(GL_BLEND);
+    glBlendFunc(material->getSFactor(), material->getSFactor());
+  } else
+    glDisable(GL_BLEND);
 }
