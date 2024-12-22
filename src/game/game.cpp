@@ -105,9 +105,7 @@ void Game::setupScene() {
     }
   });
 
-  _engine->setMainLoop([model]{
-    model->getComponent<TransformComponent>()->setPositionLocal(glm::vec3(0.0f, 0.0f, -glfwGetTime()));
-  });
+  _engine->setMainLoop([]{});
 
   TerrainMaterial *terrainMat = new TerrainMaterial();
   terrainMat->setDiffuse(_engine->getResourceManager()->loadTexture(
