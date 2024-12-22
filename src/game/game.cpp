@@ -7,6 +7,8 @@
 #include "runtime/framework/component/camera/camera.h"
 #include "runtime/framework/component/light/light.h"
 #include "runtime/framework/object/gameObject.h"
+#include "runtime/framework/system/jolt/utils.h"
+#include "runtime/framework/component/physics/rigidBody.h"
 #include <memory>
 
 Game *Game::_game = nullptr;
@@ -77,6 +79,7 @@ void Game::setupScene() {
 
   PhongMaterial *material = new PhongMaterial();
   GameObject *model = loadModel("assets/models/bag/backpack.obj", *material);
+  model->addComponent(std::make_shared<RigidBodyComponent>(JPH::EMotionType::Dynamic, Layers::MOVING, 1.0f, 1.0f, 1.0f));
   _scene->addChild(model);
   _scene->addChild(skybox->getSkybox());
 }
