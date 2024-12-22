@@ -92,5 +92,4 @@ void Engine::tick(){
   
   _renderSystem->tick(); 
   _mainloop();
-
 }
