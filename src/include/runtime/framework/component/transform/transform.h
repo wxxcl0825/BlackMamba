@@ -10,6 +10,8 @@ public:
 
   glm::mat4 getModel() const;
   glm::vec3 getPosition() const { return _position; }
+  glm::vec3 getAngle() const { return _angle; }
+  glm::vec3 getScale() const { return _scale; }
 
   void setPosition(const glm::vec3 &position) { _position = position; }
   void setAngle(const glm::vec3 &angle) { _angle = angle; }

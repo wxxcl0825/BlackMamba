@@ -21,6 +21,7 @@ Engine::Engine() {
   _windowSystem = new WindowSystem();
   _renderSystem = new RenderSystem();
   _resourceManger = new ResourceManager();
+  _physicalSystem = new PhysicalSystem();
 }
 
 Engine::~Engine() {
@@ -36,12 +37,17 @@ Engine::~Engine() {
     delete _resourceManger;
     _resourceManger = nullptr;
   }
+  if(_physicalSystem){
+    delete _physicalSystem;
+    _physicalSystem = nullptr;
+  }
 }
 
 bool Engine::init(EngineInfo info) {
   bool succ = true;
 
   succ &= _windowSystem->init(info.windowInfo);
+  succ &= _physicalSystem->init(info.physicsInfo);
 
   return succ;
 }
@@ -70,6 +76,7 @@ void Engine::stop() { _state = State::STOP; }
 void Engine::dispatch(GameObject *root) {
   if (root) {
     _renderSystem->dispatch(root);
+    _physicalSystem->dispatch(root);
     glm::mat4 rootModel = root->getComponent<TransformComponent>()->getModel();
     for (auto child : root->getChildren()) {
       child->getComponent<TransformComponent>()->setParentModel(rootModel);
@@ -78,4 +85,8 @@ void Engine::dispatch(GameObject *root) {
   }
 }
 
-void Engine::tick() { _renderSystem->tick(); }
+void Engine::tick(){
+  float dt = 1.0f;
+  _physicalSystem->tick(dt);
+  _renderSystem->tick(); 
+}

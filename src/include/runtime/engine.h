@@ -1,12 +1,15 @@
 #pragma once
 
+#include "framework/system/physicalSystem.h"
 #include "runtime/framework/object/gameObject.h"
 #include "runtime/framework/system/renderSystem.h"
 #include "runtime/framework/system/windowSystem.h"
+#include "runtime/framework/system/physicalSystem.h"
 #include "runtime/resource/resourceManager.h"
 
 struct EngineInfo {
   WindowInfo windowInfo;
+  PhysicsInfo physicsInfo;
 };
 
 class Engine {
@@ -25,6 +28,7 @@ public:
   State getState() const { return _state; }
   WindowSystem *getWindowSystem() const { return _windowSystem; }
   ResourceManager *getResourceManager() const { return _resourceManger; }
+  PhysicalSystem *getPhysicalSystem() const { return _physicalSystem; }
 
   void setScene(GameObject *scene) { _scene = scene; }
 
@@ -36,6 +40,7 @@ private:
   WindowSystem *_windowSystem;
   RenderSystem *_renderSystem;
   ResourceManager *_resourceManger;
+  PhysicalSystem *_physicalSystem;
 
   GameObject *_scene;
 
