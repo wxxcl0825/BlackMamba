@@ -12,6 +12,9 @@ public:
   Camera(std::shared_ptr<CameraComponent> cameraComp, Type type);
   ~Camera();
 
+  void enable();
+  void disable();
+
   GameObject *getCamera() const { return _camera; }
 
 private:

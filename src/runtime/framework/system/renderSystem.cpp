@@ -37,9 +37,10 @@ void RenderSystem::tick() {
     Err("No main camera found!");
   std::shared_ptr<CameraComponent> mainCameraComp = mainCamera->getComponent<CameraComponent>();
   std::shared_ptr<TransformComponent> mainCameraTransfrom = mainCamera->getComponent<TransformComponent>();
+  glm::vec3 mainCameraPosition =  mainCameraTransfrom->getModel() * glm::vec4(mainCameraTransfrom->getPosition(), 1.0f);
   CameraInfo cameraInfo{
-      .position = mainCameraTransfrom->getPosition(),
-      .view = mainCameraComp->getView(mainCameraTransfrom->getPosition()),
+      .position = mainCameraPosition,
+      .view = mainCameraComp->getView(mainCameraPosition),
       .project = mainCameraComp->getProjection()};
 
   LightInfo lightInfo;

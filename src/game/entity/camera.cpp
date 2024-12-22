@@ -1,7 +1,8 @@
 #include "game/entity/camera.h"
 #include "game/game.h"
 
-Camera::Camera(std::shared_ptr<CameraComponent> cameraComp, Type type) : _type(type) {
+Camera::Camera(std::shared_ptr<CameraComponent> cameraComp, Type type)
+    : _type(type) {
   _camera = new GameObject();
   _transformComp = _camera->getComponent<TransformComponent>();
   _cameraComp = cameraComp;
@@ -28,6 +29,16 @@ Camera::~Camera() {
     delete _camera;
     _camera = nullptr;
   }
+}
+
+void Camera::enable() {
+  if (_camera)
+    _camera->getComponent<CameraComponent>()->pick();
+}
+
+void Camera::disable() {
+  if (_camera)
+    _camera->getComponent<CameraComponent>()->put();
 }
 
 void Camera::onKey(int key, int action, int mods) {
