@@ -12,14 +12,14 @@
 
 class RigidBodyComponent : public Component {
 public:
-  RigidBodyComponent(JPH::EMotionType motion_type, JPH::ObjectLayer layer, JPH::ShapeRefC shape)
-      : _motionType(motion_type), _layer(layer), _shape(shape) {};
+  RigidBodyComponent(JPH::EMotionType motionType, JPH::ObjectLayer layer, JPH::ShapeRefC shape)
+      : _motionType(motionType), _layer(layer), _shape(shape) {};
   
-  RigidBodyComponent(JPH::EMotionType motion_type, JPH::ObjectLayer layer, uint32_t x, uint32_t y, uint32_t z, float density);
+  RigidBodyComponent(JPH::EMotionType motionType, JPH::ObjectLayer layer, uint32_t x, uint32_t y, uint32_t z, float density);
 
-  RigidBodyComponent(JPH::EMotionType motion_type, JPH::ObjectLayer layer, float radius, float density);
+  RigidBodyComponent(JPH::EMotionType motionType, JPH::ObjectLayer layer, float radius, float density);
 
-  RigidBodyComponent(JPH::EMotionType motion_type, JPH::ObjectLayer layer, float radius, float half_height, float density);
+  RigidBodyComponent(JPH::EMotionType motionType, JPH::ObjectLayer layer, float radius, float halfHeight, float density);
 
   ~RigidBodyComponent() override{Engine::getEngine()->getPhysicalSystem()->unregisterComponent(_id);};
 

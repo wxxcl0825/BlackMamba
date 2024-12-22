@@ -61,30 +61,30 @@ void PhysicalSystem::dispatch(GameObject *object) {
         }
         else if(_rigidBody->getMotionType() == JPH::EMotionType::Dynamic) {
             // update rigid body
-            JPH::BodyInterface& body_interface = _joltPhysics._joltPhysicsSystem->GetBodyInterface();
+            JPH::BodyInterface& bodyInterface = _joltPhysics._joltPhysicsSystem->GetBodyInterface();
             JPH::Vec3 position;
             JPH::Quat rotation;
 
-            body_interface.GetPositionAndRotation(JPH::BodyID(_rigidBody->getId()), position, rotation);
+            bodyInterface.GetPositionAndRotation(JPH::BodyID(_rigidBody->getId()), position, rotation);
             _transform->setPositionLocal(glm::inverse(_transform->getParentModel()) * glm::vec4(toVec3(position), 1.0));
             _transform->setAngle(toEuler(toQuat(rotation)));
 
             // apply force
             glm::vec3 force = _rigidBody->getForce();
             glm::vec3 torque = _rigidBody->getTorque();
-            body_interface.AddForce(JPH::BodyID(_rigidBody->getId()), toVec3(force), toVec3(glm::vec3(0.0f, 0.0f, 0.0f)));
-            body_interface.AddTorque(JPH::BodyID(_rigidBody->getId()), toVec3(torque));
+            bodyInterface.AddForce(JPH::BodyID(_rigidBody->getId()), toVec3(force), toVec3(glm::vec3(0.0f, 0.0f, 0.0f)));
+            bodyInterface.AddTorque(JPH::BodyID(_rigidBody->getId()), toVec3(torque));
 
             // limit speed
-            JPH::Vec3 linear_velocity = body_interface.GetLinearVelocity(JPH::BodyID(_rigidBody->getId()));
-            JPH::Vec3 angular_velocity = body_interface.GetAngularVelocity(JPH::BodyID(_rigidBody->getId()));
+            JPH::Vec3 linearVelocity = bodyInterface.GetLinearVelocity(JPH::BodyID(_rigidBody->getId()));
+            JPH::Vec3 angularVelocity = bodyInterface.GetAngularVelocity(JPH::BodyID(_rigidBody->getId()));
 
-            if(linear_velocity.Length() > _rigidBody->getMaxLinearVelocity()) {
-                body_interface.SetLinearVelocity(JPH::BodyID(_rigidBody->getId()), linear_velocity.Normalized() * _rigidBody->getMaxLinearVelocity());
+            if(linearVelocity.Length() > _rigidBody->getMaxLinearVelocity()) {
+                bodyInterface.SetLinearVelocity(JPH::BodyID(_rigidBody->getId()), linearVelocity.Normalized() * _rigidBody->getMaxLinearVelocity());
             }
 
-            if(angular_velocity.Length() > _rigidBody->getMaxAngularVelocity()) {
-                body_interface.SetAngularVelocity(JPH::BodyID(_rigidBody->getId()), angular_velocity.Normalized() * _rigidBody->getMaxAngularVelocity());
+            if(angularVelocity.Length() > _rigidBody->getMaxAngularVelocity()) {
+                bodyInterface.SetAngularVelocity(JPH::BodyID(_rigidBody->getId()), angularVelocity.Normalized() * _rigidBody->getMaxAngularVelocity());
             }
         }
     }
@@ -113,22 +113,22 @@ uint32_t PhysicalSystem::createRigidBody(GameObject *object) {
     glm::vec3 scale     = {1.0f, 1.0f, 1.0f};
     glm::vec3 angle     = _transform->getAngle();
 
-    JPH::ShapeRefC   shape       = _rigidBody->getShape();
-    JPH::EMotionType motion_type = _rigidBody->getMotionType();
-    JPH::ObjectLayer layer       = _rigidBody->getLayer();
+    JPH::ShapeRefC   shape      = _rigidBody->getShape();
+    JPH::EMotionType motionType = _rigidBody->getMotionType();
+    JPH::ObjectLayer layer      = _rigidBody->getLayer();
 
-    JPH::BodyCreationSettings settings(shape, toVec3(position), toQuat(toRotation(angle)), motion_type, layer);
+    JPH::BodyCreationSettings settings(shape, toVec3(position), toQuat(toRotation(angle)), motionType, layer);
     settings.mApplyGyroscopicForce  = true;
     settings.mMaxLinearVelocity     = 10000.0;
     // settings.mLinearDamping         = 0.0;
     settings.mAngularDamping        = 0.0;
 
-    JPH::BodyInterface& body_interface = _joltPhysics._joltPhysicsSystem->GetBodyInterface();
-    JPH::Body *body = body_interface.CreateBody(settings);
+    JPH::BodyInterface& bodyInterface = _joltPhysics._joltPhysicsSystem->GetBodyInterface();
+    JPH::Body *body = bodyInterface.CreateBody(settings);
     // body->SetFriction(0.5);
     // form 0.0 to 1.0
     // body->SetRestitution(0.3f);
-    body_interface.AddBody(body->GetID(), JPH::EActivation::Activate);
+    bodyInterface.AddBody(body->GetID(), JPH::EActivation::Activate);
 
     uint32_t id = body->GetID().GetIndexAndSequenceNumber();
     _rigidBody->setId(id);
