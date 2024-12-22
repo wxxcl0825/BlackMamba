@@ -2,10 +2,13 @@
 #include "common/macro.h"
 #include "game/entity/camera.h"
 #include "game/entity/skybox.h"
+#include "game/entity/terrain.h"
 #include "game/material/phongMaterial.h"
+#include "game/material/terrainMaterial.h"
 #include "game/utils/utils.h"
 #include "runtime/framework/component/camera/camera.h"
 #include "runtime/framework/component/light/light.h"
+#include "runtime/framework/component/transform/transform.h"
 #include "runtime/framework/object/gameObject.h"
 #include "runtime/framework/system/jolt/utils.h"
 #include "runtime/framework/component/physics/rigidBody.h"
@@ -37,7 +40,7 @@ void Game::init(GameInfo info) {
   bind(KeyBoard{}, [](int key, int action, int mods) {
     if (key == GLFW_KEY_ESCAPE)
       Engine::getEngine()->stop();
-    if (key == GLFW_KEY_SPACE) {
+    if (key == GLFW_KEY_SPACE && action == GLFW_PRESS) {
       if (Engine::getEngine()->getState() == Engine::State::RUNNING)
         Engine::getEngine()->pause();
       else
@@ -77,9 +80,43 @@ void Game::setupScene() {
 
   _scene->addChild(camera->getCamera());
 
-  PhongMaterial *material = new PhongMaterial();
-  GameObject *model = loadModel("assets/models/bag/backpack.obj", *material);
+  PhongMaterial *pongMat = new PhongMaterial();
+  GameObject *model = Utils::loadModel("assets/models/bag/backpack.obj", *pongMat);
+
+  Camera *fCamera = new Camera(
+      std::make_shared<CameraComponent>(
+          45.0f, _engine->getWindowSystem()->getAspect(), 0.1f, 1000.0f),
+      Camera::Type::FirstPersion);
+  fCamera->disable();
+  fCamera->getCamera()->getComponent<TransformComponent>()->setPositionLocal(glm::vec3(0.0f, 1.0f, 3.0f));
+  
+  model->addChild(fCamera->getCamera());
+
+  Game::getGame()->bind(KeyBoard{}, [model, camera, fCamera, skybox](int key, int action, int mods){
+    if (key == GLFW_KEY_2 && action == GLFW_PRESS) {
+      camera->disable();
+      fCamera->enable();
+      skybox->bind(fCamera->getCamera());
+    }
+    if (key == GLFW_KEY_1 && action == GLFW_PRESS)  {
+      fCamera->disable();
+      camera->enable();
+      skybox->bind(camera->getCamera());
+    }
+  });
+
+  _engine->setMainLoop([model]{
+    model->getComponent<TransformComponent>()->setPositionLocal(glm::vec3(0.0f, 0.0f, -glfwGetTime()));
+  });
+
+  TerrainMaterial *terrainMat = new TerrainMaterial();
+  terrainMat->setDiffuse(_engine->getResourceManager()->loadTexture(
+      "assets/textures/terrain/diffuse.jpg"));
+  terrainMat->setHeightMap(_engine->getResourceManager()->loadTexture(
+      "assets/textures/terrain/heightMap.png"));
+  Terrain *terrain = new Terrain(1000.0f, 1000.0f, 20, 10, terrainMat);
+
   model->addComponent(std::make_shared<RigidBodyComponent>(JPH::EMotionType::Dynamic, Layers::MOVING, 1.0f, 1.0f, 1.0f));
   _scene->addChild(model);
-  _scene->addChild(skybox->getSkybox());
+  _scene->addChild(terrain->_getTerrain());
 }

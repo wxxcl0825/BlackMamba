@@ -3,6 +3,7 @@
 #include "common/common.h"
 
 #include <string>
+#include <vector>
 
 class Shader {
   friend class ResourceManager;
@@ -21,6 +22,8 @@ public:
 
 private:
   Shader(const std::string &vertexPath, const std::string &fragmentPath);
+  Shader(const std::string &vertexPath, const std::string &geometryPath, const std::string &fragmentPath);
+  Shader(const std::string &vertexPath, const std::string &tessCtrlPath, const std::string &tessEvalPath, const std::string &fragmentPath);
   ~Shader();
 
   enum class ErrorType { COMPILE, LINK };
@@ -28,4 +31,7 @@ private:
   GLuint _program{0};
 
   static void checkShaderErrors(GLuint target, ErrorType type);
+
+  GLuint compileShader(const std::string &path, GLenum shaderType);
+  void linkProgram(const std::vector<GLuint> &shaders);
 };

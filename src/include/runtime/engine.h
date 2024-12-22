@@ -6,6 +6,7 @@
 #include "runtime/framework/system/windowSystem.h"
 #include "runtime/framework/system/physicalSystem.h"
 #include "runtime/resource/resourceManager.h"
+#include <functional>
 
 struct EngineInfo {
   WindowInfo windowInfo;
@@ -14,6 +15,8 @@ struct EngineInfo {
 
 class Engine {
 public:
+  using MainLoop = std::function<void()>;
+
   enum class State { IDLE, RUNNING, PAUSE, STOP };
 
   static Engine *getEngine();
@@ -31,6 +34,7 @@ public:
   PhysicalSystem *getPhysicalSystem() const { return _physicalSystem; }
 
   void setScene(GameObject *scene) { _scene = scene; }
+  void setMainLoop(const MainLoop &mainloop) { _mainloop = mainloop; }
 
 private:
   static Engine *_engine;
@@ -43,6 +47,7 @@ private:
   PhysicalSystem *_physicalSystem;
 
   GameObject *_scene;
+  MainLoop _mainloop;
 
   Engine();
   ~Engine();

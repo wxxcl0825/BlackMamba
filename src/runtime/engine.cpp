@@ -75,6 +75,7 @@ void Engine::stop() { _state = State::STOP; }
 
 void Engine::dispatch(GameObject *root) {
   if (root) {
+    root->tick();
     _renderSystem->dispatch(root);
     _physicalSystem->dispatch(root);
     glm::mat4 rootModel = root->getComponent<TransformComponent>()->getModel();
@@ -88,5 +89,8 @@ void Engine::dispatch(GameObject *root) {
 void Engine::tick(){
   float dt = 1.0f;
   _physicalSystem->tick(dt);
+  
   _renderSystem->tick(); 
+  _mainloop();
+
 }

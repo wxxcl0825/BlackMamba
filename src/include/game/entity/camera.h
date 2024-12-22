@@ -7,10 +7,13 @@
 
 class Camera {
 public:
-  enum class Type { Free, Invalid };
+  enum class Type { Free, FirstPersion, Invalid };
 
   Camera(std::shared_ptr<CameraComponent> cameraComp, Type type);
   ~Camera();
+
+  void enable();
+  void disable();
 
   GameObject *getCamera() const { return _camera; }
 
@@ -35,6 +38,7 @@ private:
   void onMouse(int button, int action, float xpos, float ypos);
   void onCursor(double xpos, double ypos);
 
+  void tick();
   void updatePosition();
   void pitch(float angle);
   void yaw(float angle);

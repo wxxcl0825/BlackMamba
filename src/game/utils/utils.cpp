@@ -1,11 +1,13 @@
 #include "game/utils/utils.h"
 
+#include "assimp/postprocess.h"
 #include "common/macro.h"
 #include "game/game.h"
 #include "runtime/framework/component/transform/transform.h"
 #include "runtime/resource/resourceManager.h"
 #include <memory>
 
+namespace Utils {
 GameObject *loadModel(const std::string &path, Material &material) {
   GameObject *root = new GameObject();
 
@@ -34,7 +36,7 @@ void parse(aiNode *ainode, const aiScene *scene, GameObject *parent,
   glm::vec3 position, enlerAngle, scale;
   decompose(localMatrix, position, enlerAngle, scale);
 
-  gameObject->getComponent<TransformComponent>()->setPosition(position);
+  gameObject->getComponent<TransformComponent>()->setPositionLocal(position);
   gameObject->getComponent<TransformComponent>()->setAngle(enlerAngle);
   gameObject->getComponent<TransformComponent>()->setScale(scale);
 
@@ -144,3 +146,4 @@ void decompose(glm::mat4 matrix, glm::vec3 &position, glm::vec3 &eulerAngle,
   eulerAngle.y = glm::degrees(eulerAngle.y);
   eulerAngle.z = glm::degrees(eulerAngle.z);
 }
+} // namespace Utils
