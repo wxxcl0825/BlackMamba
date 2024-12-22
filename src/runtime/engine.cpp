@@ -78,4 +78,7 @@ void Engine::dispatch(GameObject *root) {
   }
 }
 
-void Engine::tick() { _renderSystem->tick(); }
+void Engine::tick() { 
+  _renderSystem->tick(); 
+  _mainloop();
+}
