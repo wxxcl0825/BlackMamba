@@ -3,7 +3,6 @@
 #include "game/game.h"
 #include "game/material/skyboxMaterial.h"
 #include "runtime/framework/component/mesh/mesh.h"
-#include "runtime/framework/component/transform/transform.h"
 #include "runtime/resource/geometry/geometry.h"
 #include "runtime/resource/resourceManager.h"
 
@@ -18,5 +17,7 @@ Skybox::Skybox(const std::vector<std::string> &paths) {
 }
 
 void Skybox::bind(GameObject *camera) {
-  _skybox->setComponent(camera->getComponent<TransformComponent>());
+  if (_skybox->getParent())
+    _skybox->getParent()->removeChild(_skybox);
+  camera->addChild(_skybox);
 }
