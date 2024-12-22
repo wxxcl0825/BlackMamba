@@ -10,7 +10,7 @@ public:
 
   glm::mat4 getModel() const;
   glm::vec3 getPositionLocal() const { return _position; }
-  glm::vec3 getPositionWorld() const { return getModel() * glm::vec4(_position, 1.0f); }
+  glm::vec3 getPositionWorld() const { return getModel() * glm::vec4(0.0f, 0.0f, 0.0f, 1.0f); }
 
   void setPositionLocal(const glm::vec3 &position) { _position = position; }
   void setAngle(const glm::vec3 &angle) { _angle = angle; }
