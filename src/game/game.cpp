@@ -79,14 +79,14 @@ void Game::setupScene() {
   _scene->addChild(camera->getCamera());
 
   PhongMaterial *pongMat = new PhongMaterial();
-  GameObject *model = loadModel("assets/models/bag/backpack.obj", *pongMat);
+  GameObject *model = Utils::loadModel("assets/models/bag/backpack.obj", *pongMat);
 
   Camera *fCamera = new Camera(
       std::make_shared<CameraComponent>(
           45.0f, _engine->getWindowSystem()->getAspect(), 0.1f, 1000.0f),
-      Camera::Type::Free);
-
+      Camera::Type::FirstPersion);
   fCamera->disable();
+  fCamera->getCamera()->getComponent<TransformComponent>()->setPositionLocal(glm::vec3(0.0f, 1.0f, 3.0f));
   
   model->addChild(fCamera->getCamera());
 
@@ -104,7 +104,7 @@ void Game::setupScene() {
   });
 
   _engine->setMainLoop([model]{
-    model->getComponent<TransformComponent>()->setPosition(glm::vec3(0.0f, 0.0f, glfwGetTime()));
+    model->getComponent<TransformComponent>()->setPositionLocal(glm::vec3(0.0f, 0.0f, -glfwGetTime()));
   });
 
   TerrainMaterial *terrainMat = new TerrainMaterial();
