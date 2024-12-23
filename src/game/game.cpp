@@ -1,7 +1,5 @@
 #include "game/game.h"
-#include "AL/al.h"
 #include "Jolt/Physics/Body/MotionType.h"
-#include "alc.h"
 #include "common/macro.h"
 #include "game/entity/camera.h"
 #include "game/entity/player.h"
@@ -9,14 +7,12 @@
 #include "game/entity/terrain.h"
 #include "game/material/phongMaterial.h"
 #include "game/material/terrainMaterial.h"
-#include "game/utils/utils.h"
 #include "runtime/framework/component/audio/audio.h"
 #include "runtime/framework/component/camera/camera.h"
 #include "runtime/framework/component/light/light.h"
 #include "runtime/framework/component/physics/rigidBody.h"
 #include "runtime/framework/component/transform/transform.h"
 #include "runtime/framework/object/gameObject.h"
-#include "runtime/framework/system/audioSystem.h"
 #include "runtime/framework/system/jolt/utils.h"
 #include <memory>
 
@@ -144,7 +140,7 @@ void Game::setupScene() {
       "assets/textures/terrain/diffuse.jpg"));
   terrainMat->setHeightMap(_engine->getResourceManager()->loadTexture(
       "assets/textures/terrain/heightMap.png"));
-  Terrain *terrain = new Terrain(100000.0f, 100000.0f, 20, 10, terrainMat);
+  Terrain *terrain = new Terrain(10000.0f, 10000.0f, 200, 100, terrainMat);
   terrain->getTerrain()->addComponent(std::make_shared<RigidBodyComponent>(
       JPH::EMotionType::Static, Layers::STATIC, 100000.0f, 1.f, 100000.0f,
       1.0f));
