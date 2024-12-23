@@ -8,6 +8,7 @@
 #include <Jolt/Physics/Collision/Shape/StaticCompoundShape.h>
 #include <Jolt/Physics/Body/BodyCreationSettings.h>
 
+#include "common/macro.h"
 #include "runtime/framework/component/physics/rigidBody.h"
 #include "runtime/framework/component/transform/transform.h"
 
@@ -70,21 +71,20 @@ void PhysicalSystem::dispatch(GameObject *object) {
             // apply force
             glm::vec3 force = _rigidBody->getForce();
             glm::vec3 torque = _rigidBody->getTorque();
-            bodyInterface.AddForce(JPH::BodyID(_rigidBody->getId()), toVec3(force), toVec3(glm::vec3(0.0f, 0.0f, 0.0f)));
-            bodyInterface.AddTorque(JPH::BodyID(_rigidBody->getId()), toVec3(torque));
-            _rigidBody->setForce(glm::vec3(0.0f, 0.0f, 0.0f));
-            _rigidBody->setTorque(glm::vec3(0.0f, 0.0f, 0.0f));
-
-            // limit speed
             JPH::Vec3 linearVelocity = bodyInterface.GetLinearVelocity(JPH::BodyID(_rigidBody->getId()));
             JPH::Vec3 angularVelocity = bodyInterface.GetAngularVelocity(JPH::BodyID(_rigidBody->getId()));
+
+            bodyInterface.AddForce(JPH::BodyID(_rigidBody->getId()), toVec3(force));
+            bodyInterface.AddTorque(JPH::BodyID(_rigidBody->getId()), toVec3(torque));
+            // limit speed
             if(linearVelocity.Length() > _rigidBody->getMaxLinearVelocity()) {
                 bodyInterface.SetLinearVelocity(JPH::BodyID(_rigidBody->getId()), linearVelocity.Normalized() * _rigidBody->getMaxLinearVelocity());
             }
-
             if(angularVelocity.Length() > _rigidBody->getMaxAngularVelocity()) {
                 bodyInterface.SetAngularVelocity(JPH::BodyID(_rigidBody->getId()), angularVelocity.Normalized() * _rigidBody->getMaxAngularVelocity());
             }
+
+            _rigidBody->setLinearVelocity(toVec3(linearVelocity));
         }
     }
 }
@@ -119,8 +119,8 @@ uint32_t PhysicalSystem::createRigidBody(GameObject *object) {
     JPH::BodyCreationSettings settings(shape, toVec3(position), toQuat(toRotation(angle)), motionType, layer);
     settings.mApplyGyroscopicForce  = true;
     settings.mMaxLinearVelocity     = 10000.0;
-    // settings.mLinearDamping         = 0.0;
-    settings.mAngularDamping        = 0.0;
+    settings.mLinearDamping         = 0.5;
+    settings.mAngularDamping        = 0.5;
 
     JPH::BodyInterface& bodyInterface = _joltPhysics._joltPhysicsSystem->GetBodyInterface();
     JPH::Body *body = bodyInterface.CreateBody(settings);

@@ -45,10 +45,7 @@ void Camera::disable() {
 }
 
 void Camera::onKey(int key, int action, int mods) {
-  if (action == GLFW_REPEAT)
-    return;
-  _keyMap[key] = action == GLFW_PRESS;
-  updatePosition();
+  _keyMap[key] = action == GLFW_PRESS  || action == GLFW_REPEAT;
 }
 
 void Camera::onCursor(double xpos, double ypos) {
@@ -100,6 +97,7 @@ void Camera::updatePosition() {
 }
 
 void Camera::tick() {
+  updatePosition();
   if (_type == Type::FirstPersion) {
     if (_camera && _camera->getParent()) {
       glm::mat4 model = _camera->getParent()->getComponent<TransformComponent>()->getModel();
