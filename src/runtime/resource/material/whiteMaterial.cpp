@@ -5,7 +5,7 @@
 
 WhiteMaterial::WhiteMaterial(){
     ResourceManager *resourceManager = Engine::getEngine()->getResourceManager();
-    _shader = resourceManager->loadShader("assets/shaders/white.vert", "assets/shaders/white.frag");
+    _shader = resourceManager->loadShader("assets/shaders/white/white.vert", "assets/shaders/white/white.frag");
 }
 
 void WhiteMaterial::setColor(const glm::vec3& color){

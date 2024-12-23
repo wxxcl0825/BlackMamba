@@ -1,8 +1,12 @@
 #include "game/utils/utils.h"
 
+#include "assimp/material.h"
 #include "assimp/postprocess.h"
+#include "assimp/types.h"
 #include "common/macro.h"
 #include "game/game.h"
+#include "game/material/phongMaterial.h"
+#include "game/material/transparentMaterial.h"
 #include "runtime/framework/component/transform/transform.h"
 #include "runtime/resource/resourceManager.h"
 #include <memory>
@@ -92,16 +96,28 @@ std::shared_ptr<MeshComponent> parseMesh(aiMesh *aimesh, const aiScene *scene,
   auto geometry =
       resourceManager->loadGeometry(vertices, uvs, normals, indices);
 
+  Material *finalMaterial = &material;
+
   if (aimesh->mMaterialIndex >= 0) {
     aiMaterial *aiMat = scene->mMaterials[aimesh->mMaterialIndex];
-    material.setDiffuse(
-        parseTexture(aiMat, aiTextureType_DIFFUSE, scene, rootPath));
+    material.setDiffuse(parseTexture(aiMat, aiTextureType_DIFFUSE, scene, rootPath));
+    aiString aipath;
+    if (aiMat->Get(AI_MATKEY_TEXTURE(aiTextureType_OPACITY, 0), aipath) == AI_SUCCESS) {
+      TransparentMaterial *transMaterial = nullptr;
+      PhongMaterial *phongMaterial = dynamic_cast<PhongMaterial *>(&material);
+      if (phongMaterial) {
+        transMaterial = new TransparentMaterial(*phongMaterial);
+      } else {
+        transMaterial = new TransparentMaterial(material);
+      }
+      transMaterial->setAlphaMap(parseTexture(aiMat, aiTextureType_OPACITY, scene, rootPath));
+      finalMaterial = transMaterial;
+    }
   } else {
     material.setDiffuse(
-        resourceManager->loadTexture("/assets/textures/default.jpg"));
+        resourceManager->loadTexture("assets/textures/default.jpg"));
   }
-
-  return std::make_shared<MeshComponent>(geometry, &material);
+  return std::make_shared<MeshComponent>(geometry, finalMaterial);
 }
 
 Texture *parseTexture(aiMaterial *aimat, aiTextureType type,
@@ -111,7 +127,7 @@ Texture *parseTexture(aiMaterial *aimat, aiTextureType type,
   aiString aipath;
   aimat->Get(AI_MATKEY_TEXTURE(type, 0), aipath);
   if (aipath.length == 0) {
-    return resourceManager->loadTexture("/assets/textures/default.jpg");
+    return resourceManager->loadTexture("assets/textures/default.jpg");
   }
   const aiTexture *aitexture = scene->GetEmbeddedTexture(aipath.C_Str());
   if (aitexture) {

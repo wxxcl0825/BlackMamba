@@ -84,15 +84,15 @@ void Game::setupScene() {
 
   _scene->addChild(camera->getCamera());
 
-  PhongMaterial *pongMat = new PhongMaterial();
-  Player *player = new Player("assets/models/plane/fighter.fbx", pongMat, glm::vec3(0.0f, 175.0f, -415.0f), glm::vec3(0.0f, 0.0f, 0.0f), 0.03f ,glm::vec3(1.0f), 1.0f, 0.5f, 10.0f, 0.02f);
+  PhongMaterial *phongMat = new PhongMaterial();
+  Player *player = new Player("assets/models/fighter/fighter.obj", phongMat, glm::vec3(0.0f, 175.0f, -415.0f), glm::vec3(0.0f, 0.0f, 0.0f), 3.0f ,glm::vec3(1.0f), 1.0f, 0.5f, 10.0f, 0.02f);
 
   Camera *fCamera = new Camera(
       std::make_shared<CameraComponent>(
           60.0f, _engine->getWindowSystem()->getAspect(), 0.1f, 1000.0f),
       Camera::Type::FirstPersion);
   fCamera->disable();
-  fCamera->getCamera()->getComponent<TransformComponent>()->setPositionLocal(glm::vec3(0.0f, 1000.0f, 0.0f));
+  fCamera->getCamera()->getComponent<TransformComponent>()->setPositionLocal(glm::vec3(0.0f, 1.75f, 4.15f));
   fCamera->getCamera()->getComponent<CameraComponent>()->setRightVec(glm::vec3(-1.0f, 0.0f, 0.0f));
   fCamera->getCamera()->getComponent<CameraComponent>()->setUpVec(glm::normalize(glm::vec3(0.0f, 1.0f, 0.5f)));
   
