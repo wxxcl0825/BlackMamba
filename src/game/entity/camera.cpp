@@ -109,8 +109,17 @@ void Camera::tick() {
 }
 
 void Camera::pitch(float angle) {
-  if (_type == Type::Free || _type == Type::FirstPersion) {
+  if (_type == Type::Free) {
     if (_pitch + angle > 89.0f || _pitch + angle < -89.0f)
+      return;
+    _pitch += angle;
+    glm::mat4 rotation =
+        glm::rotate(glm::mat4(glm::one<float>()), glm::radians(angle),
+                    _cameraComp->getRightVec());
+    _cameraComp->setUpVec(glm::vec4(_cameraComp->getUpVec(), 0.0f) * rotation);
+  }
+  if(_type == Type::FirstPersion) {
+    if (_pitch + angle > 70.0f || _pitch + angle < -30.0f)
       return;
     _pitch += angle;
     glm::mat4 rotation =
@@ -121,7 +130,18 @@ void Camera::pitch(float angle) {
 }
 
 void Camera::yaw(float angle) {
-  if (_type == Type::Free || _type == Type::FirstPersion) {
+  if (_type == Type::Free) {
+    glm::mat4 rotation =
+        glm::rotate(glm::mat4(glm::one<float>()), glm::radians(angle),
+                    glm::vec3(0.0f, 1.0f, 0.0f));
+    _cameraComp->setUpVec(glm::vec4(_cameraComp->getUpVec(), 0.0f) * rotation);
+    _cameraComp->setRightVec(glm::vec4(_cameraComp->getRightVec(), 0.0f) *
+                             rotation);
+  }
+  if (_type == Type::FirstPersion) {
+    if(_yaw + angle > 70.0f || _yaw + angle < -70.0f)
+      return;
+    _yaw += angle;
     glm::mat4 rotation =
         glm::rotate(glm::mat4(glm::one<float>()), glm::radians(angle),
                     glm::vec3(0.0f, 1.0f, 0.0f));
