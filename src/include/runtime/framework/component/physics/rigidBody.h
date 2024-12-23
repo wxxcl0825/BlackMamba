@@ -44,6 +44,7 @@ public:
   void setShape(JPH::Shape* shape) { this->_shape = shape; }
   void setForce(glm::vec3 force) { _force = force; }
   void setTorque(glm::vec3 torque) { _torque = torque; }
+  void setLinearVelocity(glm::vec3 linearVelocity) { _linearVelocity = linearVelocity; }
   void setMaxLinearVelocity(float maxLinearVelocity) { _maxLinearVelocity = maxLinearVelocity; }
   void setMaxAngularVelocity(float maxAngularVelocity) { _maxAngularVelocity = maxAngularVelocity; }
 

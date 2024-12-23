@@ -85,7 +85,7 @@ void Game::setupScene() {
   _scene->addChild(camera->getCamera());
 
   PhongMaterial *pongMat = new PhongMaterial();
-  Player *player = new Player("assets/models/plane/fighter.fbx", pongMat, glm::vec3(0.0f, 175.0f, 415.0f), glm::vec3(0.0f, 0.0f, 0.0f), 0.03f ,glm::vec3(1.0f), 1.0f, 1.0f, 1.0f, 0.2f);
+  Player *player = new Player("assets/models/plane/fighter.fbx", pongMat, glm::vec3(0.0f, 175.0f, -415.0f), glm::vec3(0.0f, 0.0f, 0.0f), 0.03f ,glm::vec3(1.0f), 1.0f, 0.5f, 10.0f, 0.02f);
 
   Camera *fCamera = new Camera(
       std::make_shared<CameraComponent>(
@@ -120,7 +120,7 @@ void Game::setupScene() {
       "assets/textures/terrain/diffuse.jpg"));
   terrainMat->setHeightMap(_engine->getResourceManager()->loadTexture(
       "assets/textures/terrain/heightMap.png"));
-  Terrain *terrain = new Terrain(1000.0f, 1000.0f, 20, 10, terrainMat);
+  Terrain *terrain = new Terrain(100000.0f, 100000.0f, 20, 10, terrainMat);
   terrain->getTerrain()->addComponent(std::make_shared<RigidBodyComponent>(JPH::EMotionType::Static, Layers::STATIC, 1000.0f, 1.f, 1000.0f, 1.0f));
 
   // model->addComponent(std::make_shared<RigidBodyComponent>(JPH::EMotionType::Dynamic, Layers::MOVING, 1, 1, 1, 1.0f));

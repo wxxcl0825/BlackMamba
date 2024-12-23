@@ -1,5 +1,6 @@
 #include "game/entity/player.h"
 
+#include "common/macro.h"
 #include "game/game.h"
 #include "game/utils/utils.h"
 #include "runtime/framework/component/transform/transform.h"
@@ -30,6 +31,7 @@ void Player::onKey(int key, int action, int mods) {
 }
 
 void Player::tick(){
+    // already normalized
     glm::vec3 forward = _player->getComponent<TransformComponent>()->getForwardVec();
     glm::vec3 right = _player->getComponent<TransformComponent>()->getRightVec();
     glm::vec3 up = _player->getComponent<TransformComponent>()->getUpVec();
@@ -37,28 +39,28 @@ void Player::tick(){
     // set force
     glm::vec3 engineForce = glm::vec3{0.0f};
     if(_keyMap[GLFW_KEY_SPACE]){
-        engineForce += glm::normalize(forward) * _maxAcceleration * _mass;
+        engineForce += forward * _maxAcceleration * _mass;
     }
 
     glm::vec3 liftForce = glm::vec3{0.0f};
     glm::vec3 linearVelocity = _player->getComponent<RigidBodyComponent>()->getLinearVelocity();
-    liftForce = glm::length(linearVelocity) * glm::normalize(up) * _liftCoefficient;
+    liftForce = static_cast<float>(std::pow(_liftCoefficient, 2)) * glm::length(linearVelocity) * up;
 
     _player->getComponent<RigidBodyComponent>()->setForce(engineForce+liftForce);
 
     // set torque
     glm::vec3 torque = glm::vec3{0.0f};
     if(_keyMap[GLFW_KEY_W]){
-        torque += glm::normalize(right) * _maxAngularAcceleration * _mass;
+        torque +=  right * _maxAngularAcceleration * _mass;
     }
     if(_keyMap[GLFW_KEY_S]){
-        torque += -glm::normalize(right) * _maxAngularAcceleration * _mass;
+        torque += -right * _maxAngularAcceleration * _mass;
     }
     if(_keyMap[GLFW_KEY_A]){
-        torque += -glm::normalize(up) * _maxAngularAcceleration * _mass;
+        torque += -forward * _maxAngularAcceleration * _mass;
     }
     if(_keyMap[GLFW_KEY_D]){
-        torque += glm::normalize(up) * _maxAngularAcceleration * _mass;
+        torque +=  forward * _maxAngularAcceleration * _mass;
     }
 
     _player->getComponent<RigidBodyComponent>()->setTorque(torque);
