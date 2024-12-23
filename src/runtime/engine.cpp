@@ -57,6 +57,7 @@ void Engine::start() {
   while (!_windowSystem->shouldClose()) {
     _windowSystem->pollEvents();
     if (_state == State::RUNNING) {
+      _mainloop();
       dispatch(_scene);
       tick();
       _windowSystem->swapBuffers();
@@ -91,5 +92,4 @@ void Engine::tick(){
   _physicalSystem->tick(dt);
   
   _renderSystem->tick(); 
-  _mainloop();
 }

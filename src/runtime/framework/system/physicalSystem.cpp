@@ -1,15 +1,13 @@
 #include "runtime/framework/system/physicalSystem.h"
 
 #include <Jolt/RegisterTypes.h>
+#include <Jolt/Math/Vec3.h>
 #include <Jolt/Core/JobSystemThreadPool.h>
 #include <Jolt/Physics/EActivation.h>
 #include <Jolt/Physics/Collision/BroadPhase/BroadPhaseLayer.h>
 #include <Jolt/Physics/Collision/Shape/StaticCompoundShape.h>
 #include <Jolt/Physics/Body/BodyCreationSettings.h>
-#include <cstdint>
-#include <memory>
 
-#include "Jolt/Math/Vec3.h"
 #include "runtime/framework/component/physics/rigidBody.h"
 #include "runtime/framework/component/transform/transform.h"
 
@@ -74,11 +72,12 @@ void PhysicalSystem::dispatch(GameObject *object) {
             glm::vec3 torque = _rigidBody->getTorque();
             bodyInterface.AddForce(JPH::BodyID(_rigidBody->getId()), toVec3(force), toVec3(glm::vec3(0.0f, 0.0f, 0.0f)));
             bodyInterface.AddTorque(JPH::BodyID(_rigidBody->getId()), toVec3(torque));
+            _rigidBody->setForce(glm::vec3(0.0f, 0.0f, 0.0f));
+            _rigidBody->setTorque(glm::vec3(0.0f, 0.0f, 0.0f));
 
             // limit speed
             JPH::Vec3 linearVelocity = bodyInterface.GetLinearVelocity(JPH::BodyID(_rigidBody->getId()));
             JPH::Vec3 angularVelocity = bodyInterface.GetAngularVelocity(JPH::BodyID(_rigidBody->getId()));
-
             if(linearVelocity.Length() > _rigidBody->getMaxLinearVelocity()) {
                 bodyInterface.SetLinearVelocity(JPH::BodyID(_rigidBody->getId()), linearVelocity.Normalized() * _rigidBody->getMaxLinearVelocity());
             }
