@@ -36,7 +36,7 @@ struct AmbientLight {
   vec3 color;
 };
 
-uniform sampler2D sampler;
+uniform sampler2D diffuse;
 uniform float shiness;
 
 uniform vec3 cameraPosition;
@@ -51,6 +51,9 @@ uniform int numSpotLight;
 uniform SpotLight spotLight[MAX_LIGHT_NUM];
 
 uniform AmbientLight ambientLight;
+
+uniform sampler2D alphaMap;
+uniform float useAlphaMap;
 
 vec3 calDiffuse(vec3 lightColor, vec3 objectColor, vec3 lightDir, vec3 normal) {
   float diffuse = clamp(dot(-lightDir, normal), 0.0, 1.0);
@@ -67,7 +70,7 @@ vec3 calSpecular(vec3 lightColor, vec3 lightDir, vec3 normal, vec3 viewDir,
 }
 
 vec3 calDirectionalLight(DirectionalLight light, vec3 normal, vec3 viewDir) {
-  vec3 objectColor = texture(sampler, uv).xyz;
+  vec3 objectColor = texture(diffuse, uv).xyz;
   vec3 lightDir = normalize(light.direction);
   vec3 diffuseColor = calDiffuse(light.color, objectColor, lightDir, normal);
   vec3 specularColor = calSpecular(light.color, lightDir, normal, viewDir,
@@ -76,7 +79,7 @@ vec3 calDirectionalLight(DirectionalLight light, vec3 normal, vec3 viewDir) {
 }
 
 vec3 calPointLight(PointLight light, vec3 normal, vec3 viewDir) {
-  vec3 objectColor = texture(sampler, uv).xyz;
+  vec3 objectColor = texture(diffuse, uv).xyz;
   vec3 lightDir = normalize(worldPosition - light.position);
   float dist = length(worldPosition - light.position);
   float attenuation =
@@ -88,7 +91,7 @@ vec3 calPointLight(PointLight light, vec3 normal, vec3 viewDir) {
 }
 
 vec3 calSpotLight(SpotLight light, vec3 normal, vec3 viewDir) {
-  vec3 objectColor = texture(sampler, uv).xyz;
+  vec3 objectColor = texture(diffuse, uv).xyz;
   vec3 lightDir = normalize(worldPosition - light.position);
   vec3 targetDir = normalize(light.direction);
   float cGamma = dot(lightDir, targetDir);
@@ -101,7 +104,7 @@ vec3 calSpotLight(SpotLight light, vec3 normal, vec3 viewDir) {
 }
 
 vec3 calAmbientLight(AmbientLight light) {
-  return light.color * texture(sampler, uv).xyz;
+  return light.color * texture(diffuse, uv).xyz;
 }
 
 void main() {
@@ -118,5 +121,6 @@ void main() {
     result += calSpotLight(spotLight[i], normalN, viewDir);
   result += calAmbientLight(ambientLight);
 
-  FragColor = vec4(result, 1.0);
+  float alphaValue = mix(1.0, 1.0 - texture(alphaMap, uv).r, useAlphaMap);
+  FragColor = vec4(result, alphaValue);
 }
