@@ -84,16 +84,16 @@ void Game::setupScene() {
 
   _scene->addChild(camera->getCamera());
 
-  PhongMaterial *pongMat = new PhongMaterial();
-  GameObject *model = Utils::loadModel("assets/models/plane/fighter.fbx", *pongMat);
-  model->getComponent<TransformComponent>()->setScale(glm::vec3(0.03f));
+  PhongMaterial *phongMat = new PhongMaterial();
+  GameObject *model = Utils::loadModel("assets/models/fighter/fighter.obj", *phongMat);
+  model->getComponent<TransformComponent>()->setScale(glm::vec3(3.0f));
 
   Camera *fCamera = new Camera(
       std::make_shared<CameraComponent>(
           60.0f, _engine->getWindowSystem()->getAspect(), 0.1f, 1000.0f),
       Camera::Type::FirstPersion);
   fCamera->disable();
-  fCamera->getCamera()->getComponent<TransformComponent>()->setPositionLocal(glm::vec3(0.0f, 175.0f, 415.0f));
+  fCamera->getCamera()->getComponent<TransformComponent>()->setPositionLocal(glm::vec3(0.0f, 1.75f, 4.150f));
   fCamera->getCamera()->getComponent<CameraComponent>()->setRightVec(glm::vec3(-1.0f, 0.0f, 0.0f));
   fCamera->getCamera()->getComponent<CameraComponent>()->setUpVec(glm::normalize(glm::vec3(0.0f, 1.0f, 0.5f)));
   
@@ -114,7 +114,7 @@ void Game::setupScene() {
   });
 
   _engine->setMainLoop([model]{
-    model->getComponent<TransformComponent>()->setPositionLocal(glm::vec3(0.0f, 40.0f, -glfwGetTime()));
+    model->getComponent<TransformComponent>()->setPositionLocal(glm::vec3(0.0f, 40.0f, glfwGetTime()));
   });
 
   TerrainMaterial *terrainMat = new TerrainMaterial();
@@ -125,9 +125,9 @@ void Game::setupScene() {
   Terrain *terrain = new Terrain(1000.0f, 1000.0f, 20, 10, terrainMat);
   terrain->getTerrain()->addComponent(std::make_shared<RigidBodyComponent>(JPH::EMotionType::Static, Layers::STATIC, 1000.0f, 1.f, 1000.0f, 1.0f));
 
-  model->addComponent(std::make_shared<RigidBodyComponent>(JPH::EMotionType::Dynamic, Layers::MOVING, 1, 1, 1, 1.0f));
-  model->getComponent<RigidBodyComponent>()->setForce(glm::vec3(0.0f, 9.6f, 0.0f));
-  model->getComponent<RigidBodyComponent>()->setTorque(glm::vec3(0.0f, 0.2f, 0.0f));
+  // model->addComponent(std::make_shared<RigidBodyComponent>(JPH::EMotionType::Dynamic, Layers::MOVING, 1, 1, 1, 1.0f));
+  // model->getComponent<RigidBodyComponent>()->setForce(glm::vec3(0.0f, 9.6f, 0.0f));
+  // model->getComponent<RigidBodyComponent>()->setTorque(glm::vec3(0.0f, 0.2f, 0.0f));
   _scene->addChild(model);
   _scene->addChild(terrain->getTerrain());
 }

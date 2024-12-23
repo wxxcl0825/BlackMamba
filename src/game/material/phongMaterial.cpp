@@ -18,7 +18,7 @@ void PhongMaterial::apply(const RenderInfo &info) {
   _shader->setUniform("normalMatrix", glm::mat3(glm::transpose(glm::inverse(info.modelInfo.model))));
 
   _diffuse->bind();
-  _shader->setUniform("sampler", (int)_diffuse->getUnit());
+  _shader->setUniform("diffuse", (int)_diffuse->getUnit());
   _shader->setUniform("shiness", _shiness);
   _shader->setUniform("cameraPosition", info.cameraInfo.position);
 
@@ -56,4 +56,6 @@ void PhongMaterial::apply(const RenderInfo &info) {
   }
 
   _shader->setUniform("ambientLight.color", info.lightInfo.ambientLights[0].color);
+
+  _shader->setUniform("useAlphaMap", .0f);
 }

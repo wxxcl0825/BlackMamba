@@ -42,7 +42,7 @@ protected:
 
   // Depth test
   bool _depthTest = true;
-  GLenum _depthFunc = GL_LESS;
+  GLenum _depthFunc = GL_LEQUAL;
   bool _depthWrite = true;
 
   // Color blending
