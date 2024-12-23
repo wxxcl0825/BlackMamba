@@ -11,6 +11,9 @@ public:
   glm::mat4 getModel() const;
   glm::vec3 getPositionLocal() const { return _position; }
   glm::vec3 getPositionWorld() const { return getModel() * glm::vec4(0.0f, 0.0f, 0.0f, 1.0f); }
+  glm::vec3 getForwardVec() const { return glm::normalize(glm::vec3(getModel() * glm::vec4(0.0f, 0.0f, 1.0f, 0.0f))); }
+  glm::vec3 getRightVec() const { return glm::normalize(glm::vec3(getModel() * glm::vec4(1.0f, 0.0f, 0.0f, 0.0f))); }
+  glm::vec3 getUpVec() const { return glm::normalize(glm::vec3(getModel() * glm::vec4(0.0f, 1.0f, 0.0f, 0.0f))); }
   glm::vec3 getAngle() const { return _angle; }
   glm::vec3 getScale() const { return _scale; }
   glm::mat4 getParentModel() const { return _parentModel; }
