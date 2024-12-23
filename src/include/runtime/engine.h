@@ -2,9 +2,10 @@
 
 #include "framework/system/physicalSystem.h"
 #include "runtime/framework/object/gameObject.h"
+#include "runtime/framework/system/audioSystem.h"
+#include "runtime/framework/system/physicalSystem.h"
 #include "runtime/framework/system/renderSystem.h"
 #include "runtime/framework/system/windowSystem.h"
-#include "runtime/framework/system/physicalSystem.h"
 #include "runtime/resource/resourceManager.h"
 #include <functional>
 
@@ -30,8 +31,9 @@ public:
 
   State getState() const { return _state; }
   WindowSystem *getWindowSystem() const { return _windowSystem; }
-  ResourceManager *getResourceManager() const { return _resourceManger; }
   PhysicalSystem *getPhysicalSystem() const { return _physicalSystem; }
+  AudioSystem *getAudioSystem() const { return _audioSystem; }
+  ResourceManager *getResourceManager() const { return _resourceManger; }
 
   void setScene(GameObject *scene) { _scene = scene; }
   void setMainLoop(const MainLoop &mainloop) { _mainloop = mainloop; }
@@ -43,8 +45,9 @@ private:
 
   WindowSystem *_windowSystem;
   RenderSystem *_renderSystem;
-  ResourceManager *_resourceManger;
   PhysicalSystem *_physicalSystem;
+  AudioSystem *_audioSystem;
+  ResourceManager *_resourceManger;
 
   GameObject *_scene;
   MainLoop _mainloop;
@@ -52,6 +55,6 @@ private:
   Engine();
   ~Engine();
 
-  void dispatch(GameObject* root);
+  void dispatch(GameObject *root);
   void tick();
 };

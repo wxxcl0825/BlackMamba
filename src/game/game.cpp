@@ -10,11 +10,13 @@
 #include "game/material/phongMaterial.h"
 #include "game/material/terrainMaterial.h"
 #include "game/utils/utils.h"
+#include "runtime/framework/component/audio/audio.h"
 #include "runtime/framework/component/camera/camera.h"
 #include "runtime/framework/component/light/light.h"
 #include "runtime/framework/component/physics/rigidBody.h"
 #include "runtime/framework/component/transform/transform.h"
 #include "runtime/framework/object/gameObject.h"
+#include "runtime/framework/system/audioSystem.h"
 #include "runtime/framework/system/jolt/utils.h"
 #include <memory>
 
@@ -92,6 +94,14 @@ void Game::setupScene() {
                  glm::vec3(0.0f, 175.0f, -415.0f), glm::vec3(0.0f, 0.0f, 0.0f),
                  3.0f, glm::vec3(50.0f), 1.0f, 0.7f, 18.0f, 0.02f);
 
+  std::shared_ptr<AudioComponent> audioComp =
+      std::make_shared<AudioComponent>();
+  audioComp->append(
+      _engine->getResourceManager()->loadAudio("assets/audios/engine.ogg"));
+  audioComp->start();
+  audioComp->setMode(AudioComponent::Mode::REPEAT_SINGEL);
+  player->getPlayer()->addComponent(audioComp);
+
   Camera *fCamera = new Camera(
       std::make_shared<CameraComponent>(
           60.0f, _engine->getWindowSystem()->getAspect(), 0.1f, 10000.0f),
@@ -142,15 +152,5 @@ void Game::setupScene() {
   _scene->addChild(player->getPlayer());
   _scene->addChild(terrain->getTerrain());
 
-  ALCdevice *device = alcOpenDevice(NULL);
-  ALCcontext *context = alcCreateContext(device, NULL);
-  alcMakeContextCurrent(context);
-
-  ALuint source = _engine->getResourceManager()
-                      ->loadAudio("assets/audios/engine.ogg")
-                      ->getAudioID();
-
-  alSourcei(source, AL_LOOPING, AL_TRUE);
-  alSourcePlay(source);
   _engine->setMainLoop([] {});
 }
