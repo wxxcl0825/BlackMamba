@@ -21,3 +21,6 @@ include_directories(${THIRD_PARTY_LIBRARY_PATH}/assimp/include)
 
 add_subdirectory(${THIRD_PARTY_LIBRARY_PATH}/JoltPhysics/Build)
 include_directories(${THIRD_PARTY_LIBRARY_PATH}/JoltPhysics)
+
+add_subdirectory(${THIRD_PARTY_LIBRARY_PATH}/openal)
+include_directories(${THIRD_PARTY_LIBRARY_PATH}/openal/include)
