@@ -1,6 +1,7 @@
 #include "runtime/resource/resourceManager.h"
 
 #include "common/macro.h"
+#include "runtime/resource/audio/audio.h"
 #include "runtime/resource/geometry/geometry.h"
 #include "runtime/resource/texture/texture.h"
 
@@ -214,4 +215,13 @@ Geometry *ResourceManager::loadGeometry(const std::vector<glm::vec3> &vertices,
   _geometryList.push_back(_geometry);
 
   return _geometry;
+}
+
+Audio *ResourceManager::loadAudio(const std::string &filePath) {
+  if (_audioMap.find(filePath) == _audioMap.end()) {
+    Log("Loading audio: %s", filePath.c_str());
+    Audio *_audio = new Audio(filePath);
+    _audioMap[filePath] = _audio;
+  }
+  return _audioMap[filePath];
 }

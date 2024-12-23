@@ -1,8 +1,10 @@
 #include "game/game.h"
+#include "AL/al.h"
 #include "Jolt/Physics/Body/MotionType.h"
+#include "alc.h"
 #include "common/macro.h"
-#include "game/entity/player.h"
 #include "game/entity/camera.h"
+#include "game/entity/player.h"
 #include "game/entity/skybox.h"
 #include "game/entity/terrain.h"
 #include "game/material/phongMaterial.h"
@@ -10,10 +12,10 @@
 #include "game/utils/utils.h"
 #include "runtime/framework/component/camera/camera.h"
 #include "runtime/framework/component/light/light.h"
+#include "runtime/framework/component/physics/rigidBody.h"
 #include "runtime/framework/component/transform/transform.h"
 #include "runtime/framework/object/gameObject.h"
 #include "runtime/framework/system/jolt/utils.h"
-#include "runtime/framework/component/physics/rigidBody.h"
 #include <memory>
 
 Game *Game::_game = nullptr;
@@ -69,7 +71,7 @@ void Game::setupScene() {
       std::make_shared<CameraComponent>(
           45.0f, _engine->getWindowSystem()->getAspect(), 0.1f, 10000.0f),
       Camera::Type::Free);
-  
+
   camera->setSpeed(1.0f);
 
   _scene->addComponent(
@@ -85,34 +87,46 @@ void Game::setupScene() {
   _scene->addChild(camera->getCamera());
 
   PhongMaterial *phongMat = new PhongMaterial();
-  Player *player = new Player("assets/models/fighter/fighter.obj", phongMat, glm::vec3(0.0f, 175.0f, -415.0f), glm::vec3(0.0f, 0.0f, 0.0f), 3.0f ,glm::vec3(50.0f), 1.0f, 0.7f, 18.0f, 0.02f);
+  Player *player =
+      new Player("assets/models/fighter/fighter.obj", phongMat,
+                 glm::vec3(0.0f, 175.0f, -415.0f), glm::vec3(0.0f, 0.0f, 0.0f),
+                 3.0f, glm::vec3(50.0f), 1.0f, 0.7f, 18.0f, 0.02f);
 
   Camera *fCamera = new Camera(
       std::make_shared<CameraComponent>(
           60.0f, _engine->getWindowSystem()->getAspect(), 0.1f, 10000.0f),
       Camera::Type::FirstPersion);
   fCamera->disable();
-  fCamera->getCamera()->getComponent<TransformComponent>()->setPositionLocal(glm::vec3(0.0f, 1.75f, 4.15f));
-  fCamera->getCamera()->getComponent<CameraComponent>()->setRightVec(glm::vec3(-1.0f, 0.0f, 0.0f));
-  fCamera->getCamera()->getComponent<CameraComponent>()->setUpVec(glm::normalize(glm::vec3(0.0f, 1.0f, 0.5f)));
-  
+  fCamera->getCamera()->getComponent<TransformComponent>()->setPositionLocal(
+      glm::vec3(0.0f, 1.75f, 4.15f));
+  fCamera->getCamera()->getComponent<CameraComponent>()->setRightVec(
+      glm::vec3(-1.0f, 0.0f, 0.0f));
+  fCamera->getCamera()->getComponent<CameraComponent>()->setUpVec(
+      glm::normalize(glm::vec3(0.0f, 1.0f, 0.5f)));
+
   player->getPlayer()->addChild(fCamera->getCamera());
 
-  Game::getGame()->bind(KeyBoard{}, [player, camera, fCamera, skybox](int key, int action, int mods){
+  Game::getGame()->bind(KeyBoard{}, [player, camera, fCamera,
+                                     skybox](int key, int action, int mods) {
     if (key == GLFW_KEY_2 && action == GLFW_PRESS) {
       camera->disable();
       fCamera->enable();
       skybox->bind(fCamera->getCamera());
     }
-    if (key == GLFW_KEY_1 && action == GLFW_PRESS)  {
+    if (key == GLFW_KEY_1 && action == GLFW_PRESS) {
       fCamera->disable();
       camera->enable();
       skybox->bind(camera->getCamera());
-      camera->getCamera()->getComponent<TransformComponent>()->setPositionLocal(glm::inverse(camera->getCamera()->getComponent<TransformComponent>()->getParentModel())*glm::vec4((player->getPlayer()->getComponent<TransformComponent>()->getPositionWorld() + glm::vec3(0.0f, 1.0f, -3.0f)),1.0f));
+      camera->getCamera()->getComponent<TransformComponent>()->setPositionLocal(
+          glm::inverse(camera->getCamera()
+                           ->getComponent<TransformComponent>()
+                           ->getParentModel()) *
+          glm::vec4((player->getPlayer()
+                         ->getComponent<TransformComponent>()
+                         ->getPositionWorld() +
+                     glm::vec3(0.0f, 1.0f, -3.0f)),
+                    1.0f));
     }
-  });
-
-  _engine->setMainLoop([]{
   });
 
   TerrainMaterial *terrainMat = new TerrainMaterial();
@@ -121,8 +135,22 @@ void Game::setupScene() {
   terrainMat->setHeightMap(_engine->getResourceManager()->loadTexture(
       "assets/textures/terrain/heightMap.png"));
   Terrain *terrain = new Terrain(100000.0f, 100000.0f, 20, 10, terrainMat);
-  terrain->getTerrain()->addComponent(std::make_shared<RigidBodyComponent>(JPH::EMotionType::Static, Layers::STATIC, 100000.0f, 1.f, 100000.0f, 1.0f));
+  terrain->getTerrain()->addComponent(std::make_shared<RigidBodyComponent>(
+      JPH::EMotionType::Static, Layers::STATIC, 100000.0f, 1.f, 100000.0f,
+      1.0f));
 
   _scene->addChild(player->getPlayer());
   _scene->addChild(terrain->getTerrain());
+
+  ALCdevice *device = alcOpenDevice(NULL);
+  ALCcontext *context = alcCreateContext(device, NULL);
+  alcMakeContextCurrent(context);
+
+  ALuint source = _engine->getResourceManager()
+                      ->loadAudio("assets/audios/engine.ogg")
+                      ->getAudioID();
+
+  alSourcei(source, AL_LOOPING, AL_TRUE);
+  alSourcePlay(source);
+  _engine->setMainLoop([] {});
 }
