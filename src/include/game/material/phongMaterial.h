@@ -1,6 +1,8 @@
 #pragma once
 
+#include "game/game.h"
 #include "runtime/resource/material/material.h"
+#include "runtime/resource/resourceManager.h"
 #include "runtime/resource/texture/texture.h"
 
 class PhongMaterial : public Material {
@@ -9,6 +11,13 @@ public:
   PhongMaterial(const PhongMaterial &other) : Material(other) {
     _diffuse = other._diffuse;
     _shiness = other._shiness;
+  }
+  PhongMaterial(const Material &other) : Material(other) {
+    ResourceManager *resourceManager = Game::getGame()->getEngine()->getResourceManager();
+    _shader = resourceManager->loadShader(
+      "assets/shaders/phong/phong.vert", "assets/shaders/effect/explode.geom","assets/shaders/phong/phong.frag");
+    _diffuse = nullptr;
+    _shiness = 32.0f;
   }
 
   PhongMaterial* clone() const override { return new PhongMaterial(*this); }

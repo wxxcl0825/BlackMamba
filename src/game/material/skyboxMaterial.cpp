@@ -5,13 +5,19 @@
 SkyboxMaterial::SkyboxMaterial() {
   ResourceManager* resourceManager = Game::getGame()->getEngine()->getResourceManager();
   _shader = resourceManager->loadShader(
-      "assets/shaders/skybox.vert", "assets/shaders/skybox.frag");
+      "assets/shaders/skybox/skybox.vert", "assets/shaders/skybox/skybox.frag");
+
+  _depthWrite = false;
 }
 
 void SkyboxMaterial::apply(const RenderInfo &info) {
   _shader->begin();
 
-  _shader->setUniform("model",info.modelInfo.model);
+  glm::mat4 model = info.modelInfo.model;
+  model[0] = glm::vec4(1.0f, 0.0f, 0.0f, model[0].w);
+  model[1] = glm::vec4(0.0f, 1.0f, 0.0f, model[1].w);
+  model[2] = glm::vec4(0.0f, 0.0f, 1.0f, model[2].w);
+  _shader->setUniform("model", model);
   _shader->setUniform("view",info.cameraInfo.view);
   _shader->setUniform("projection",info.cameraInfo.project);
 

@@ -35,6 +35,7 @@ private:
   float _sensitivity{0.2f};
 
   float _pitch{0.0f};
+  float _yaw{0.0f};
 
   void onKey(int key, int action, int mods);
   void onMouse(int button, int action, float xpos, float ypos);
