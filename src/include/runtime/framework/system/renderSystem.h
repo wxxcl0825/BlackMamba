@@ -6,6 +6,8 @@
 #include "common/common.h"
 #include <vector>
 
+class Material;
+
 struct ModelInfo {
   glm::mat4 model;
 };
@@ -39,6 +41,10 @@ public:
 
 private:
   std::vector<GameObject *> _meshes, _lights, _cameras;
+
+  void initState();
+  void setDepthState(Material *material);
+  void setBlendState(Material *material);
 
   void clear();
 };

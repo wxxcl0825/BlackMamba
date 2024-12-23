@@ -5,7 +5,9 @@
 SkyboxMaterial::SkyboxMaterial() {
   ResourceManager* resourceManager = Game::getGame()->getEngine()->getResourceManager();
   _shader = resourceManager->loadShader(
-      "assets/shaders/skybox.vert", "assets/shaders/skybox.frag");
+      "assets/shaders/skybox/skybox.vert", "assets/shaders/skybox/skybox.frag");
+
+  _depthWrite = false;
 }
 
 void SkyboxMaterial::apply(const RenderInfo &info) {
