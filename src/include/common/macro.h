@@ -12,12 +12,17 @@
     while(1);                                           \
 }
 
-void checkError(const char *file, int line, const char *func);
+void checkGLError(const char *file, int line, const char *func);
+void checkALError(const char *file, int line, const char *func);
 
 #ifdef DEBUG
 #define GL_CALL(func)                                                          \
   func;                                                                        \
-  checkError(__FILE__, __LINE__, __func__);
+  checkGLError(__FILE__, __LINE__, __func__);
+#define AL_CALL(func)                                                          \
+  func;                                                                        \
+  checkALError(__FILE__, __LINE__, __func__);
 #else
 #define GL_CALL(func) func;
+#define AL_CALL(func) func;
 #endif

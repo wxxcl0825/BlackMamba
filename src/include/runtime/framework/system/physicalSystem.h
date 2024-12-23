@@ -3,7 +3,7 @@
 #include <Jolt/Jolt.h>
 #include <Jolt/Physics/PhysicsSystem.h>
 #include <Jolt/Core/JobSystem.h>
-#include <Jolt/COre/TempAllocator.h>
+#include <Jolt/Core/TempAllocator.h>
 #include <Jolt/Physics/Collision/BroadPhase/BroadPhaseLayer.h>
 #include <cstdint>
 #include <unordered_map>

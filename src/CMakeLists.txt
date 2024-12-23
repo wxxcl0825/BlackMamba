@@ -17,6 +17,8 @@ target_include_directories(main PUBLIC
   ${CMAKE_SOURCE_DIR}/thirdParty/openal/include
 )
 
+find_package(OpenAL REQUIRED)
+
 target_link_libraries(main
   glfw
   glad
@@ -25,5 +27,5 @@ target_link_libraries(main
   stb
   assimp
   Jolt
-  alsoft.common
+  OpenAL::OpenAL
 )
