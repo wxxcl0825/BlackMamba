@@ -51,16 +51,16 @@ void Player::tick(){
     // set torque
     glm::vec3 torque = glm::vec3{0.0f};
     if(_keyMap[GLFW_KEY_W]){
-        torque +=  right * _maxAngularAcceleration * _mass;
+        torque +=  right * _maxAngularAcceleration * (1.0f / 12.0f) * static_cast<float>(std::pow(_boxSize.y, 2) + std::pow(_boxSize.z, 2)) * _mass;
     }
     if(_keyMap[GLFW_KEY_S]){
-        torque += -right * _maxAngularAcceleration * _mass;
+        torque += -right * _maxAngularAcceleration * (1.0f / 12.0f) * static_cast<float>(std::pow(_boxSize.y, 2) + std::pow(_boxSize.z, 2)) * _mass;
     }
     if(_keyMap[GLFW_KEY_A]){
-        torque += -forward * _maxAngularAcceleration * _mass;
+        torque += -forward * _maxAngularAcceleration * (1.0f / 12.0f) * static_cast<float>(std::pow(_boxSize.x, 2) + std::pow(_boxSize.y, 2)) * _mass;
     }
     if(_keyMap[GLFW_KEY_D]){
-        torque +=  forward * _maxAngularAcceleration * _mass;
+        torque +=  forward * _maxAngularAcceleration * (1.0f / 12.0f) * static_cast<float>(std::pow(_boxSize.x, 2) + std::pow(_boxSize.y, 2)) * _mass;
     }
 
     _player->getComponent<RigidBodyComponent>()->setTorque(torque);
