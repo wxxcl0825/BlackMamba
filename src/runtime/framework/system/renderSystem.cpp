@@ -9,16 +9,18 @@
 #include "runtime/framework/object/gameObject.h"
 #include "runtime/resource/geometry/geometry.h"
 #include "runtime/resource/material/material.h"
+#include <algorithm>
 
 void RenderSystem::dispatch(GameObject *object) {
   if (object->getComponent<MeshComponent>())
-    _meshes.push_back(object);
+    _meshes[object->getComponent<MeshComponent>()->getMaterial()->getBlend()]
+        .push_back(object);
   if (object->getComponent<LightComponent>())
     _lights.push_back(object);
   if (object->getComponent<CameraComponent>())
     _cameras.push_back(object);
   if (object->getComponent<TerrainComponent>())
-    _meshes.push_back(object);
+    _meshes[0].push_back(object);
 }
 
 void RenderSystem::tick() {
@@ -84,36 +86,53 @@ void RenderSystem::tick() {
     }
   }
 
-  for (auto mesh : _meshes) {
-    std::shared_ptr<MeshComponent> meshComp =
-        mesh->getComponent<MeshComponent>();
-    Geometry *geometry = meshComp->getGeometry();
-    Material *material = meshComp->getMaterial();
-    ModelInfo modelInfo{
-        .model = mesh->getComponent<TransformComponent>()->getModel()};
+  std::sort(
+      _meshes[1].begin(), _meshes[1].end(),
+      [&cameraInfo](const GameObject *a, const GameObject *b) {
+        return (cameraInfo.view *
+                glm::vec4(
+                    a->getComponent<TransformComponent>()->getPositionWorld(),
+                    1.0))
+                   .z <
+               (cameraInfo.view *
+                glm::vec4(
+                    b->getComponent<TransformComponent>()->getPositionWorld(),
+                    1.0))
+                   .z;
+      });
 
-    setDepthState(material);
-    setBlendState(material);
+  for (auto meshes : _meshes)
+    for (auto mesh : meshes) {
+      std::shared_ptr<MeshComponent> meshComp =
+          mesh->getComponent<MeshComponent>();
+      Geometry *geometry = meshComp->getGeometry();
+      Material *material = meshComp->getMaterial();
+      ModelInfo modelInfo{
+          .model = mesh->getComponent<TransformComponent>()->getModel()};
 
-    material->apply(RenderInfo{.modelInfo = modelInfo,
-                               .cameraInfo = cameraInfo,
-                               .lightInfo = lightInfo});
-    GL_CALL(glBindVertexArray(geometry->getVao()));
-    if (mesh->getComponent<TerrainComponent>()) {
-      int rez = mesh->getComponent<TerrainComponent>()->getRez();
-      GL_CALL(glPatchParameteri(GL_PATCH_VERTICES, 4));
-      GL_CALL(glDrawArrays(GL_PATCHES, 0, 4 * rez * rez));
-    } else {
-      GL_CALL(glDrawElements(GL_TRIANGLES, geometry->getNumIndices(),
-                             GL_UNSIGNED_INT, 0));
+      setDepthState(material);
+      setBlendState(material);
+
+      material->apply(RenderInfo{.modelInfo = modelInfo,
+                                 .cameraInfo = cameraInfo,
+                                 .lightInfo = lightInfo});
+      GL_CALL(glBindVertexArray(geometry->getVao()));
+      if (mesh->getComponent<TerrainComponent>()) {
+        int rez = mesh->getComponent<TerrainComponent>()->getRez();
+        GL_CALL(glPatchParameteri(GL_PATCH_VERTICES, 4));
+        GL_CALL(glDrawArrays(GL_PATCHES, 0, 4 * rez * rez));
+      } else {
+        GL_CALL(glDrawElements(GL_TRIANGLES, geometry->getNumIndices(),
+                               GL_UNSIGNED_INT, 0));
+      }
+      material->finish();
     }
-    material->finish();
-  }
   clear();
 }
 
 void RenderSystem::clear() {
-  _meshes.clear();
+  _meshes[0].clear();
+  _meshes[1].clear();
   _lights.clear();
   _cameras.clear();
 }

@@ -40,7 +40,7 @@ public:
   void tick();
 
 private:
-  std::vector<GameObject *> _meshes, _lights, _cameras;
+  std::vector<GameObject *> _meshes[2], _lights, _cameras;
 
   void initState();
   void setDepthState(Material *material);
