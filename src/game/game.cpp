@@ -140,7 +140,7 @@ void Game::setupScene() {
       "assets/textures/terrain/diffuse.jpg"));
   terrainMat->setHeightMap(_engine->getResourceManager()->loadTexture(
       "assets/textures/terrain/heightMap.png"));
-  Terrain *terrain = new Terrain(10000.0f, 10000.0f,50, 200, terrainMat);
+  Terrain *terrain = new Terrain(10000.0f, 10000.0f, 200, 100, terrainMat);
   terrain->getTerrain()->addComponent(std::make_shared<RigidBodyComponent>(
       JPH::EMotionType::Static, Layers::STATIC, 100000.0f, 1.f, 100000.0f,
       1.0f));
