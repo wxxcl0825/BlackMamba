@@ -1,5 +1,5 @@
 #include "runtime/framework/component/audio/audio.h"
-#include "al.h"
+#include <AL/al.h>
 #include "common/macro.h"
 #include "runtime/resource/audio/audio.h"
 

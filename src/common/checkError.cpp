@@ -1,4 +1,4 @@
-#include "al.h"
+#include <AL/al.h>
 #include "common/common.h"
 #include "common/macro.h"
 
