@@ -49,7 +49,7 @@ void Player::tick() {
     return;
   }
 
-  if(_canExplode && _player->getComponent<RigidBodyComponent>()->getLinearVelocity().y < -3.0f && _player->getComponent<RigidBodyComponent>()->isCollide()){
+  if(_canExplode && _player->getComponent<RigidBodyComponent>()->getLinearVelocity().y < -0.6f && _player->getComponent<RigidBodyComponent>()->isCollide()){
     explode();
     _canExplode = false;
   }
