@@ -18,7 +18,8 @@ bool AudioSystem::init() {
 void AudioSystem::dispatch(GameObject *object) {
   if (object->getComponent<AudioComponent>())
     _audios.push_back(object);
-  if (object->getComponent<CameraComponent>() && object->getComponent<CameraComponent>()->isMain())
+  if (object->getComponent<CameraComponent>() &&
+      object->getComponent<CameraComponent>()->isMain())
     _listener = object;
 }
 
@@ -52,4 +53,7 @@ void AudioSystem::tick() {
   } else {
     alListener3f(AL_VELOCITY, 0.0f, 0.0f, 0.0f);
   }
+  clear();
 }
+
+void AudioSystem::clear() { _audios.clear(); }

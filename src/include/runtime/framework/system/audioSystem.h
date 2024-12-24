@@ -17,4 +17,6 @@ public:
 private:
   std::vector<GameObject *> _audios;
   GameObject* _listener;
+
+  void clear();
 };
