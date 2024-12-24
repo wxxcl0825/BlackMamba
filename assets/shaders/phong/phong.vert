@@ -23,10 +23,10 @@ void main() {
   vec4 transformPosition = model * vec4(aPosition, 1.0);
 
   gl_Position = projection * view * transformPosition;
-  vs_out.uv = uv;
-  vs_out.normal = normal;
-  vs_out.worldPosition = worldPosition;
   uv = aUv;
   normal = normalMatrix * aNormal;
   worldPosition = transformPosition.xyz;
+  vs_out.uv = aUv;
+  vs_out.normal = aNormal;
+  vs_out.worldPosition = worldPosition;
 }
