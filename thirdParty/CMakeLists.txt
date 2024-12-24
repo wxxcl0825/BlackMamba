@@ -7,4 +7,6 @@ include(${THIRD_PARTY_LIBRARY_PATH}/imgui.cmake)
 include(${THIRD_PARTY_LIBRARY_PATH}/stb.cmake)
 add_subdirectory(${THIRD_PARTY_LIBRARY_PATH}/assimp)
 add_subdirectory(${THIRD_PARTY_LIBRARY_PATH}/JoltPhysics/Build)
+
+set(LIBTYPE STATIC)
 add_subdirectory(${THIRD_PARTY_LIBRARY_PATH}/openal)

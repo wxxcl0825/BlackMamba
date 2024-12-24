@@ -1,6 +1,6 @@
 #include "runtime/resource/resourceManager.h"
 
-#include "al.h"
+#include <AL/al.h>
 #include "common/macro.h"
 #include "runtime/resource/audio/audio.h"
 #include "runtime/resource/geometry/geometry.h"
