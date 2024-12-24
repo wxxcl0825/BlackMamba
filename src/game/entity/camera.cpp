@@ -80,13 +80,13 @@ void Camera::updatePosition() {
     glm::vec3 front =
         glm::cross(_cameraComp->getUpVec(), _cameraComp->getRightVec());
     glm::vec3 right = _cameraComp->getRightVec();
-    if (_keyMap[GLFW_KEY_W] || _keyMap[GLFW_KEY_UP])
+    if (_keyMap[GLFW_KEY_UP])
       direction += front;
-    if (_keyMap[GLFW_KEY_S] || _keyMap[GLFW_KEY_DOWN])
+    if (_keyMap[GLFW_KEY_DOWN])
       direction -= front;
-    if (_keyMap[GLFW_KEY_A] || _keyMap[GLFW_KEY_LEFT])
+    if (_keyMap[GLFW_KEY_LEFT])
       direction -= right;
-    if (_keyMap[GLFW_KEY_D] || _keyMap[GLFW_KEY_RIGHT])
+    if (_keyMap[GLFW_KEY_RIGHT])
       direction += right;
     if (glm::length(direction)) {
       direction = glm::normalize(direction);
