@@ -12,7 +12,7 @@ GameInfo info = {.enginInfo{
                               .maxJobCount = 1024,
                               .maxBarrierCount = 8,
                               .maxConcurrentJobCount = 4,
-                              .gravity = {0.f, -9.8f, 0.0f},
+                              .gravity = {0.f, -3.8f, 0.0f},
                               .updateFrequency = 60.f,
                               .collisionSteps = 1}}
     }

@@ -26,6 +26,8 @@ public:
     }
   }
 
+  bool getExplosionStatus() const { return _canExplode; }
+
   void setLiftCoefficient(const float &liftCoefficient) {
     _liftCoefficient = liftCoefficient;
   }
@@ -37,6 +39,8 @@ public:
   }
 
   void setExplosionFunc(const ExplosionFunc &func) { _explosionFunc = func; }
+
+  void setExplosionStatus(bool status) {_canExplode = status;}
 
 private:
   GameObject *_player{nullptr};
@@ -58,6 +62,7 @@ private:
   bool _onExplode{false};
   float _explodeStart{.0f};
   float _explodeEnd{.0f};
+  bool _canExplode{true};
 
   ExplosionFunc _explosionFunc{[](float x) -> float { return x; }};
 
