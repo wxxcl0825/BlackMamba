@@ -121,6 +121,6 @@ void main() {
     result += calSpotLight(spotLight[i], normalN, viewDir);
   result += calAmbientLight(ambientLight);
 
-  float alphaValue = mix(1.0, 1.0 - texture(alphaMap, uv).r, useAlphaMap);
+  float alphaValue = mix(1.0, texture(alphaMap, uv).r, useAlphaMap);
   FragColor = vec4(result, alphaValue);
 }

@@ -15,7 +15,7 @@ public:
   PhongMaterial(const Material &other) : Material(other) {
     ResourceManager *resourceManager = Game::getGame()->getEngine()->getResourceManager();
     _shader = resourceManager->loadShader(
-      "assets/shaders/phong/phong.vert", "assets/shaders/effect/explode.geom","assets/shaders/phong/phong.frag");
+      "assets/shaders/phong/phong.vert", "assets/shaders/phong/phong.frag");
     _diffuse = nullptr;
     _shiness = 32.0f;
   }

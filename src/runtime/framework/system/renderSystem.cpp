@@ -28,14 +28,19 @@ void RenderSystem::tick() {
   glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
   GameObject *mainCamera = nullptr;
+  if (_cameras.empty())
+    Err("No camera found!");
   for (auto camera : _cameras) {
     if (camera->getComponent<CameraComponent>()->isMain()) {
       mainCamera = camera;
       break;
     }
   }
-  if (!mainCamera)
-    Err("No main camera found!");
+  if (!mainCamera) {
+    Log("No main camera found! Use default.");
+    _cameras[0]->getComponent<CameraComponent>()->pick();
+    mainCamera = _cameras[0];
+  }
   std::shared_ptr<CameraComponent> mainCameraComp =
       mainCamera->getComponent<CameraComponent>();
   std::shared_ptr<TransformComponent> mainCameraTransfrom =
@@ -160,7 +165,7 @@ void RenderSystem::setDepthState(Material *material) {
 void RenderSystem::setBlendState(Material *material) {
   if (material->getBlend()) {
     glEnable(GL_BLEND);
-    glBlendFunc(material->getSFactor(), material->getSFactor());
+    glBlendFunc(material->getSFactor(), material->getDFactor());
   } else
     glDisable(GL_BLEND);
 }

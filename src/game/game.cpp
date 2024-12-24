@@ -1,12 +1,14 @@
 #include "game/game.h"
+#include "GLFW/glfw3.h"
 #include "Jolt/Physics/Body/MotionType.h"
 #include "common/macro.h"
 #include "game/entity/camera.h"
 #include "game/entity/player.h"
 #include "game/entity/skybox.h"
 #include "game/entity/terrain.h"
-#include "game/material/phongMaterial.h"
+#include "game/material/explosionMaterial.h"
 #include "game/material/terrainMaterial.h"
+#include "game/utils/utils.h"
 #include "runtime/framework/component/audio/audio.h"
 #include "runtime/framework/component/camera/camera.h"
 #include "runtime/framework/component/light/light.h"
@@ -84,11 +86,13 @@ void Game::setupScene() {
 
   _scene->addChild(camera->getCamera());
 
-  PhongMaterial *phongMat = new PhongMaterial();
-  Player *player =
-      new Player("assets/models/fighter/fighter.obj", phongMat,
-                 glm::vec3(0.0f,3.5f, 0.0f), glm::vec3(0.5f, 0.0f, 0.5f),
-                 3.0f, glm::vec3(3.0f), 1.0f, 0.6f, 18.0f, 0.02f);
+  ExplosionMaterial *explosionMat = new ExplosionMaterial();
+  GameObject *model =
+      Utils::loadModel("assets/models/fighter/fighter.obj", *explosionMat);
+
+  Player *player = new Player(model, glm::vec3(0.0f, 3.5f, 0.0f),
+                              glm::vec3(0.5f, 0.0f, 0.5f), 3.0f,
+                              glm::vec3(3.0f), 1.0f, 0.6f, 18.0f, 0.02f);
 
   std::shared_ptr<AudioComponent> audioComp =
       std::make_shared<AudioComponent>();
@@ -130,8 +134,23 @@ void Game::setupScene() {
           glm::vec4((player->getPlayer()
                          ->getComponent<TransformComponent>()
                          ->getPositionWorld() +
-                     glm::vec3(0.0f, 1.0f, -3.0f)),
+                     glm::vec3(0.0f, 10.0f, 0.0f)),
                     1.0f));
+    }
+    if (key == GLFW_KEY_E && action == GLFW_PRESS) {
+      fCamera->disable();
+      camera->enable();
+      skybox->bind(camera->getCamera());
+      camera->getCamera()->getComponent<TransformComponent>()->setPositionLocal(
+          glm::inverse(camera->getCamera()
+                           ->getComponent<TransformComponent>()
+                           ->getParentModel()) *
+          glm::vec4((player->getPlayer()
+                         ->getComponent<TransformComponent>()
+                         ->getPositionWorld() +
+                     glm::vec3(0.0f, 10.0f, 0.0f)),
+                    1.0f));
+      player->explode();
     }
   });
 
@@ -147,6 +166,8 @@ void Game::setupScene() {
 
   _scene->addChild(player->getPlayer());
   _scene->addChild(terrain->getTerrain());
+
+  player->setExplosionFunc([](float x) -> float { return 10 * log(x + 1); });
 
   _engine->setMainLoop([] {});
 }
