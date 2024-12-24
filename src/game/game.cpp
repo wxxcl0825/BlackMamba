@@ -92,7 +92,7 @@ void Game::setupScene() {
 
   Player *player = new Player(model, glm::vec3(0.0f, 3.5f, 0.0f),
                               glm::vec3(0.5f, 0.0f, 0.5f), 3.0f,
-                              glm::vec3(3.0f), 1.0f, 0.6f, 18.0f, 0.02f);
+                              glm::vec3(3.0f), 1.0f, 0.7f, 10.0f, 0.02f);
 
   std::shared_ptr<AudioComponent> audioComp =
       std::make_shared<AudioComponent>();
@@ -123,7 +123,7 @@ void Game::setupScene() {
       fCamera->enable();
       skybox->bind(fCamera->getCamera());
     }
-    if (key == GLFW_KEY_1 && action == GLFW_PRESS) {
+    if ((key == GLFW_KEY_1 && action == GLFW_PRESS) ||(!player->getExplosionStatus())) {
       fCamera->disable();
       camera->enable();
       skybox->bind(camera->getCamera());
@@ -136,21 +136,7 @@ void Game::setupScene() {
                          ->getPositionWorld() +
                      glm::vec3(0.0f, 10.0f, 0.0f)),
                     1.0f));
-    }
-    if (key == GLFW_KEY_E && action == GLFW_PRESS) {
-      fCamera->disable();
-      camera->enable();
-      skybox->bind(camera->getCamera());
-      camera->getCamera()->getComponent<TransformComponent>()->setPositionLocal(
-          glm::inverse(camera->getCamera()
-                           ->getComponent<TransformComponent>()
-                           ->getParentModel()) *
-          glm::vec4((player->getPlayer()
-                         ->getComponent<TransformComponent>()
-                         ->getPositionWorld() +
-                     glm::vec3(0.0f, 10.0f, 0.0f)),
-                    1.0f));
-      player->explode();
+      player->setExplosionStatus(true);
     }
   });
 

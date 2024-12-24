@@ -83,7 +83,7 @@ void PhysicalSystem::dispatch(GameObject *object) {
 
             bodyInterface.AddForce(JPH::BodyID(_rigidBody->getId()), toVec3(force));
             bodyInterface.AddTorque(JPH::BodyID(_rigidBody->getId()), toVec3(torque));
-            bodyInterface.SetFriction(JPH::BodyID(_rigidBody->getId()), fmax(0.3f,linearVelocity.Length() * 0.1f));
+            bodyInterface.SetFriction(JPH::BodyID(_rigidBody->getId()), 0.001f);
             // limit speed
             if(linearVelocity.Length() > _rigidBody->getMaxLinearVelocity()) {
                 bodyInterface.SetLinearVelocity(JPH::BodyID(_rigidBody->getId()), linearVelocity.Normalized() * _rigidBody->getMaxLinearVelocity());
@@ -128,7 +128,7 @@ uint32_t PhysicalSystem::createRigidBody(GameObject *object) {
     JPH::BodyCreationSettings settings(shape, toVec3(position), toQuat(toRotation(angle)), motionType, layer);
     settings.mApplyGyroscopicForce  = true;
     settings.mMaxLinearVelocity     = 10000.0;
-    settings.mLinearDamping         = 0.5;
+    settings.mLinearDamping         = 0.2;
     settings.mAngularDamping        = 0.1;
 
     JPH::BodyInterface& bodyInterface = _joltPhysics._joltPhysicsSystem->GetBodyInterface();
