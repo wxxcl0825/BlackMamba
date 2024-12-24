@@ -88,7 +88,7 @@ void Game::setupScene() {
   Player *player =
       new Player("assets/models/fighter/fighter.obj", phongMat,
                  glm::vec3(0.0f,3.5f, 0.0f), glm::vec3(0.5f, 0.0f, 0.5f),
-                 3.0f, glm::vec3(3.0f), 1.0f, 0.7f, 18.0f, 0.02f);
+                 3.0f, glm::vec3(3.0f), 1.0f, 0.6f, 18.0f, 0.02f);
 
   std::shared_ptr<AudioComponent> audioComp =
       std::make_shared<AudioComponent>();

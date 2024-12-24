@@ -32,8 +32,7 @@ Texture *ResourceManager::loadTexture(const std::string &filePath) {
   return _textureMap[filePath];
 }
 
-Texture *
-ResourceManager::loadTexture(const std::vector<std::string> &filePaths) {
+Texture *ResourceManager::loadTexture(const std::vector<std::string> &filePaths) {
   if (_textureMap.find(filePaths[0]) == _textureMap.end()) {
     Log("Loading texture: %s", filePaths[0].c_str());
     Texture *_texture = new Texture(filePaths, 0);

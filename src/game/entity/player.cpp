@@ -35,7 +35,6 @@ void Player::tick(){
     glm::vec3 forward = _player->getComponent<TransformComponent>()->getForwardVec();
     glm::vec3 right = _player->getComponent<TransformComponent>()->getRightVec();
     glm::vec3 up = _player->getComponent<TransformComponent>()->getUpVec();
-
     // set force
     glm::vec3 engineForce = glm::vec3{0.0f};
     if(_keyMap[GLFW_KEY_SPACE]){
