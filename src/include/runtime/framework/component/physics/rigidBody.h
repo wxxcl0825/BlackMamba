@@ -35,6 +35,7 @@ public:
   glm::vec3 getLinearVelocity() const { return _linearVelocity; }
   float getMaxLinearVelocity() const { return _maxLinearVelocity; }
   float getMaxAngularVelocity() const { return _maxAngularVelocity; }
+  bool isCollide() const { return _isCollide; }
 
   void setId(uint32_t id) { _id = id; }
   void setDensity(float density) { _density = density; }
@@ -47,6 +48,7 @@ public:
   void setLinearVelocity(glm::vec3 linearVelocity) { _linearVelocity = linearVelocity; }
   void setMaxLinearVelocity(float maxLinearVelocity) { _maxLinearVelocity = maxLinearVelocity; }
   void setMaxAngularVelocity(float maxAngularVelocity) { _maxAngularVelocity = maxAngularVelocity; }
+  void setCollide(bool isCollide) { _isCollide = isCollide; }
 
 private:
   uint32_t _id {0xffffffff};
@@ -62,4 +64,6 @@ private:
   glm::vec3 _linearVelocity {0.0f, 0.0f, 0.0f};
   float _maxLinearVelocity {500.0f};
   float _maxAngularVelocity {0.25f * JPH::JPH_PI};
+
+  bool _isCollide {false};
 };

@@ -7,6 +7,9 @@
 #include <Jolt/Physics/Collision/BroadPhase/BroadPhaseLayer.h>
 #include <Jolt/Physics/Collision/Shape/StaticCompoundShape.h>
 #include <Jolt/Physics/Body/BodyCreationSettings.h>
+#include <Jolt/Physics/Collision/NarrowPhaseQuery.h>
+#include <Jolt/Physics/Collision/CollideShape.h>
+#include <Jolt/Physics/Collision/CollisionCollectorImpl.h>
 
 #include "common/macro.h"
 #include "runtime/framework/component/physics/rigidBody.h"
@@ -45,6 +48,9 @@ bool PhysicalSystem::init(PhysicsInfo info) {
                                                 *(_joltPhysics._objectVsBroadPhaseFilter),
                                                 *(_joltPhysics._objectLayerPairFilter));
 
+    _joltPhysics._contactListener = new MyContactListener();
+    _joltPhysics._joltPhysicsSystem->SetContactListener(_joltPhysics._contactListener);
+
     // _joltPhysics._joltPhysicsSystem->SetPhysicsSettings(JPH::PhysicsSettings());
     _joltPhysics._joltPhysicsSystem->SetGravity({_config.gravity.x, _config.gravity.y, _config.gravity.z});
 
@@ -73,9 +79,11 @@ void PhysicalSystem::dispatch(GameObject *object) {
             glm::vec3 torque = _rigidBody->getTorque();
             JPH::Vec3 linearVelocity = bodyInterface.GetLinearVelocity(JPH::BodyID(_rigidBody->getId()));
             JPH::Vec3 angularVelocity = bodyInterface.GetAngularVelocity(JPH::BodyID(_rigidBody->getId()));
+            bool isCollide = _joltPhysics._contactListener->isCollide(_rigidBody->getId());
 
             bodyInterface.AddForce(JPH::BodyID(_rigidBody->getId()), toVec3(force));
             bodyInterface.AddTorque(JPH::BodyID(_rigidBody->getId()), toVec3(torque));
+            bodyInterface.SetFriction(JPH::BodyID(_rigidBody->getId()), fmax(0.3f,linearVelocity.Length() * 0.1f));
             // limit speed
             if(linearVelocity.Length() > _rigidBody->getMaxLinearVelocity()) {
                 bodyInterface.SetLinearVelocity(JPH::BodyID(_rigidBody->getId()), linearVelocity.Normalized() * _rigidBody->getMaxLinearVelocity());
@@ -83,8 +91,9 @@ void PhysicalSystem::dispatch(GameObject *object) {
             if(angularVelocity.Length() > _rigidBody->getMaxAngularVelocity()) {
                 bodyInterface.SetAngularVelocity(JPH::BodyID(_rigidBody->getId()), angularVelocity.Normalized() * _rigidBody->getMaxAngularVelocity());
             }
-
+            
             _rigidBody->setLinearVelocity(toVec3(linearVelocity));
+            _rigidBody->setCollide(isCollide);
         }
     }
 }
@@ -120,7 +129,7 @@ uint32_t PhysicalSystem::createRigidBody(GameObject *object) {
     settings.mApplyGyroscopicForce  = true;
     settings.mMaxLinearVelocity     = 10000.0;
     settings.mLinearDamping         = 0.5;
-    settings.mAngularDamping        = 0.5;
+    settings.mAngularDamping        = 0.1;
 
     JPH::BodyInterface& bodyInterface = _joltPhysics._joltPhysicsSystem->GetBodyInterface();
     JPH::Body *body = bodyInterface.CreateBody(settings);
@@ -128,6 +137,7 @@ uint32_t PhysicalSystem::createRigidBody(GameObject *object) {
     // form 0.0 to 1.0
     // body->SetRestitution(0.3f);
     bodyInterface.AddBody(body->GetID(), JPH::EActivation::Activate);
+    _joltPhysics._contactListener->registerBody(body->GetID().GetIndexAndSequenceNumber());
 
     uint32_t id = body->GetID().GetIndexAndSequenceNumber();
     _rigidBody->setId(id);

@@ -35,11 +35,12 @@ struct PhysicsInfo {
 class PhysicalSystem{
     struct JoltPhysics
     {
-        JPH::PhysicsSystem*            _joltPhysicsSystem {nullptr};
-        JPH::JobSystem*                _joltJobSystem {nullptr};
-        JPH::TempAllocator*            _tempAllocator {nullptr};
-        JPH::BroadPhaseLayerInterface* _joltBroadPhaseLayerInterface {nullptr};
+        JPH::PhysicsSystem*             _joltPhysicsSystem {nullptr};
+        JPH::JobSystem*                 _joltJobSystem {nullptr};
+        JPH::TempAllocator*             _tempAllocator {nullptr};
+        JPH::BroadPhaseLayerInterface*  _joltBroadPhaseLayerInterface {nullptr};
 
+        MyContactListener*              _contactListener {nullptr};
         MyObjectVsBroadPhaseLayerFilter *_objectVsBroadPhaseFilter {nullptr};
         MyObjectLayerPairFilter *_objectLayerPairFilter {nullptr};
 
