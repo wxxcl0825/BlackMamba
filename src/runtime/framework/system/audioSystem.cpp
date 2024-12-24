@@ -1,7 +1,7 @@
 #include "runtime/framework/system/audioSystem.h"
 
-#include "al.h"
-#include "alc.h"
+#include <AL/al.h>
+#include <AL/alc.h>
 #include "runtime/framework/component/audio/audio.h"
 #include "runtime/framework/component/camera/camera.h"
 #include "runtime/framework/component/physics/rigidBody.h"
