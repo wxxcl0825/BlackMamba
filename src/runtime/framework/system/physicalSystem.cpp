@@ -128,7 +128,7 @@ uint32_t PhysicalSystem::createRigidBody(GameObject *object) {
     JPH::BodyCreationSettings settings(shape, toVec3(position), toQuat(toRotation(angle)), motionType, layer);
     settings.mApplyGyroscopicForce  = true;
     settings.mMaxLinearVelocity     = 10000.0;
-    settings.mLinearDamping         = 0.2;
+    settings.mLinearDamping         = 0.1;
     settings.mAngularDamping        = 0.1;
 
     JPH::BodyInterface& bodyInterface = _joltPhysics._joltPhysicsSystem->GetBodyInterface();
