@@ -42,6 +42,9 @@ public:
 
   Audio *loadAudio(const std::string &filePath);
 
+  void pauseAllAudios();
+  void startAllAudios();
+
 private:
   std::unordered_map<std::string, Texture *> _textureMap{};
   std::unordered_map<std::string, Shader *> _shaderMap{};

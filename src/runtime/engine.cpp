@@ -75,9 +75,15 @@ void Engine::start() {
   }
 }
 
-void Engine::pause() { _state = State::PAUSE; }
+void Engine::pause() { 
+  _resourceManger->pauseAllAudios();
+  _state = State::PAUSE; 
+}
 
-void Engine::resume() { _state = State::RUNNING; }
+void Engine::resume() { 
+  _resourceManger->startAllAudios();
+  _state = State::RUNNING; 
+}
 
 void Engine::stop() { _state = State::STOP; }
 

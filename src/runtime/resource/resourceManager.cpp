@@ -1,5 +1,6 @@
 #include "runtime/resource/resourceManager.h"
 
+#include "al.h"
 #include "common/macro.h"
 #include "runtime/resource/audio/audio.h"
 #include "runtime/resource/geometry/geometry.h"
@@ -224,4 +225,14 @@ Audio *ResourceManager::loadAudio(const std::string &filePath) {
     _audioMap[filePath] = _audio;
   }
   return _audioMap[filePath];
+}
+
+void ResourceManager::pauseAllAudios() {
+  for (auto audio : _audioMap)
+    alSourcePause(audio.second->getAudioID());
+}
+
+void ResourceManager::startAllAudios() {
+  for (auto audio : _audioMap)
+    alSourcePlay(audio.second->getAudioID());
 }
