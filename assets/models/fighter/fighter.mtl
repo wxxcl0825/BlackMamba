@@ -75,7 +75,7 @@ Ni 1.000000
 d 1.000000
 illum 2
 map_Kd post-16066-0-54089300-1384537631.png
-map_d panel_glass_c_a.png
+map_d post-16066-0-54089300-1384537631_a.png
 
 newmtl interior
 Ns 22.222227
@@ -284,7 +284,7 @@ Ni 1.450000
 d 1.000000
 illum 2
 map_Kd cockpit.png
-map_d panel_glass_c_a.png
+map_d lens_glass_a.png
 
 newmtl material_27_350
 Ns 111.111099
@@ -305,7 +305,7 @@ Ke 0.000000 0.000000 0.000000
 Ni 1.450000
 d 1.000000
 illum 2
-map_Kd panel_glass_c_a.png
+map_Kd lens_glass_a.png
 
 newmtl material_2_325.001
 Ns 283.333344
@@ -316,7 +316,7 @@ Ke 0.000000 0.000000 0.000000
 Ni 1.450000
 d 1.000000
 illum 2
-map_Kd panel_glass_c_a.png
+map_Kd lens_glass_a.png
 
 newmtl material_2_348
 Ns 283.333344
@@ -327,7 +327,7 @@ Ke 0.000000 0.000000 0.000000
 Ni 1.450000
 d 1.000000
 illum 2
-map_Kd panel_glass_c_a.png
+map_Kd lens_glass_a.png
 map_d panel_glass_c_a.png
 
 newmtl material_36_349
@@ -348,7 +348,7 @@ Ke 0.000000 0.000000 0.000000
 Ni 1.450000
 illum 2
 map_Kd lens_glass.jpg
-map_d lens_glass_a.png
+map_d panel_glass_c_a.png
 
 newmtl material_39_354
 Ns 35.555550
@@ -448,7 +448,7 @@ Ke 0.000000 0.000000 0.000000
 Ni 1.450000
 illum 2
 map_Kd us_gauge_radar_display_with_control_panel_glass_c.jpg
-map_d panel_glass_c_a.png
+map_d lens_glass_a.png
 
 newmtl material_47_359
 Ns 35.555550
@@ -459,7 +459,7 @@ Ni 1.450000
 d 1.000000
 illum 2
 map_Kd us_gauge_radar_display_with_control_panel_glass_c.jpg
-map_d panel_glass_c_a.png
+map_d lens_glass_a.png
 
 newmtl material_48_360
 Ns 22.222227
