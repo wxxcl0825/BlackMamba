@@ -58,13 +58,13 @@
 #let chapter(content) = {
   let first_key = content.body.fields().keys().at(0)
   let header = content.body.at(first_key)
-  if (header.split(":").at(0).at(0) == [Appendix]) {
+  if (header.split(".").at(0).at(0) == [Appendix]) {
     set text(size: 20pt)
     pagebreak()
     [Appendix]
     set text(size: 24pt)
     v(1cm)
-    h(-1em); header.split(":").at(0).at(3)
+    h(-2em); header.split(":").at(0).at(3)
     v(1.5cm)
     return;
   }
