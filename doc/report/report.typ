@@ -48,6 +48,9 @@
   set heading(numbering: (..args) => {
     let nums = args.pos()
     if (nums.len() == 1) {
+      if (nums.at(0) == 7) {
+        return []
+      }
       return [Part ] + numbering("I", nums.at(0))
     } else if (nums.len() == 2) {
       return numbering("一、", nums.at(1)) + h(-5pt)
@@ -73,3 +76,16 @@
   subtitle: "计算机图形学课程大项目",
   doc)
 
+#include "chapters/introduction.typ"
+
+#include "chapters/architecture.typ"
+
+#include "chapters/render.typ"
+
+#include "chapters/physics.typ"
+
+#include "chapters/audio.typ"
+
+#include "chapters/game.typ"
+
+#include "chapters/appendix.typ"
