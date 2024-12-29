@@ -74,12 +74,17 @@
     if (first_level != "1") {
       pagebreak()
     }
-    set text(size: 22pt)
-    [第#numbering("一", int(first_level))部分]
+    if (not header.contains("Bibliography")) {
+      set text(size: 22pt)
+      [第#numbering("一", int(first_level))部分]
+    }
   }
   set text(size: 24pt)
   v(1cm)
-  h(-2em); content.body
+  if (not header.contains("Bibliography")) {
+    h(-2em);
+  }
+  content.body
   v(1.5cm)
 }
 
