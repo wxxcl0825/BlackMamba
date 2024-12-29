@@ -76,6 +76,8 @@
   subtitle: "计算机图形学课程大项目",
   doc)
 
+#codly(zebra-fill: none)
+
 #include "chapters/introduction.typ"
 
 #include "chapters/architecture.typ"
@@ -89,3 +91,5 @@
 #include "chapters/game.typ"
 
 #include "chapters/appendix.typ"
+
+#bibliography("references.bib")
