@@ -3,7 +3,7 @@
 # 代号·黑曼巴
 
 ![OpenGL](https://img.shields.io/badge/OpenGL-4.1%20Core%20Profile-blue)
-![License](https://img.shields.io/badge/License-CC--BY--NC--ND%204.0-red)
+![License](https://img.shields.io/badge/License-MIT-green)
 
 ## Introduction | 项目简介  
 **Project Black Mamba** is a flight simulator developed for a Computer Graphics course project. It integrates advanced OpenGL rendering techniques, physics simulation, and audio systems to deliver an immersive flying experience. Players can control an aircraft with realistic aerodynamics, switch between multiple camera perspectives, and interact with dynamically generated terrains.  
@@ -76,8 +76,8 @@ cmake .. && make
 ---
 
 ## License | 许可协议  
-CC BY-NC-ND 4.0: Redistribution only with **proper credit**, non-commercial use, and no derivatives.  
-[![License](https://i.creativecommons.org/l/by-nc-nd/4.0/88x31.png)](https://creativecommons.org/licenses/by-nc-nd/4.0/)
+MIT License: Redistribution and use in source and binary forms, with or without modification, are permitted provided that the conditions are met.  
+[![License](https://img.shields.io/badge/License-MIT-green)](https://opensource.org/licenses/MIT)
 
 ---
 
