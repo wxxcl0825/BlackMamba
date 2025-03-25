@@ -22,6 +22,12 @@
 - **Gameplay**  
   - 多视角切换（自由视角/驾驶舱视角）、飞机损毁机制、动态场景构建  
 
+![architecture](doc/report/images/2.1.png)
+*game architecture*
+
+![renderer](doc/report/images/3.1.png)
+*rendering sub-system*
+
 To learn more, feel free to refer to `doc/report/report.pdf` for more details (Chinese version available only).
 
 详情请见`doc/report/report.pdf`(中文报告).
