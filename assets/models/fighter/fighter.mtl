@@ -1,0 +1,805 @@
+# Blender 4.2.3 LTS MTL File: 'fighter.blend'
+# www.blender.org
+
+newmtl MAINbodymaterial
+Ns 427.214722
+Ka 0.640909 0.640909 0.640909
+Ke 0.000000 0.000000 0.000000
+Ni 1.450000
+d 1.000000
+illum 3
+map_Kd f_104gLuft.png
+map_Ks f_104g_n_s.jpg
+
+newmtl Material.002
+Ns 360.000000
+Ka 1.000000 1.000000 1.000000
+Kd 0.800000 0.800000 0.800000
+Ks 0.500000 0.500000 0.500000
+Ke 0.000000 0.000000 0.000000
+Ni 1.000000
+d 1.000000
+illum 2
+map_Kd cockpit.png
+
+newmtl _9cd4d4c_dds
+Ns 11.111113
+Ka 1.000000 1.000000 1.000000
+Kd 0.700000 0.700000 0.700000
+Ks 0.100000 0.100000 0.100000
+Ke 0.000000 0.000000 0.000000
+Ni 1.450000
+d 1.000000
+illum 2
+map_Kd misit.png
+
+
+newmtl ab958c88_dds
+Ns 132.860367
+Ka 0.809091 0.809091 0.809091
+Ke 0.000000 0.000000 0.000000
+Ni 1.450000
+d 1.000000
+illum 3
+map_Kd ab958c88.png
+map_Ks ab958c88.png
+
+newmtl engine
+Ns 386.633392
+Ka 0.781818 0.781818 0.781818
+Ke 0.000000 0.000000 0.000000
+Ni 1.450000
+d 1.000000
+illum 3
+map_Kd f_104g_c.jpg
+map_Ks f_104g_n_s.jpg
+
+newmtl front_landing_gear
+Ns 244.555756
+Ka 0.631818 0.631818 0.631818
+Ke 0.000000 0.000000 0.000000
+Ni 1.450000
+d 1.000000
+illum 3
+map_Kd f_104gLuft.png
+map_Ks f_104g_n_s.jpg
+map_Bump -bm 1.000000 normalmap.jpeg
+
+newmtl gunsight
+Ns 360.000000
+Ka 1.000000 1.000000 1.000000
+Kd 0.800000 0.800000 0.800000
+Ks 0.500000 0.500000 0.500000
+Ke 0.000000 0.000000 0.000000
+Ni 1.000000
+d 1.000000
+illum 2
+map_Kd post-16066-0-54089300-1384537631.png
+map_d post-16066-0-54089300-1384537631_a.png
+
+newmtl interior
+Ns 22.222227
+Ka 1.000000 1.000000 1.000000
+Ke 0.000000 0.000000 0.000000
+Ni 1.450000
+d 1.000000
+illum 2
+map_Kd f_104g_interior_c.jpg
+map_Ks f_104g_interior_n_s.jpg
+
+newmtl material_11_348
+Ns 22.222227
+Ka 1.000000 1.000000 1.000000
+Ke 0.000000 0.000000 0.000000
+Ni 1.450000
+d 1.000000
+illum 2
+map_Kd f_104_pylon_metal_c.jpg
+map_Ks f_104_pylon_metal_n_s.jpg
+
+newmtl material_12_325
+Ns 22.222227
+Ka 1.000000 1.000000 1.000000
+Ke 0.000000 0.000000 0.000000
+Ni 1.450000
+d 1.000000
+illum 2
+map_Kd fr_rocket_pylon_aa20_c.jpg
+map_Ks fr_rocket_pylon_aa20_n_s.jpg
+
+newmtl material_12_325.001
+Ns 22.222227
+Ka 1.000000 1.000000 1.000000
+Ke 0.000000 0.000000 0.000000
+Ni 1.450000
+d 1.000000
+illum 2
+map_Kd fr_rocket_pylon_aa20_c.jpg
+map_Ks fr_rocket_pylon_aa20_n_s.jpg
+
+newmtl material_12_349
+Ns 22.222227
+Ka 1.000000 1.000000 1.000000
+Ke 0.000000 0.000000 0.000000
+Ni 1.450000
+d 1.000000
+illum 2
+map_Kd fr_rocket_pylon_aa20_c.jpg
+map_Ks fr_rocket_pylon_aa20_n_s.jpg
+
+newmtl material_13_325
+Ns 22.222227
+Ka 1.000000 1.000000 1.000000
+Kd 0.502000 0.502000 0.502000
+Ks 0.251000 0.251000 0.251000
+Ke 0.000000 0.000000 0.000000
+Ni 1.000000
+d 1.000000
+illum 2
+map_Kd lau32_mod5_launcher_c.jpg
+map_Ks lau32_mod5_launcher_n_s.jpg
+
+newmtl material_13_325.001
+Ns 22.222227
+Ka 1.000000 1.000000 1.000000
+Ke 0.000000 0.000000 0.000000
+Ni 1.450000
+d 1.000000
+illum 2
+map_Kd lau32_mod5_launcher_c.jpg
+map_Ks lau32_mod5_launcher_n_s.jpg
+
+newmtl material_13_349
+Ns 22.222227
+Ka 1.000000 1.000000 1.000000
+Ke 0.000000 0.000000 0.000000
+Ni 1.450000
+d 1.000000
+illum 2
+map_Kd lau32_mod5_launcher_c.jpg
+map_Ks lau32_mod5_launcher_n_s.jpg
+
+newmtl material_14_325
+Ns 22.222227
+Ka 1.000000 1.000000 1.000000
+Ke 0.000000 0.000000 0.000000
+Ni 1.450000
+d 1.000000
+illum 2
+map_Kd an_ale_40_dispenser_c.jpg
+map_Ks an_ale_40_dispenser_n_s.jpg
+
+newmtl material_14_325.001
+Ns 22.222227
+Ka 1.000000 1.000000 1.000000
+Ke 0.000000 0.000000 0.000000
+Ni 1.450000
+d 1.000000
+illum 2
+map_Kd an_ale_40_dispenser_c.jpg
+map_Ks an_ale_40_dispenser_n_s.jpg
+
+newmtl material_14_349
+Ns 250.000000
+Ka 1.000000 1.000000 1.000000
+Kd 0.800000 0.800000 0.800000
+Ks 0.500000 0.500000 0.500000
+Ke 0.000000 0.000000 0.000000
+Ni 1.500000
+d 0.033000
+illum 9
+map_Kd lens_glass_a.png
+map_d panel_glass_c_a.png
+
+newmtl material_15_349
+Ns 22.222227
+Ka 1.000000 1.000000 1.000000
+Ke 0.000000 0.000000 0.000000
+Ni 1.450000
+d 1.000000
+illum 2
+map_Kd f_104g_cockpit_c.jpg
+map_Ks f_104g_cockpit_n_s.jpg
+
+newmtl material_19_349
+Ns 250.000000
+Ka 1.000000 1.000000 1.000000
+Kd 0.800000 0.800000 0.800000
+Ks 0.500000 0.500000 0.500000
+Ke 0.000000 0.000000 0.000000
+Ni 1.500000
+d 1.000000
+illum 2
+map_Kd lens_glass_a.png
+map_d panel_glass_c_a.png
+
+newmtl material_1_324
+Ns 858.113159
+Ka 0.750000 0.750000 0.750000
+Kd 0.260488 0.003567 0.000000
+Ks 0.251000 0.251000 0.251000
+Ke 0.000000 0.000000 0.000000
+Ni 1.450000
+d 1.000000
+illum 3
+map_Kd pitot_tube_c.png
+
+newmtl material_1_348
+Ns 22.222227
+Ka 1.000000 1.000000 1.000000
+Ke 0.000000 0.000000 0.000000
+Ni 1.450000
+d 1.000000
+illum 2
+map_Kd f_104g_c.jpg
+map_Ks f_104g_n_s.jpg
+
+newmtl material_22_349
+Ns 22.222227
+Ka 1.000000 1.000000 1.000000
+Ke 0.000000 0.000000 0.000000
+Ni 1.450000
+d 1.000000
+illum 2
+map_Kd f_104g_cockpit_labels_c.jpg
+map_Ks f_104g_cockpit_labels_n_s.jpg
+
+newmtl material_23_350
+Ns 22.222227
+Ka 1.000000 1.000000 1.000000
+Ke 0.000000 0.000000 0.000000
+Ni 1.450000
+d 1.000000
+illum 2
+map_Kd f_104g_cockpit_1_c.jpg
+map_Ks f_104g_cockpit_1_n_s.jpg
+
+newmtl material_24_350
+Ns 22.222227
+Ka 1.000000 1.000000 1.000000
+Ke 0.000000 0.000000 0.000000
+Ni 1.450000
+d 1.000000
+illum 2
+map_Kd f_104g_cockpit_2_c.jpg
+map_Ks f_104g_cockpit_2_n_s.jpg
+
+newmtl material_25_350
+Ns 22.222227
+Ka 1.000000 1.000000 1.000000
+Ke 0.000000 0.000000 0.000000
+Ni 1.450000
+d 1.000000
+illum 2
+map_Kd f_104g_cockpit_control_stick_c.jpg
+map_Ks f_104g_cockpit_control_stick_n_s.jpg
+
+newmtl material_26_349
+Ns 111.111099
+Ka 1.000000 1.000000 1.000000
+Kd 0.941000 1.000000 0.941000
+Ks 0.960667 0.960667 0.960667
+Ke 0.000000 0.000000 0.000000
+Ni 1.450000
+d 1.000000
+illum 2
+map_Kd cockpit.png
+map_d lens_glass_a.png
+
+newmtl material_27_350
+Ns 111.111099
+Ka 1.000000 1.000000 1.000000
+Ks 0.753000 0.753000 0.753000
+Ke 0.000000 0.000000 0.000000
+Ni 1.450000
+illum 2
+map_Kd zflare_green.jpg
+map_d zflare_green_a.png
+
+newmtl material_2_325
+Ns 283.333344
+Ka 1.000000 1.000000 1.000000
+Kd 0.000000 0.000000 0.000000
+Ks 1.000000 1.000000 1.000000
+Ke 0.000000 0.000000 0.000000
+Ni 1.450000
+d 1.000000
+illum 2
+map_Kd lens_glass_a.png
+
+newmtl material_2_325.001
+Ns 283.333344
+Ka 1.000000 1.000000 1.000000
+Kd 0.000000 0.000000 0.000000
+Ks 1.000000 1.000000 1.000000
+Ke 0.000000 0.000000 0.000000
+Ni 1.450000
+d 1.000000
+illum 2
+map_Kd lens_glass_a.png
+
+newmtl material_2_348
+Ns 283.333344
+Ka 1.000000 1.000000 1.000000
+Kd 0.000000 0.000000 0.000000
+Ks 1.000000 1.000000 1.000000
+Ke 0.000000 0.000000 0.000000
+Ni 1.450000
+d 1.000000
+illum 2
+map_Kd lens_glass_a.png
+map_d panel_glass_c_a.png
+
+newmtl material_36_349
+Ns 22.222227
+Ka 1.000000 1.000000 1.000000
+Ks 0.251000 0.251000 0.251000
+Ke 0.000000 0.000000 0.000000
+Ni 1.450000
+illum 2
+map_Kd glass_dirt.jpg
+map_d glass_dirt_a.png
+
+newmtl material_37_353
+Ns 22.222227
+Ka 1.000000 1.000000 1.000000
+Ks 0.251000 0.251000 0.251000
+Ke 0.000000 0.000000 0.000000
+Ni 1.450000
+illum 2
+map_Kd lens_glass.jpg
+map_d panel_glass_c_a.png
+
+newmtl material_39_354
+Ns 35.555550
+Ka 1.000000 1.000000 1.000000
+Ks 0.753000 0.753000 0.753000
+Ke 0.000000 0.000000 0.000000
+Ni 1.450000
+d 1.000000
+illum 2
+map_Kd _empty_collimator.jpg
+
+newmtl material_3_324
+Ns 22.222227
+Ka 1.000000 1.000000 1.000000
+Ke 0.000000 0.000000 0.000000
+Ni 1.450000
+d 1.000000
+illum 2
+map_Kd f_104s_inside_a.jpg
+map_Ks f_104s_inside_n_s.jpg
+
+newmtl material_3_324.001
+Ns 22.222227
+Ka 1.000000 1.000000 1.000000
+Ke 0.000000 0.000000 0.000000
+Ni 1.450000
+d 1.000000
+illum 2
+map_Kd f_104s_inside_a.jpg
+map_Ks f_104s_inside_n_s.jpg
+
+newmtl material_3_348
+Ns 22.222227
+Ka 1.000000 1.000000 1.000000
+Ke 0.000000 0.000000 0.000000
+Ni 1.450000
+d 1.000000
+illum 2
+map_Kd f_104s_inside_a.jpg
+map_Ks f_104s_inside_n_s.jpg
+
+newmtl material_40_354
+Ns 22.222227
+Ka 1.000000 1.000000 1.000000
+Ke 0.000000 0.000000 0.000000
+Ni 1.450000
+d 1.000000
+illum 2
+map_Kd seat.jpg
+map_Ks seat_martin_baker_type_gq_7a_n_s.jpg
+
+newmtl material_41_354
+Ns 22.222227
+Ka 1.000000 1.000000 1.000000
+Ke 0.000000 0.000000 0.000000
+Ni 1.450000
+d 1.000000
+illum 2
+map_Kd us_gauge_timer_c.jpg
+map_Ks us_gauge_timer_n_s.jpg
+
+newmtl material_42_354
+Ns 22.222227
+Ka 1.000000 1.000000 1.000000
+Ke 0.000000 0.000000 0.000000
+Ni 1.450000
+d 1.000000
+illum 2
+map_Kd us_gauge_wind_unit_c.jpg
+map_Ks us_gauge_wind_unit_n_s.jpg
+
+newmtl material_43_354
+Ns 22.222227
+Ka 1.000000 1.000000 1.000000
+Ke 0.000000 0.000000 0.000000
+Ni 1.450000
+d 1.000000
+illum 2
+map_Kd us_gauge_liquid_oxygen_quantity_indicator_c.jpg
+map_Ks us_gauge_liquid_oxygen_quantity_indicator_n_s.jpg
+
+newmtl material_45_359
+Ns 22.222227
+Ka 1.000000 1.000000 1.000000
+Ke 0.000000 0.000000 0.000000
+Ni 1.450000
+d 1.000000
+illum 2
+map_Kd us_gauge_radar_display_with_control_panel_c.jpg
+map_Ks us_gauge_radar_display_with_control_panel_n_s.jpg
+
+newmtl material_46_360
+Ns 283.333344
+Ka 1.000000 1.000000 1.000000
+Ks 1.000000 1.000000 1.000000
+Ke 0.000000 0.000000 0.000000
+Ni 1.450000
+illum 2
+map_Kd us_gauge_radar_display_with_control_panel_glass_c.jpg
+map_d lens_glass_a.png
+
+newmtl material_47_359
+Ns 35.555550
+Ka 1.000000 1.000000 1.000000
+Ks 0.753000 0.753000 0.753000
+Ke 0.000000 0.000000 0.000000
+Ni 1.450000
+d 1.000000
+illum 2
+map_Kd us_gauge_radar_display_with_control_panel_glass_c.jpg
+map_d lens_glass_a.png
+
+newmtl material_48_360
+Ns 22.222227
+Ka 1.000000 1.000000 1.000000
+Ke 0.000000 0.000000 0.000000
+Ni 1.450000
+d 1.000000
+illum 2
+map_Kd us_gauge_speed_indicator_mtype_avu_8_a_c.jpg
+map_Ks us_gauge_speed_indicator_mtype_avu_8_a_n_s.jpg
+
+newmtl material_4_324
+Ns 22.222227
+Ka 1.000000 1.000000 1.000000
+Ke 0.000000 0.000000 0.000000
+Ni 1.450000
+d 1.000000
+illum 2
+map_Kd f_104g_interior_c.jpg
+map_Ks f_104g_interior_n_s.jpg
+
+newmtl material_50_366
+Ns 22.222227
+Ka 1.000000 1.000000 1.000000
+Ke 0.000000 0.000000 0.000000
+Ni 1.450000
+d 1.000000
+illum 2
+map_Kd us_gauge_position_indicator_and_course_type_phi_4a_c.jpg
+map_Ks us_gauge_position_indicator_and_course_type_phi_4a_n_s.jpg
+
+newmtl material_51_366
+Ns 22.222227
+Ka 1.000000 1.000000 1.000000
+Ke 0.000000 0.000000 0.000000
+Ni 1.450000
+d 1.000000
+illum 2
+map_Kd us_gauge_position_indicator_and_course_type_phi_4a_disk_c.jpg
+map_Ks us_gauge_position_indicator_and_course_type_phi_4a_disk_n_s.jpg
+
+newmtl material_52_366
+Ns 22.222227
+Ka 1.000000 1.000000 1.000000
+Ke 0.000000 0.000000 0.000000
+Ni 1.450000
+d 1.000000
+illum 2
+map_Kd us_gauge_ground_speed_error_indicator_c.jpg
+map_Ks us_gauge_ground_speed_error_indicator_n_s.jpg
+
+newmtl material_53_367
+Ns 22.222227
+Ka 1.000000 1.000000 1.000000
+Ke 0.000000 0.000000 0.000000
+Ni 1.450000
+d 1.000000
+illum 2
+map_Kd us_gauge_oil_indicator_c.jpg
+map_Ks us_gauge_oil_indicator_n_s.jpg
+
+newmtl material_54_367
+Ns 22.222227
+Ka 1.000000 1.000000 1.000000
+Ke 0.000000 0.000000 0.000000
+Ni 1.450000
+d 1.000000
+illum 2
+map_Kd us_gauge_air_temperature_in_front_of_the_turbine_c.jpg
+map_Ks us_gauge_air_temperature_in_front_of_the_turbine_n_s.jpg
+
+newmtl material_55_372
+Ns 22.222227
+Ka 1.000000 1.000000 1.000000
+Ke 0.000000 0.000000 0.000000
+Ni 1.450000
+d 1.000000
+illum 2
+map_Kd us_gauge_nozzle_position_indicator_c.jpg
+map_Ks us_gauge_nozzle_position_indicator_n_s.jpg
+
+newmtl material_56_372
+Ns 22.222227
+Ka 1.000000 1.000000 1.000000
+Ke 0.000000 0.000000 0.000000
+Ni 1.450000
+d 1.000000
+illum 2
+map_Kd us_gauge_fuel_in_internal_tanks_c.jpg
+map_Ks us_gauge_fuel_in_internal_tanks_n_s.jpg
+
+newmtl material_57_372
+Ns 22.222227
+Ka 1.000000 1.000000 1.000000
+Ke 0.000000 0.000000 0.000000
+Ni 1.450000
+d 1.000000
+illum 2
+map_Kd us_gauge_fuel_in_outboard_tanks_c.jpg
+map_Ks us_gauge_fuel_in_outboard_tanks_n_s.jpg
+
+newmtl material_58_372
+Ns 22.222227
+Ka 1.000000 1.000000 1.000000
+Ke 0.000000 0.000000 0.000000
+Ni 1.450000
+d 1.000000
+illum 2
+map_Kd us_gauge_angle_of_attack_indicator_c.jpg
+map_Ks us_gauge_angle_of_attack_indicator_n_s.jpg
+
+newmtl material_59_372
+Ns 22.222227
+Ka 1.000000 1.000000 1.000000
+Ke 0.000000 0.000000 0.000000
+Ni 1.450000
+d 1.000000
+illum 2
+map_Kd us_gauge_barometric_altimeter_type_aau_37_a_c.jpg
+map_Ks us_gauge_barometric_altimeter_type_aau_37_a_n_s.jpg
+
+newmtl material_60_377
+Ns 22.222227
+Ka 1.000000 1.000000 1.000000
+Ke 0.000000 0.000000 0.000000
+Ni 1.450000
+d 1.000000
+illum 2
+map_Kd us_gauge_cabin_altitude_a.jpg
+map_Ks us_gauge_cabin_altitude_n_s.jpg
+
+newmtl material_61_378
+Ns 22.222227
+Ka 1.000000 1.000000 1.000000
+Ke 0.000000 0.000000 0.000000
+Ni 1.450000
+d 1.000000
+illum 2
+map_Kd us_gauge_compass_type_ms_17983_2_c.jpg
+map_Ks us_gauge_compass_type_ms_17983_2_n_s.jpg
+
+newmtl material_62_378
+Ns 22.222227
+Ka 1.000000 1.000000 1.000000
+Ke 0.000000 0.000000 0.000000
+Ni 1.450000
+d 1.000000
+illum 2
+map_Kd us_gauge_accelerometer_type_10g_c.jpg
+map_Ks us_gauge_accelerometer_type_10g_n_s.jpg
+
+newmtl material_64_378
+Ns 22.222227
+Ka 1.000000 1.000000 1.000000
+Ke 0.000000 0.000000 0.000000
+Ni 1.450000
+d 1.000000
+illum 2
+map_Kd us_gauge_rpm_type_100_9_c.jpg
+map_Ks us_gauge_rpm_type_100_9_n_s.jpg
+
+newmtl material_65_382
+Ns 22.222227
+Ka 1.000000 1.000000 1.000000
+Ke 0.000000 0.000000 0.000000
+Ni 1.450000
+d 1.000000
+illum 2
+map_Kd us_gauge_gas_temperature_a.jpg
+map_Ks us_gauge_gas_temperature_n_s.jpg
+
+newmtl material_66_382
+Ns 22.222227
+Ka 1.000000 1.000000 1.000000
+Ke 0.000000 0.000000 0.000000
+Ni 1.450000
+d 1.000000
+illum 2
+map_Kd us_gauge_oil_pressure1_100_c.jpg
+map_Ks us_gauge_oil_pressure1_100_n_s.jpg
+
+newmtl material_68_382
+Ns 22.222227
+Ka 1.000000 1.000000 1.000000
+Ke 0.000000 0.000000 0.000000
+Ni 1.450000
+d 1.000000
+illum 2
+map_Kd de_gauge_clock_type_fl_23885_bo_uk1_c.jpg
+map_Ks de_gauge_clock_type_fl_23885_bo_uk1_n_s.jpg
+
+newmtl material_70_388
+Ns 22.222227
+Ka 1.000000 1.000000 1.000000
+Ke 0.000000 0.000000 0.000000
+Ni 1.450000
+d 1.000000
+illum 2
+map_Kd us_gauge_pressure_hydraulic_system_type_x1000_c.jpg
+map_Ks us_gauge_pressure_hydraulic_system_type_x1000_n_s.jpg
+
+newmtl material_71_388
+Ns 22.222227
+Ka 1.000000 1.000000 1.000000
+Ke 0.000000 0.000000 0.000000
+Ni 1.450000
+d 1.000000
+illum 2
+map_Kd us_gauge_bank_a.jpg
+map_Ks us_gauge_bank_n_s.jpg
+
+newmtl material_72_388
+Ns 22.222227
+Ka 1.000000 1.000000 1.000000
+Ke 0.000000 0.000000 0.000000
+Ni 1.450000
+d 1.000000
+illum 2
+map_Kd us_gauge_aviahorizon_id_4012d_c.jpg
+map_Ks us_gauge_aviahorizon_id_4012d_n_s.jpg
+
+newmtl material_73_395
+Ns 22.222227
+Ka 1.000000 1.000000 1.000000
+Ke 0.000000 0.000000 0.000000
+Ni 1.450000
+d 1.000000
+illum 2
+map_Kd us_gauge_additional_autonomous_horizon_c.jpg
+map_Ks us_gauge_additional_autonomous_horizon_n_s.jpg
+
+newmtl material_74_395
+Ns 22.222227
+Ka 1.000000 1.000000 1.000000
+Ke 0.000000 0.000000 0.000000
+Ni 1.450000
+d 1.000000
+illum 2
+map_Kd us_gauge_fuel_flow_12000_1_c.jpg
+map_Ks us_gauge_fuel_flow_12000_1_n_s.jpg
+
+newmtl material_75_395
+Ns 22.222227
+Ka 1.000000 1.000000 1.000000
+Ke 0.000000 0.000000 0.000000
+Ni 1.450000
+d 1.000000
+illum 2
+map_Kd us_gauge_vario_type_c_2_c.jpg
+map_Ks us_gauge_vario_type_c_2_n_s.jpg
+
+newmtl material_77_395
+Ns 22.222227
+Ka 1.000000 1.000000 1.000000
+Ke 0.000000 0.000000 0.000000
+Ni 1.450000
+d 1.000000
+illum 2
+map_Kd us_gauge_altitude_control_trim_position_c.jpg
+map_Ks us_gauge_altitude_control_trim_position_n_s.jpg
+
+newmtl material_78_400
+Ns 22.222227
+Ka 1.000000 1.000000 1.000000
+Ke 0.000000 0.000000 0.000000
+Ni 1.450000
+d 1.000000
+illum 2
+map_Kd an_ale_40_dispenser_c.jpg
+map_Ks an_ale_40_dispenser_n_s.jpg
+
+newmtl material_8_324
+Ns 22.222227
+Ka 0.731818 0.731818 0.731818
+Ke 0.000000 0.000000 0.000000
+Ni 1.450000
+d 1.000000
+illum 3
+map_Kd f_104_pylon_metal_c.jpg
+map_Ks f_104_pylon_metal_n_s.jpg
+
+newmtl material_8_348
+Ns 22.222227
+Ka 1.000000 1.000000 1.000000
+Ke 0.000000 0.000000 0.000000
+Ni 1.450000
+d 1.000000
+illum 2
+map_Kd f_104_pylon2_metal_c.jpg
+map_Ks f_104_pylon2_metal_n_s.jpg
+
+newmtl material_9_325
+Ns 22.222227
+Ka 1.000000 1.000000 1.000000
+Ke 0.000000 0.000000 0.000000
+Ni 1.450000
+d 1.000000
+illum 2
+map_Kd f_104g_pylon_bomb1_c.jpg
+map_Ks f_104g_pylon_bomb1_n_s.jpg
+
+newmtl pitot_tube
+Ns 22.222227
+Ka 1.000000 1.000000 1.000000
+Kd 0.502000 0.502000 0.502000
+Ks 0.251000 0.251000 0.251000
+Ke 0.000000 0.000000 0.000000
+Ni 1.000000
+d 1.000000
+illum 2
+map_Kd pitot_tube.png
+
+newmtl pylon
+Ns 22.222227
+Ka 1.000000 1.000000 1.000000
+Ke 0.000000 0.000000 0.000000
+Ni 1.450000
+d 1.000000
+illum 2
+map_Kd f_104g_pylon_bomb1_c.jpg
+map_Ks f_104g_pylon_bomb1_n_s.jpg
+
+newmtl rear_landing_strut
+Ns 457.441101
+Ka 0.854545 0.854545 0.854545
+Ke 0.000000 0.000000 0.000000
+Ni 1.450000
+d 1.000000
+illum 3
+map_Kd f_104gLuft.png
+map_Ks f_104g_n_s.jpg
+map_Bump -bm 1.000000 normalmap.jpeg
+
+newmtl reflector
+Ns 360.000000
+Ka 1.000000 1.000000 1.000000
+Kd 0.800000 0.800000 0.800000
+Ks 0.500000 0.500000 0.500000
+Ke 0.000000 0.000000 0.000000
+Ni 1.000000
+d 1.000000
+illum 2
+map_Kd pitot_tube.png
