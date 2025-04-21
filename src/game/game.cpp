@@ -72,7 +72,7 @@ void Game::setupScene() {
           45.0f, _engine->getWindowSystem()->getAspect(), 0.1f, 10000.0f),
       Camera::Type::Free);
 
-  camera->setSpeed(1.0f);
+  camera->setSpeed(0.3f);
 
   _scene->addComponent(
       std::make_shared<LightComponent>(glm::vec3(1.0f, 1.0f, 1.0f)));
@@ -90,9 +90,14 @@ void Game::setupScene() {
   GameObject *model =
       Utils::loadModel("assets/models/fighter/fighter.obj", *explosionMat);
 
-  Player *player = new Player(model, glm::vec3(0.0f, 3.5f, 0.0f),
-                              glm::vec3(0.5f, 0.0f, 0.5f), 3.0f,
-                              glm::vec3(3.0f), 1.0f, 0.6f, 18.0f, 0.02f);
+  Player *player = new Player(model, glm::vec3(0.0f, 3.0f, 0.0f),
+                              glm::vec3(0.5f, 0.0f, 0.5f), 1.0f,
+                              glm::vec3(1.0f), 1.0f, 0.7f, 10.0f, 0.02f);
+
+  GameObject* light = new GameObject();
+  light->addComponent(std::make_shared<LightComponent>(glm::vec3(0.9f, 0.54f, 0.0f), glm::normalize(glm::vec3(0.0f, -0.2f, -1.0f)), 0.3, 45, 60));
+  light->getComponent<TransformComponent>()->setPositionLocal(glm::vec3(0.0f, -1.0f, 5.0f));
+  player->getPlayer()->addChild(light);
 
   std::shared_ptr<AudioComponent> audioComp =
       std::make_shared<AudioComponent>();
@@ -123,7 +128,7 @@ void Game::setupScene() {
       fCamera->enable();
       skybox->bind(fCamera->getCamera());
     }
-    if (key == GLFW_KEY_1 && action == GLFW_PRESS) {
+    if ((key == GLFW_KEY_1 && action == GLFW_PRESS)) {
       fCamera->disable();
       camera->enable();
       skybox->bind(camera->getCamera());
@@ -134,24 +139,13 @@ void Game::setupScene() {
           glm::vec4((player->getPlayer()
                          ->getComponent<TransformComponent>()
                          ->getPositionWorld() +
-                     glm::vec3(0.0f, 10.0f, 0.0f)),
+                     glm::vec3(0.0f, 5.0f, 0.0f)),
                     1.0f));
     }
-    if (key == GLFW_KEY_E && action == GLFW_PRESS) {
-      fCamera->disable();
-      camera->enable();
+  });
+  skybox->getSkybox()->setTick([camera, player, skybox]() {
+    if (!player->getPlayer()->getParent())
       skybox->bind(camera->getCamera());
-      camera->getCamera()->getComponent<TransformComponent>()->setPositionLocal(
-          glm::inverse(camera->getCamera()
-                           ->getComponent<TransformComponent>()
-                           ->getParentModel()) *
-          glm::vec4((player->getPlayer()
-                         ->getComponent<TransformComponent>()
-                         ->getPositionWorld() +
-                     glm::vec3(0.0f, 10.0f, 0.0f)),
-                    1.0f));
-      player->explode();
-    }
   });
 
   TerrainMaterial *terrainMat = new TerrainMaterial();
@@ -161,8 +155,7 @@ void Game::setupScene() {
       "assets/textures/terrain/heightMap.png"));
   Terrain *terrain = new Terrain(10000.0f, 10000.0f, 200, 100, terrainMat);
   terrain->getTerrain()->addComponent(std::make_shared<RigidBodyComponent>(
-      JPH::EMotionType::Static, Layers::STATIC, 100000.0f, 1.f, 100000.0f,
-      1.0f));
+      JPH::EMotionType::Static, Layers::STATIC, 10000.0f, 1.f, 10000.0f, 1.0f));
 
   _scene->addChild(player->getPlayer());
   _scene->addChild(terrain->getTerrain());

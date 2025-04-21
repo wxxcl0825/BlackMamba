@@ -49,6 +49,11 @@ void Player::tick() {
     return;
   }
 
+  if(_canExplode && _player->getComponent<RigidBodyComponent>()->getLinearVelocity().y < -0.6f && _player->getComponent<RigidBodyComponent>()->isCollide()){
+    explode();
+    _canExplode = false;
+  }
+
   // already normalized
   glm::vec3 forward =
       _player->getComponent<TransformComponent>()->getForwardVec();
@@ -66,6 +71,9 @@ void Player::tick() {
       _player->getComponent<RigidBodyComponent>()->getLinearVelocity();
   liftForce = static_cast<float>(std::pow(_liftCoefficient, 2)) *
               glm::length(linearVelocity) * up;
+
+  if(glm::length(liftForce) > glm::length(engineForce) * 0.5f)
+    liftForce = glm::normalize(liftForce) * glm::length(engineForce) * 0.5f;
 
   _player->getComponent<RigidBodyComponent>()->setForce(engineForce +
                                                         liftForce);

@@ -119,7 +119,9 @@ void Camera::pitch(float angle) {
     _cameraComp->setUpVec(glm::vec4(_cameraComp->getUpVec(), 0.0f) * rotation);
   }
   if(_type == Type::FirstPersion) {
-    if (_pitch + angle > 70.0f || _pitch + angle < -30.0f)
+    glm::vec3 position, eulerAngle, scale;
+    Utils::decompose(_camera->getComponent<TransformComponent>()->getParentModel(), position, eulerAngle, scale); 
+    if (_pitch + angle > fmin(70.0f + eulerAngle.x, 89.0f) || _pitch + angle < fmax(-30.0f + eulerAngle.x, -89.0f))
       return;
     _pitch += angle;
     glm::mat4 rotation =
